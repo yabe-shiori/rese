@@ -40,7 +40,8 @@ Route::get('/search', [ShopController::class, 'search'])->name('search');
 
 //お気に入り
 Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
-Route::post('/unfavorite', [FavoriteController::class, 'unfavorite'])->name('unfavorite');
+Route::delete('/favorite', [FavoriteController::class, 'removeFavorite'])->name('removeFavorite');
+
 Route::get('/mypage', [FavoriteController::class, 'index'])->name('mypage.index');
 
 require __DIR__.'/auth.php';
