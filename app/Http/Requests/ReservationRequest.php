@@ -23,7 +23,7 @@ class ReservationRequest extends FormRequest
     {
         return [
             'reservation_date' => ['required', 'date', 'after_or_equal:today'],
-            'reservation_time' => ['required', 'date_format:H:i', 'between:11:00,0:00'],
+            'reservation_time' => ['required', 'date_format:H:i','after:10:59', 'before:24:00'],
             'number_of_people' => ['required', 'integer', 'min:1', 'max:10'],
         ];
     }

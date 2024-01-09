@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Favorite;
+use App\Models\Reservation;
 
 class ProfileController extends Controller
 {
@@ -56,5 +58,15 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function index()
+    {
+        $user_id = Auth()->id();
+        $favorites = Favorite::where('user_id', $user_id)->get();
+        $reservations = Reservation::where('user_id', $user_id)->get();
+
+        return view('mypage.index', compact('favorites', 'reservations'));
+
     }
 }

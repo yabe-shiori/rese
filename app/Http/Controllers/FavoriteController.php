@@ -55,9 +55,5 @@ class FavoriteController extends Controller
         }
         return back();
     }
-    public function index(Request $request)
-    {
-        $favorite = Favorite::where('user_id', Auth::user()->id)->where('shop_id', $request->shop->id)->first();
-        return view('mypage.index', compact('favorite'));
-    }
+
 }
