@@ -3,7 +3,6 @@
         <h2 class="text-2xl font-bold mb-6 text-center">{{ auth()->user()->name }}さん</h2>
 
         <div class="flex flex-col sm:flex-row gap-4">
-            <!-- 左側：予約情報一覧 -->
             <div class="w-full sm:w-1/2 p-4">
                 <h3 class="text-xl font-bold mb-4">予約状況</h3>
                 @foreach ($reservations as $index => $reservation)
@@ -16,12 +15,10 @@
                         <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
                         <p><span class="mr-4">Time</span> {{ $reservation->reservation_time }}</p>
                         <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
-                        <!-- 他の予約情報を表示 -->
                     </div>
                 @endforeach
             </div>
 
-            <!-- 右側：お気に入り店舗一覧 -->
             <div class="w-full sm:w-1/2">
                 <h3 class="text-xl font-bold mb-2">お気に入り店舗</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -37,7 +34,8 @@
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $favorite->shop->id]) }}"
                                     class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
-                                <form action="{{ route('favorite', ['shop_id' => $favorite->shop->id]) }}" method="post">
+                                <form action="{{ route('favorite', ['shop_id' => $favorite->shop->id]) }}"
+                                    method="post">
                                     @csrf
                                     <button type="submit" class="heart mr-4">
                                         @if (auth()->check() &&

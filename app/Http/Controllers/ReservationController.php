@@ -38,7 +38,6 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
-            'status' => 'confirmed',
         ]);
         return view('shops.done', ['reservation' => $reservation->id]);
     }
@@ -72,6 +71,11 @@ class ReservationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->delete();
+
+        return back()->with('message', '予約をキャンセルしました');
+
     }
 }
