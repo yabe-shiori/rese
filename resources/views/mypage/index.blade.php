@@ -13,9 +13,9 @@
                         </p>
                         <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
                         <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
-                        <p><span class="mr-4">Time</span> {{ $reservation->reservation_time }}</p>
+                        <p><span class="mr-4">Time</span> {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
                         <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
-                        <!-- 削除ボタンの追加 -->
+                        <!-- 削除ボタン-->
                         <form action="{{ route('reservations.destroy', $reservation->id) }}" method="post"
                             onsubmit="return confirm('本当に予約を削除しますか？');">
                             @csrf

@@ -17,20 +17,21 @@
                     <h3 class="text-white mb-4 text-xl font-bold">予約</h3>
                     <form action="{{ route('reservations.store') }}" method="post">
                         @csrf
-                        <p><input type="hidden" name="shop_id" value="{{ $shop->id }}"></p>
-                        <p><input type="date" name="reservation_date" value="{{ date('Y-m-d') }}" required class="mb-2 p-2 rounded-md w-1/2"></p>
+                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                        <input type="date" name="reservation_date" value="{{ date('Y-m-d') }}" required
+                            class="mb-2 p-2 rounded-md w-1/2">
                         <select name="reservation_time" required class="mb-2 p-2 rounded-md w-full">
-                            @for ($hour = 0; $hour < 24; $hour++)
+                            @for ($hour = 11; $hour < 24; $hour++)
                                 @for ($minute = 0; $minute < 60; $minute += 30)
                                     @php
-                                        $time = sprintf('%02d:%02d', $hour, $minute);
+                                        $time = sprintf('%02d:%02d', $hour % 24, $minute);
                                     @endphp
                                     <option value="{{ $time }}">{{ $time }}</option>
                                 @endfor
                             @endfor
+                            <option value="00:00">00:00</option>
                         </select>
-                        <p><input type="number" name="number_of_people" min="1" required class="mb-2 p-2 rounded-md w-full"></p>
-
+                        <input type="number" name="number_of_people" min="1" required class="mb-2 p-2 rounded-md w-full">
                 </div>
                 <button type="submit" class="bg-blue-900 text-white w-full px-4 py-3 rounded-md">予約する</button>
                 </form>
