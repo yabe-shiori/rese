@@ -13,8 +13,17 @@
                         </p>
                         <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
                         <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
-                        <p><span class="mr-4">Time</span> {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
+                        <p><span class="mr-4">Time</span>
+                            {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
                         <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
+                        <!-- 予約変更ボタン -->
+                        <form action="{{ route('reservations.edit', $reservation->id) }}" method="get"
+                            class="inline-block">
+                            @csrf
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">
+                                予約を変更
+                            </button>
+                        </form>
                         <!-- 削除ボタン-->
                         <form action="{{ route('reservations.destroy', $reservation->id) }}" method="post"
                             onsubmit="return confirm('本当に予約を削除しますか？');">

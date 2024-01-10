@@ -55,15 +55,24 @@ class ReservationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $reservation = Reservation::findOrFail($id);
+
+        return view('mypage.edit', compact('reservation'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ReservationRequest $request, string $id)
     {
-        //
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'reservation_date' => $request->input('reservation_date'),
+            'reservation_time' => $request->input('reservation_time'),
+            'number_of_people' => $request->input('number_of_people'),
+        ]);
+        return redirect()->route('profile.index')->with('message', '予約を変更しました');
     }
 
     /**
