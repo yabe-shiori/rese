@@ -76,19 +76,14 @@
                                         class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
                                     <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
                                         @csrf
-                                        @if (auth()->check() &&
-                                                auth()->user()->hasFavorited($shop))
-                                            <!-- お気に入り削除 -->
-                                            @method('delete')
-                                            <button type="submit" class="heart mr-4">
+                                        <button type="submit" class="heart mr-4">
+                                            @if (auth()->check() &&
+                                                    auth()->user()->hasFavorited($shop))
                                                 <i class="fa-solid fa-heart fa-xl" style="color: #f1041b;"></i>
-                                            </button>
-                                        @else
-                                            <!-- お気に入り登録 -->
-                                            <button type="submit" class="heart mr-4">
+                                            @else
                                                 <i class="fa-solid fa-heart fa-xl" style="color: #d3d5d9;"></i>
-                                            </button>
-                                        @endif
+                                            @endif
+                                        </button>
                                     </form>
                                 </div>
                             </div>

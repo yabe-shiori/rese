@@ -33,6 +33,12 @@
                         </select>
                         <input type="number" name="number_of_people" min="1" required class="mb-2 p-2 rounded-md w-full">
                 </div>
+                <div class="bg-blue-300 text-white w-4/5 h-1/4 mx-auto rounded">
+                    <p>Shop</p>
+                    <p>Date</p>
+                    <p>Time</p>
+                    <p>Number</p>
+                </div>
                 <button type="submit" class="bg-blue-900 text-white w-full px-4 py-3 rounded-md">予約する</button>
                 </form>
             </div>
