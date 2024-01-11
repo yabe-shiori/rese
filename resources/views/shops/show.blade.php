@@ -29,7 +29,7 @@
                         <p class="font-medium tracking-widest">{{ $shop->description }}</p>
                     </div>
                 </div>
-                <div class="w-5/12 bg-blue-700 rounded-lg flex flex-col justify-between">
+                <div class="w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
                     <div class="reservation-form p-6">
                         <h3 class="text-white mb-4 text-xl font-bold">予約</h3>
                         <form action="{{ route('reservations.store') }}" method="post">
@@ -52,14 +52,14 @@
                             <input type="number" x-model="numberOfPeople" name="number_of_people" min="1"
                                 required class="mb-2 p-2 rounded-md w-full">
                     </div>
-                    <div class="bg-blue-300 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
+                    <div class="bg-blue-400 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
                         style="display: none;">
                         <p><span class="mr-8">Shop</span><span x-text="shopName"></span></p>
                         <p><span class="mr-8">Date</span><span x-text="reservationDate"></span></p>
                         <p><span class="mr-8">Time</span><span x-text="reservationTime"></span></p>
                         <p><span class="mr-8">Number</span><span x-text="numberOfPeople"></span>人</p>
                     </div>
-                    <button type="submit" class="bg-blue-900 text-white w-full px-4 py-3 rounded-md">予約する</button>
+                    <button type="submit" class="bg-blue-700 text-white w-full px-4 py-3 rounded-md">予約する</button>
                     </form>
                 </div>
             </div>

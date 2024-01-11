@@ -6,9 +6,9 @@
             <div class="w-full sm:w-1/2 p-4">
                 <h3 class="text-xl font-bold mb-4">予約状況</h3>
                 @foreach ($reservations as $index => $reservation)
-                    <div class="bg-blue-400 text-white rounded-md shadow-md p-4 mb-4">
+                    <div class="bg-blue-500 text-white rounded-md shadow-md p-4 mb-4">
                         <p class="text-xl mb-2">
-                            <i class="fa-regular fa-clock" style="color: #4694dd;"></i>
+                            <i class="fa-regular fa-clock" style="color: #f4f5f7;"></i>
                             予約{{ $index + 1 }}
                         </p>
                         <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
@@ -51,7 +51,7 @@
                             </div>
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $favorite->shop->id]) }}"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
                                 <form action="{{ route('favorite', ['shop_id' => $favorite->shop->id]) }}"
                                     method="post" onsubmit="return confirm('この店舗をお気に入りから削除しますか？');">
                                     @csrf

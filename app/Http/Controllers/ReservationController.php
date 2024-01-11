@@ -38,6 +38,7 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
+            'status' => 'completed',
         ]);
         return view('shops.done', ['reservation' => $reservation->id]);
     }
@@ -71,6 +72,7 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
+            'status' => 'completed',
         ]);
         return redirect()->route('profile.index')->with('message', '予約を変更しました');
     }

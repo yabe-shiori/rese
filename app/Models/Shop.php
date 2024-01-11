@@ -31,7 +31,12 @@ class Shop extends Model
     {
         return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
-    
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     //検索ロジック
     public function scopeSearchByArea($query, $areaId)
     {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,9 @@ Route::delete('/favorite', [FavoriteController::class, 'removeFavorite'])->name(
 
 //予約
 Route::resource('reservations', ReservationController::class);
+
+//レビュー
+Route::get('/reviews/{reservation_id}/create', [ReviewController::class, 'create'])->name('reviews.create');
+Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
 require __DIR__.'/auth.php';

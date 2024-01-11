@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->favoriteShops()->where('shop_id', $shop->id)->exists();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
