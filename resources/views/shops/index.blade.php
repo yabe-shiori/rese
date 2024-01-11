@@ -37,14 +37,14 @@
                     <div class="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1">
                         <div class="tile shadow-md rounded-md">
                             <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
-                            <p class="text-xl font-bold mb-1">{{ $shop->name }}</p>
-                            <div class="text-sm mb-2">
-                                <span>#{{ $shop->area->name }}</span>
+                            <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
+                            <div class="text-sm mb-2 ml-3">
+                                <span class="mr-1">#{{ $shop->area->name }}</span>
                                 <span>#{{ $shop->genre->name }}</span>
                             </div>
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
+                                    class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
                                 <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
                                     @csrf
                                     <button type="submit" class="heart mr-4">
@@ -66,14 +66,14 @@
                         <div class="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1">
                             <div class="tile shadow-md rounded-md">
                                 <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
-                                <p class="text-xl font-bold mb-1">{{ $shop->name }}</p>
-                                <div class="text-sm mb-2">
-                                    <span>#{{ $shop->area->name }}</span>
+                                <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
+                                <div class="text-xs mb-2 ml-3">
+                                    <span class="mr-1">#{{ $shop->area->name }}</span>
                                     <span>#{{ $shop->genre->name }}</span>
                                 </div>
                                 <div class="tile-actions flex justify-between items-center">
                                     <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
-                                        class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2">詳しくみる</a>
+                                        class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
                                     <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
                                         @csrf
                                         <button type="submit" class="heart mr-4">
