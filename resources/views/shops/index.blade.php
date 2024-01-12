@@ -1,29 +1,30 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mb-4 w-1/2 bg-white rounded shadow-md p-2 ml-auto">
-        <form action="{{ route('search') }}" method="GET" class="flex items-center">
-            <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
-                <option value="" disabled {{ !request('area') ? 'selected' : '' }}>All area</option>
-                @foreach ($areas as $area)
-                    <option value="{{ $area->id }}" {{ request('area') == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
-                @endforeach
-            </select>
-            <select name="genre" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
-                <option value="" disabled {{ !request('genre') ? 'selected' : '' }}>All genre</option>
-                @foreach ($genres as $genre)
-                    <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
-                @endforeach
-            </select>
-            <div class="relative flex items-center">
-                <input type="text" name="name" placeholder="Search..."
-                    class="p-2 rounded-md pl-8 border-none focus:ring-0">
-                <button type="submit" class="bg-blue-800 text-white p-2 rounded-md ml-2">検索</button>
-                <div class="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <i class="fa-solid fa-search text-gray-500"></i>
+        <div class="mb-4 w-1/2 bg-white rounded shadow-md p-2 ml-auto">
+            <form action="{{ route('search') }}" method="GET" class="flex items-center">
+             <!-- Area Select -->
+                <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
+                    <option value="" disabled {{ !request('area') ? 'selected' : '' }}>All area</option>
+                    @foreach ($areas as $area)
+                        <option value="{{ $area->id }}" {{ request('area') == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
+                    @endforeach
+                </select>
+                <!-- Genre Select -->
+                <select name="genre" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
+                    <option value="" disabled {{ !request('genre') ? 'selected' : '' }}>All genre</option>
+                    @foreach ($genres as $genre)
+                        <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
+                    @endforeach
+                </select>
+                <!-- Search Input -->
+                <div class="relative flex items-center w-full">
+                    <input type="text" name="name" placeholder="Search..." class="p-2 rounded-md pl-8 border-none focus:ring-0 w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+                        <i class="fa-solid fa-search text-gray-500"></i>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
         <div class="grid grid-cols-4 gap-4">
             @if (isset($results) && count($results) > 0)
                 @foreach ($results as $shop)

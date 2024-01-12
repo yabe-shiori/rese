@@ -28,8 +28,14 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    //予約保存処理
     public function store(ReservationRequest $request)
     {
+        //ログインチェック
+        if (!auth()->check()) {
+            return back()->with('error', 'ログインしてください');
+        }
+
         $shop = Shop::findOrFail($request->input('shop_id'));
 
         $reservation = Reservation::create([

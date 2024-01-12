@@ -17,10 +17,14 @@
         });
     }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="container flex justify-between">
+            <x-message :message="session('error')" />
+            <div class="container flex justify-between mt-10">
                 <div class="w-1/2 pr-8">
+                    <div class="flex mb-4">
+                        <a href="{{ route('home') }}" class="text-xl font-bold px-2 bg-white shadow">&lt;</a>
+                        <h2 class="text-2xl font-bold ml-2 w-1/2">{{ $shop->name }}</h2>
+                    </div>
                     <div class="shop-details">
-                        <h2 class="text-2xl font-bold mb-2">{{ $shop->name }}</h2>
                         <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="mb-4">
                         <div class="shop-tag mb-4 font-medium">
                             <span class="mr-1 text-sm">#{{ $shop->area->name }}</span>
