@@ -27,19 +27,18 @@ class ReviewController extends Controller
         }
         return back();
     }
-
-    public function create(Request $request)
+    public function create()
     {
-        $reservation = Reservation::find($request->reservation_id);
-        $review = Review::where('user_id', auth()->id())
-            ->where('shop_id', $reservation->shop_id)
-            ->first();
+        // ログイン中のユーザーの過去の完了した予約を取得する
+        $reservations = Reservation::where('user_id', auth()->id())
+            ->where('status', 'completed')
+            ->where('reservation_date', '<', now())
+            ->with('shop') // shopリレーションも一緒にロードする
+            ->orderBy('reservation_date', 'desc')
+            ->get();
 
-        // 予約が完了していて、かつ予約日時が現在時刻よりも過去の場合にレビュー投稿画面を表示
-        if ($reservation && $reservation->status === 'completed' && $reservation->reservation_date < now()) {
-            return view('reviews.create', compact('reservation'));
-        }
-
-        return back()->with('error', 'レビューを投稿できません');
+        // ビューに予約情報を渡してレンダリングする
+        return view('reviews.create', compact('reservations'));
     }
+
 }

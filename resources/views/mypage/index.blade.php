@@ -2,6 +2,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold mb-6 text-center">{{ auth()->user()->name }}さん</h2>
         <x-message :message="session('message')" />
+        <div class="text-center py-4">
+            <a href="{{ route('reviews.create') }}"
+               class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300">
+                口コミを投稿する
+            </a>
+        </div>
         <div class="flex flex-col sm:flex-row gap-4">
             <div class="w-full sm:w-1/2 p-4">
                 <h3 class="text-xl font-bold mb-4">予約状況</h3>

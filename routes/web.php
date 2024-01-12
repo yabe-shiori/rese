@@ -49,7 +49,7 @@ Route::delete('/favorite', [FavoriteController::class, 'removeFavorite'])->name(
 Route::resource('reservations', ReservationController::class);
 
 //レビュー
-Route::get('/reviews/{reservation_id}/create', [ReviewController::class, 'create'])->name('reviews.create');
+Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
 require __DIR__.'/auth.php';

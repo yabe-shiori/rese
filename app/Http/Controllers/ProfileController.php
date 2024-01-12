@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Favorite;
 use App\Models\Reservation;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -63,10 +64,22 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = Auth()->id();
+        // 現在の日時を取得
+        $now = Carbon::now();
+
         $favorites = Favorite::where('user_id', $user_id)->get();
-        $reservations = Reservation::where('user_id', $user_id)->get();
+
+        $reservations = Reservation::where('user_id', $user_id)
+            ->where(function ($query) use ($now) {
+                // 現在日時より後の予約を取得
+                $query->where('reservation_date', '>', $now->toDateString())
+                    ->orWhere(function ($query) use ($now) {
+                        $query->where('reservation_date', $now->toDateString())
+                            ->whereTime('reservation_time', '>', $now->toTimeString());
+                    });
+            })
+            ->get();
 
         return view('mypage.index', compact('favorites', 'reservations'));
-
     }
 }
