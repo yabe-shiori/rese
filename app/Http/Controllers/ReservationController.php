@@ -35,6 +35,17 @@ class ReservationController extends Controller
         if (!auth()->check()) {
             return back()->with('error', 'ログインしてください');
         }
+        //予約日時の重複チェック
+        $existingReservation = Reservation::where([
+            'user_id' => auth()->id(),
+            'reservation_date' => $request->input('reservation_date'),
+            'reservation_time' => $request->input('reservation_time'),
+            'status' => 'completed',
+        ])->first();
+
+        if($existingReservation) {
+            return back()->with('error', 'その日時にはすでに予約があります');
+        }
 
         $shop = Shop::findOrFail($request->input('shop_id'));
 
@@ -74,12 +85,26 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
+        // 予約日時の重複チェック
+        $existingReservation = Reservation::where([
+            'user_id' => auth()->id(),
+            'reservation_date' => $request->input('reservation_date'),
+            'reservation_time' => $request->input('reservation_time'),
+            'status' => 'completed',
+        ])->where('id', '!=', $id) // 現在の予約を除外する
+            ->first();
+
+        if ($existingReservation) {
+            return back()->with('error', 'その日時にはすでに予約があります');
+        }
+
         $reservation->update([
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
             'status' => 'completed',
         ]);
+
         return redirect()->route('profile.index')->with('message', '予約を変更しました');
     }
 

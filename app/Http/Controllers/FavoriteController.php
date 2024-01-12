@@ -11,7 +11,10 @@ class FavoriteController extends Controller
     //お気に入り追加
     public function favorite(Request $request)
     {
-        if (Auth::check()) {
+        if (!auth()->check()) {
+            return back()->with('error', 'ログインしてください');
+        }
+        
             $user_id = Auth::user()->id;
             $shop_id = $request->input('shop_id');
 
@@ -22,7 +25,7 @@ class FavoriteController extends Controller
                     'shop_id' => $shop_id,
                 ]);
             }
-        }
+
 
         return back();
     }

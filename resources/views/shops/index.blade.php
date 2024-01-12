@@ -1,5 +1,10 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @if (session('error'))
+                <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
+                    {{ session('error') }}
+                </div>
+            @endif
         <div class="mb-4 w-1/2 bg-white rounded shadow-md p-2 ml-auto">
             <form action="{{ route('search') }}" method="GET" class="flex items-center">
              <!-- Area Select -->

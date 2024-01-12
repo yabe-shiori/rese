@@ -17,7 +17,11 @@
         });
     }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <x-message :message="session('error')" />
+            @if (session('error'))
+                <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="container flex justify-between mt-10">
                 <div class="w-1/2 pr-8">
                     <div class="flex mb-4">
@@ -41,6 +45,9 @@
                             <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                             <input type="date" x-model="reservationDate" name="reservation_date"
                                 value="{{ date('Y-m-d') }}" required class="mb-2 p-2 rounded-md w-1/2">
+                                @error('reservation_date')
+                                    <div class="text-red-800 text-base">{{ $message }}</div>
+                                @enderror
                             <select name="reservation_time" x-model="reservationTime" required
                                 class="mb-2 p-2 rounded-md w-full">
                                 @for ($hour = 11; $hour < 24; $hour++)
@@ -55,6 +62,9 @@
                             </select>
                             <input type="number" x-model="numberOfPeople" name="number_of_people" min="1"
                                 required class="mb-2 p-2 rounded-md w-full">
+                                @error('number_of_people')
+                                    <div class="text-red-800 text-base">{{ $message }}</div>
+                                @enderror
                     </div>
                     <div class="bg-blue-400 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
                         style="display: none;">
