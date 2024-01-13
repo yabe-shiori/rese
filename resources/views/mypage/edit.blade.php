@@ -1,52 +1,56 @@
 <x-app-layout>
-    <div x-data="{
-        reservationDate: '{{ $reservation->reservation_date }}',
-        reservationTime: '',
-        numberOfPeople: {{ $reservation->number_of_people }},
-        submitForm() {
-            // 入力された時間をフォーマットしてセット
-            let selectedTime = this.$refs.reservationTime.value;
-            this.reservationTime = selectedTime.length > 0 ? selectedTime : '{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}';
-
-            // 確認メッセージ
-            if (confirm(`以下の内容で予約を変更しますか？\nDate: ${this.$refs.reservationDate.value}\nTime: ${this.reservationTime}\nNumber: ${this.$refs.numberOfPeople.value}`)) {
-                this.$refs.reservationForm.submit();
-            }
-        }
-    }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold mb-6 text-center">予約変更画面</h2>
-
-        <form x-ref="reservationForm" action="{{ route('reservations.update', $reservation->id) }}" method="post">
-            @csrf
-            @method('put')
-
-            <div class="mb-4">
-                <label for="reservation_date" class="block text-sm font-medium text-gray-700">Date</label>
-                <input x-ref="reservationDate" type="date" name="reservation_date" id="reservation_date"
-                    value="{{ $reservation->reservation_date }}" required
-                    class="mt-1 p-2 w-full border border-gray-300 rounded-md">
-            </div>
-            <div class="mb-4">
-                <label for="reservation_date" class="block text-sm font-medium text-gray-700">Time</label>
-                <select x-ref="reservationTime" name="reservation_time" required class="mb-2 p-2 rounded-md w-full">
-                    @for ($hour = 11; $hour < 24; $hour++)
-                        @for ($minute = 0; $minute < 60; $minute += 30)
-                            @php
-                                $time = sprintf('%02d:%02d', $hour % 24, $minute);
-                            @endphp
-                            <option value="{{ $time }}">{{ $time }}</option>
-                        @endfor
-                    @endfor
-                    <option value="00:00">00:00</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="reservation_date" class="block text-sm font-medium text-gray-700">Number</label>
-                <input x-ref="numberOfPeople" type="number" name="number_of_people" min="1" required
-                    class="mb-2 p-2 rounded-md w-full">
-            </div>
-            <button type="button" @click="submitForm"
-                class="bg-blue-900 text-white px-4 py-2 rounded-md">予約を変更</button>
-        </form>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-extrabold mb-8 text-center text-blue-900">予約変更画面</h2>
+            <form action="{{ route('reservations.update', $reservation->id) }}" method="post"
+                class="bg-white shadow-md rounded-lg overflow-hidden">
+                @csrf
+                @method('patch')
+                <div class="px-6 py-4">
+                    <div class="mb-6">
+                        <label for="reservation_date" class="block text-sm font-medium text-gray-700">日付</label>
+                        <input type="date" name="reservation_date" id="reservation_date"
+                            value="{{ $reservation->reservation_date }}" required
+                            class="mt-1 p-2 w-full border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-md">
+                        @error('reservation_date')
+                            <p class="text-sm text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-6">
+                        <label for="reservation_time" class="block text-sm font-medium text-gray-700">時間</label>
+                        <select name="reservation_time" id="reservation_time" required
+                            class="mb-2 p-2 rounded-md w-full border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                            @for ($hour = 11; $hour < 24; $hour++)
+                                @for ($minute = 0; $minute < 60; $minute += 30)
+                                    @php
+                                        $time = sprintf('%02d:%02d', $hour % 24, $minute);
+                                    @endphp
+                                    <option value="{{ $time }}">{{ $time }}</option>
+                                @endfor
+                            @endfor
+                            <option value="00:00">00:00</option>
+                        </select>
+                        @error('reservation_time')
+                            <p class="text-sm text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-6">
+                        <label for="number_of_people" class="block text-sm font-medium text-gray-700">人数</label>
+                        <input type="number" name="number_of_people" id="number_of_people" min="1"
+                            value="{{ $reservation->number_of_people }}" required
+                            class="mb-2 p-2 rounded-md w-full border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                        @error('number_of_people')
+                            <p class="text-sm text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 text-right">
+                    <button type="submit"
+                        class="inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        予約を変更
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </x-app-layout>

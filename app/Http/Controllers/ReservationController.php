@@ -40,10 +40,9 @@ class ReservationController extends Controller
             'user_id' => auth()->id(),
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
-            'status' => 'completed',
         ])->first();
 
-        if($existingReservation) {
+        if ($existingReservation) {
             return back()->with('error', 'その日時にはすでに予約があります');
         }
 
@@ -55,7 +54,7 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
-            'status' => 'completed',
+            // 'status' => 'completed',
         ]);
         return view('shops.done', ['reservation' => $reservation->id]);
     }
@@ -90,7 +89,6 @@ class ReservationController extends Controller
             'user_id' => auth()->id(),
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
-            'status' => 'completed',
         ])->where('id', '!=', $id) // 現在の予約を除外する
             ->first();
 
@@ -102,7 +100,7 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
-            'status' => 'completed',
+            // 'status' => 'completed',
         ]);
 
         return redirect()->route('profile.index')->with('message', '予約を変更しました');
@@ -117,7 +115,6 @@ class ReservationController extends Controller
 
         $reservation->delete();
 
-        return back()->with('message', '予約をキャンセルしました');
-
+        return back()->with('message', '予約を削除しました');
     }
 }

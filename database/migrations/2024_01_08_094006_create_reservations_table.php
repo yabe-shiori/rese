@@ -20,7 +20,6 @@ class CreateReservationsTable extends Migration
             $table->date('reservation_date');
             $table->time('reservation_time');
             $table->integer('number_of_people');
-            $table->string('status');
             $table->timestamps();
         });
     }

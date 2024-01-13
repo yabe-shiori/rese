@@ -4,41 +4,37 @@
         <x-message :message="session('message')" />
         <div class="text-center py-4">
             <a href="{{ route('reviews.create') }}"
-               class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300">
+                class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300">
                 口コミを投稿する
             </a>
         </div>
-        <div class="flex flex-col sm:flex-row gap-4">
-            <div class="w-full sm:w-1/2 p-4">
+        <div class="flex flex-col justify-between sm:flex-row gap-4">
+            <div class="w-full sm:w-2/5 p-4">
                 <h3 class="text-xl font-bold mb-4">予約状況</h3>
                 @foreach ($reservations as $index => $reservation)
-                    <div class="bg-blue-500 text-white rounded-md shadow-md p-4 mb-4">
-                        <p class="text-xl mb-2">
-                            <i class="fa-regular fa-clock" style="color: #f4f5f7;"></i>
-                            予約{{ $index + 1 }}
-                        </p>
-                        <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
-                        <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
-                        <p><span class="mr-4">Time</span>
-                            {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
-                        <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
-                        <!-- 予約変更ボタン -->
-                        <form action="{{ route('reservations.edit', $reservation->id) }}" method="get"
-                            class="inline-block">
+                    <div class="relative">
+                        <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST"
+                            class="absolute top-0 right-0 mt-2 mr-2">
                             @csrf
-                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2">
-                                予約を変更
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('予約を削除してもよろしいですか？');"
+                                class="flex items-center justify-center w-6 h-6 bg-transparent border-2 border-white rounded-full text-white hover:bg-blue-600">
+                                <i class="fas fa-times"></i>
                             </button>
                         </form>
-                        <!-- 削除ボタン-->
-                        <form action="{{ route('reservations.destroy', $reservation->id) }}" method="post"
-                            onsubmit="return confirm('本当に予約を削除しますか？');">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded-md mt-2">
-                                予約を削除
-                            </button>
-                        </form>
+                        <a href="{{ route('reservations.edit', $reservation->id) }}" class="text-decoration-none">
+                            <div class="bg-blue-500 text-white rounded-md shadow-md p-4 mb-4 cursor-pointer">
+                                <p class="text-base mb-4">
+                                    <i class="fa-regular fa-clock" style="color: #f4f5f7;"></i>
+                                    予約{{ $index + 1 }}
+                                </p>
+                                <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
+                                <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
+                                <p><span class="mr-4">Time</span>{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}
+                                </p>
+                                <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
+                            </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -49,7 +45,7 @@
                     @forelse ($favorites as $favorite)
                         <div class="tile shadow-md rounded-md">
                             <img src="{{ $favorite->shop->image }}" alt="{{ $favorite->shop->name }}"
-                                class="rounded-t-lg mb-2 max-h-40 object-cover overflow-hidden">
+                                class="rounded-t-lg mb-2 w-full h-40 object-cover overflow-hidden">
                             <p class="text-xl font-bold mb-1">{{ $favorite->shop->name }}</p>
                             <div class="text-sm mb-2">
                                 <span>#{{ $favorite->shop->area->name }}</span>

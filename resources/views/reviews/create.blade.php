@@ -10,7 +10,7 @@
 
         <!-- 予約した店舗一覧 -->
         <div class="grid grid-cols-4 gap-4 pt-6">
-            @forelse ($reservations as $reservation)
+            @forelse ($pastReservations as $reservation)
                 <div class="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1" x-data="{ open: false }">
                     <div class="tile shadow-md rounded-md">
                         <img src="{{ $reservation->shop->image }}" alt="{{ $reservation->shop->name }}" class="rounded-t-lg mb-2">

@@ -37,7 +37,7 @@ class ReservationRequest extends FormRequest
             'reservation_time.between' => '予約時間は11:00～0:00の間で入力してください',
             'number_of_people.required' => '人数を入力してください',
             'number_of_people.min' => '1名以上で入力してください',
-            'number_of_people.max' => '10名以下で入力してください',
+            'number_of_people.max' => '10名以上の場合は電話にてご予約ください',
         ];
     }
 }

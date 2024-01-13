@@ -29,16 +29,17 @@ class ReviewController extends Controller
     }
     public function create()
     {
-        // ログイン中のユーザーの過去の完了した予約を取得する
-        $reservations = Reservation::where('user_id', auth()->id())
-            ->where('status', 'completed')
-            ->where('reservation_date', '<', now())
-            ->with('shop') // shopリレーションも一緒にロードする
+        $userReservations = Reservation::where('user_id', auth()->id())
+            ->with('shop')
             ->orderBy('reservation_date', 'desc')
             ->get();
 
-        // ビューに予約情報を渡してレンダリングする
-        return view('reviews.create', compact('reservations'));
+        $pastReservations = $userReservations->filter(function ($reservation) {
+            return $reservation->isPast();
+        });
+
+        return view('reviews.create', compact('pastReservations'));
+
     }
 
 }

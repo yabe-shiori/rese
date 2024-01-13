@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -15,7 +16,7 @@ class Reservation extends Model
         'reservation_date',
         'reservation_time',
         'number_of_people',
-        'status',
+        // 'status',
     ];
 
     public function shop()
@@ -26,5 +27,11 @@ class Reservation extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function isPast()
+    {
+        // 予約日時が現在時刻よりも過去である場合に true を返す
+        return Carbon::parse($this->reservation_date . ' ' . $this->reservation_time) < now();
     }
 }
