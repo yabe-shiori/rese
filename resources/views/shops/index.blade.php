@@ -1,11 +1,11 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if (session('error'))
-                <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
-                    {{ session('error') }}
-                </div>
-            @endif
-        <div class="mb-4 w-1/2 bg-white rounded shadow-md p-2 ml-auto">
+            <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="mb-4 sm:w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-auto">
             <form action="{{ route('search') }}" method="GET" class="flex items-center">
              <!-- Area Select -->
                 <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
@@ -30,10 +30,10 @@
                 </div>
             </form>
         </div>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
             @if (isset($results) && count($results) > 0)
                 @foreach ($results as $shop)
-                    <div class="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1">
+                    <div>
                         <div class="tile shadow-md rounded-md">
                             <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                             <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
@@ -62,7 +62,7 @@
             @else
                 @isset($shops)
                     @foreach ($shops as $shop)
-                        <div class="col-span-4 sm:col-span-2 md:col-span-1 lg:col-span-1 xl:col-span-1">
+                        <div>
                             <div class="tile shadow-md rounded-md">
                                 <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                                 <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>

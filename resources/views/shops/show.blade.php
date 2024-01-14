@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{
+    <div x-data="{
         shopName: '{{ $shop->name }}',
         reservationDate: '{{ date('Y-m-d') }}',
         reservationTime: '11:00',
@@ -15,56 +15,55 @@
         $watch('numberOfPeople', (value) => {
             if (value !== 1) inputChanged = true;
         });
-    }">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            @if (session('error'))
-                <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
-                    {{ session('error') }}
+    }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @if (session('error'))
+            <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="container flex flex-col sm:flex-row justify-between mt-10">
+            <div class="w-full sm:w-1/2 pr-8 mb-6 sm:mb-0">
+                <div class="flex mb-4">
+                    <a href="{{ route('home') }}" class="text-xl font-bold px-2 bg-white shadow">&lt;</a>
+                    <h2 class="text-2xl font-bold ml-2 w-full sm:w-1/2">{{ $shop->name }}</h2>
                 </div>
-            @endif
-            <div class="container flex justify-between mt-10">
-                <div class="w-1/2 pr-8">
-                    <div class="flex mb-4">
-                        <a href="{{ route('home') }}" class="text-xl font-bold px-2 bg-white shadow">&lt;</a>
-                        <h2 class="text-2xl font-bold ml-2 w-1/2">{{ $shop->name }}</h2>
+                <div class="shop-details">
+                    <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="mb-4">
+                    <div class="shop-tag mb-4 font-medium">
+                        <span class="mr-1 text-sm">#{{ $shop->area->name }}</span>
+                        <span class="text-sm">#{{ $shop->genre->name }}</span>
                     </div>
-                    <div class="shop-details">
-                        <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="mb-4">
-                        <div class="shop-tag mb-4 font-medium">
-                            <span class="mr-1 text-sm">#{{ $shop->area->name }}</span>
-                            <span class="text-sm">#{{ $shop->genre->name }}</span>
-                        </div>
-                        <p class="font-medium tracking-widest">{{ $shop->description }}</p>
-                    </div>
+                    <p class="font-medium tracking-widest">{{ $shop->description }}</p>
                 </div>
-                <div class="w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
-                    <div class="reservation-form p-6">
-                        <h3 class="text-white mb-4 text-xl font-bold">予約</h3>
-                        <form action="{{ route('reservations.store') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="shop_id" value="{{ $shop->id }}">
-                            <input type="date" x-model="reservationDate" name="reservation_date"
-                                value="{{ date('Y-m-d') }}" required class="mb-2 p-2 rounded-md w-1/2">
-                                @error('reservation_date')
-                                    <div class="text-red-800 text-base">{{ $message }}</div>
-                                @enderror
-                            <select name="reservation_time" x-model="reservationTime" required
-                                class="mb-2 p-2 rounded-md w-full">
-                                @for ($hour = 11; $hour < 24; $hour++)
-                                    @for ($minute = 0; $minute < 60; $minute += 30)
-                                        @php
-                                            $time = sprintf('%02d:%02d', $hour % 24, $minute);
-                                        @endphp
-                                        <option value="{{ $time }}">{{ $time }}</option>
-                                    @endfor
+            </div>
+            <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
+                <div class="reservation-form p-6">
+                    <h3 class="text-white mb-4 text-xl font-bold">予約</h3>
+                    <form action="{{ route('reservations.store') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                        <input type="date" x-model="reservationDate" name="reservation_date"
+                            value="{{ date('Y-m-d') }}" required class="mb-2 p-2 rounded-md w-full">
+                        @error('reservation_date')
+                            <div class="text-red-800 text-base">{{ $message }}</div>
+                        @enderror
+                        <select name="reservation_time" x-model="reservationTime" required
+                            class="mb-2 p-2 rounded-md w-full">
+                            @for ($hour = 11; $hour < 24; $hour++)
+                                @for ($minute = 0; $minute < 60; $minute += 30)
+                                    @php
+                                        $time = sprintf('%02d:%02d', $hour % 24, $minute);
+                                    @endphp
+                                    <option value="{{ $time }}">{{ $time }}</option>
                                 @endfor
-                                <option value="00:00">00:00</option>
-                            </select>
-                            <input type="number" x-model="numberOfPeople" name="number_of_people" min="1"
-                                required class="mb-2 p-2 rounded-md w-full">
-                                @error('number_of_people')
-                                    <div class="text-red-800 text-base">{{ $message }}</div>
-                                @enderror
+                            @endfor
+                            <option value="00:00">00:00</option>
+                        </select>
+                        <input type="number" x-model="numberOfPeople" name="number_of_people" min="1"
+                            required class="mb-2 p-2 rounded-md w-full">
+                        @error('number_of_people')
+                            <div class="text-red-800 text-base">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="bg-blue-400 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
                         style="display: none;">
@@ -78,4 +77,5 @@
                 </div>
             </div>
         </div>
+    </div>
 </x-app-layout>

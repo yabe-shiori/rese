@@ -23,7 +23,7 @@ class ReservationConfirmed extends Mailable
     {
         $this->reservation = $reservation;
     }
-    
+
     //QRコードをメールに添付する
     public function build()
     {
@@ -35,6 +35,7 @@ class ReservationConfirmed extends Mailable
             'user_id' => $this->reservation->user_id,
             'reservation_date' => $this->reservation->reservation_date,
             'reservation_time' => $this->reservation->reservation_time,
+            'number_of_people' => $this->reservation->number_of_people,
         ]));
 
         return $this->view('emails.reservation')
