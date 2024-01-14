@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use App\Models\Shop;
+use App\Mail\ReservationConfirmed;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -31,10 +33,11 @@ class ReservationController extends Controller
     //予約保存処理
     public function store(ReservationRequest $request)
     {
-        //ログインチェック
-        if (!auth()->check()) {
-            return back()->with('error', 'ログインしてください');
-        }
+        // //ログインチェック
+        // if (!auth()->check()) {
+        //     return back()->with('error', 'ログインしてください');
+        // }
+        
         //予約日時の重複チェック
         $existingReservation = Reservation::where([
             'user_id' => auth()->id(),
@@ -54,8 +57,11 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
-            // 'status' => 'completed',
         ]);
+        //予約確認メール送信
+        Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
+
+        //予約完了ページへリダイレクト
         return view('shops.done', ['reservation' => $reservation->id]);
     }
 
@@ -100,9 +106,11 @@ class ReservationController extends Controller
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
-            // 'status' => 'completed',
         ]);
+        //予約確認メール送信
+        Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
 
+        //マイページへリダイレクト
         return redirect()->route('profile.index')->with('message', '予約を変更しました');
     }
 
