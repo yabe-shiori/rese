@@ -6,6 +6,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,16 @@ Route::middleware(['verified'])->group(function(){
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
     Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
+});
+
+//店舗代表者用
+Route::prefix('managers')->name('managers.')->group(function () {
+    Route::get('create', [ManagerController::class, 'create'])->name('create');
+    Route::post('store', [ManagerController::class, 'store'])->name('store');
+    Route::get('edit/{id}', [ManagerController::class, 'edit'])->name('edit');
+    Route::patch('update/{id}', [ManagerController::class, 'update'])->name('update');
+    Route::get('dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
+    Route::get('index', [ManagerController::class, 'index'])->name('index');
 });
 
 require __DIR__.'/auth.php';
