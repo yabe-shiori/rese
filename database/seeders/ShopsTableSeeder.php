@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ShopsTableSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('shops')->insert([
+       $shopsData = [
             [
                 'name' => '仙人',
                 'description' => '料理長厳選の食材から作る寿司を用いたコースをぜひお楽しみください。食材・味・価格、お客様の満足度を徹底的に追及したお店です。特別な日のお食事、ビジネス接待まで気軽に使用することができます。',
@@ -214,6 +215,21 @@ class ShopsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-        ]);
+        ];
+        foreach ($shopsData as $shopData) {
+
+            $shopId = DB::table('shops')->insertGetId($shopData);
+
+            $managerEmail = 'manager' . $shopId . '@example.com';
+
+            $managerId = DB::table('users')->insertGetId([
+                'name' => $shopData['name'] . ' 代表者',
+                'email' => $managerEmail,
+                'password' => Hash::make('password'),
+                'role' => 'manager',
+            ]);
+
+            DB::table('shops')->where('id', $shopId)->update(['manager_id' => $managerId]);
+        }
     }
 }

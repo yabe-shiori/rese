@@ -58,4 +58,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Review::class);
     }
+
+    // ユーザーが店舗代表者として登録されている店舗を取得
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'manager_id');
+    }
 }

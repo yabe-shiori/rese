@@ -7,6 +7,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,5 +68,9 @@ Route::prefix('managers')->name('managers.')->group(function () {
     Route::get('dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
     Route::get('index', [ManagerController::class, 'index'])->name('index');
 });
+
+//管理者用
+Route::get('/admin/create', [AdminController::class, 'createManager'])->name('admin.create');
+Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
 
 require __DIR__.'/auth.php';

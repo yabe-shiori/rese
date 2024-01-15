@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'role' => 'user',//デフォルトの役割を'user'に設定
         ]);
 
         event(new Registered($user));
@@ -44,5 +45,4 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('thanks');
     }
-
 }

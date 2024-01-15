@@ -15,6 +15,7 @@ class Shop extends Model
         'image',
         'genre_id',
         'area_id',
+        'manager_id',
     ];
 
     public function genre()
@@ -35,6 +36,12 @@ class Shop extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    // Shopが所属するManager(User)を取得
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
     }
 
     //検索ロジック
