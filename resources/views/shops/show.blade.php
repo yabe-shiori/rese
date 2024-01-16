@@ -28,7 +28,7 @@
                     <h2 class="text-2xl font-bold ml-2 w-full sm:w-1/2">{{ $shop->name }}</h2>
                 </div>
                 <div class="shop-details">
-                    <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="mb-4">
+                    <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                     <div class="shop-tag mb-4 font-medium">
                         <span class="mr-1 text-sm">#{{ $shop->area->name }}</span>
                         <span class="text-sm">#{{ $shop->genre->name }}</span>

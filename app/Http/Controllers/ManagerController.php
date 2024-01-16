@@ -43,7 +43,8 @@ class ManagerController extends Controller
 
         $image = null;
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('shops', 'public');
+            $imagePath = $request->file('image')->store('shops', 'public');
+            $image = 'storage/' . $imagePath;
         }
 
         $shop = new Shop();

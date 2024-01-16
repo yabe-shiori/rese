@@ -35,7 +35,7 @@
                 @foreach ($results as $shop)
                     <div>
                         <div class="tile shadow-md rounded-md">
-                            <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
+                            <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                             <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
                             <div class="text-sm mb-2 ml-3">
                                 <span class="mr-1">#{{ $shop->area->name }}</span>
@@ -64,7 +64,7 @@
                     @foreach ($shops as $shop)
                         <div>
                             <div class="tile shadow-md rounded-md">
-                                <img src="{{ $shop->image }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
+                                <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                                 <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
                                 <div class="text-xs mb-2 ml-3">
                                     <span class="mr-1">#{{ $shop->area->name }}</span>

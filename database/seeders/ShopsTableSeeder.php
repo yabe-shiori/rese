@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\ImageDownloadController;
 
 class ShopsTableSeeder extends Seeder
 {
@@ -15,7 +16,10 @@ class ShopsTableSeeder extends Seeder
      */
     public function run()
     {
-       $shopsData = [
+
+        $imageController = new ImageDownloadController();
+
+        $shopsData = [
             [
                 'name' => '仙人',
                 'description' => '料理長厳選の食材から作る寿司を用いたコースをぜひお楽しみください。食材・味・価格、お客様の満足度を徹底的に追及したお店です。特別な日のお食事、ビジネス接待まで気軽に使用することができます。',
@@ -217,6 +221,11 @@ class ShopsTableSeeder extends Seeder
             ],
         ];
         foreach ($shopsData as $shopData) {
+
+            $imageUrl = $shopData['image'];
+            $fileName = basename($imageUrl);
+            $imageController->downloadImage($imageUrl, $fileName);
+
 
             $shopId = DB::table('shops')->insertGetId($shopData);
 
