@@ -70,7 +70,10 @@ Route::prefix('managers')->name('managers.')->group(function () {
 });
 
 //管理者用
+Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/admin/create', [AdminController::class, 'createManager'])->name('admin.create');
 Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
+Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
+Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
 
 require __DIR__.'/auth.php';
