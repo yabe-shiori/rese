@@ -36,7 +36,7 @@ public function __construct(Reservation $reservation)
 
     public function build()
     {
-        $this->reservation->load('user', 'shop'); 
+        $this->reservation->load('user', 'shop');
         return $this->view('emails.reservation_reminder')
             ->with(['reservation' => $this->reservation]);
     }
@@ -47,7 +47,7 @@ public function __construct(Reservation $reservation)
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.reservation_reminder',
         );
     }
 

@@ -9,14 +9,12 @@ use Carbon\Carbon;
 class Reservation extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'user_id',
         'shop_id',
         'reservation_date',
         'reservation_time',
         'number_of_people',
-        // 'status',
     ];
 
     public function shop()

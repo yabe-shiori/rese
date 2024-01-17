@@ -8,6 +8,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use App\Models\Genre;
 use App\Models\Area;
+use Illuminate\Support\Facades\Storage;
 
 class ManagerController extends Controller
 {
@@ -43,7 +44,7 @@ class ManagerController extends Controller
 
         $image = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('shops', 'public');
+            $imagePath = $request->file('image')->store('images', 'public');
             $image = 'storage/' . $imagePath;
         }
 
@@ -90,6 +91,17 @@ class ManagerController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $newImage = 'storage/' . $imagePath;
+
+            if ($shop->image) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $shop->image));
+            }
+
+            $shop->update(['image' => $newImage]);
+        }
+
         $shop->update([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -99,7 +111,7 @@ class ManagerController extends Controller
 
         return redirect()->route('managers.dashboard')->with('message', '店舗情報を更新しました');
     }
-
+    
     // 予約一覧画面
     public function index()
     {
