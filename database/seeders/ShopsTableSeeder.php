@@ -124,7 +124,7 @@ class ShopsTableSeeder extends Seeder
                 'name' => '晴海',
                 'description' => '毎年チャンピオン牛を買い付け、仙台市長から表彰されるほどの上質な仕入れをする精肉店オーナーの本当に美味しい国産牛を食べてもらいたいという思いから誕生したお店です。',
                 'image' => 'https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/yakiniku.jpg',
-                'genre_id' => 1,
+                'genre_id' => 2,
                 'area_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

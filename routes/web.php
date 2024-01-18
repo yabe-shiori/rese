@@ -20,17 +20,13 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/thanks', function () {
-    return view('thanks');
-})->name('thanks');
-
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,12 +35,19 @@ Route::middleware('auth')->group(function () {
 
 });
 
+//トップページ
 Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 
 //認証済みユーザのみアクセス可能
 Route::middleware(['verified'])->group(function(){
+
+    //thanksページ
+    Route::get('/thanks', function () {
+        return view('thanks');
+    })->name('thanks');
+
     //お気に入り
     Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
     Route::delete('/favorite', [FavoriteController::class, 'removeFavorite'])->name('removeFavorite');
@@ -56,24 +59,28 @@ Route::middleware(['verified'])->group(function(){
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
+    //マイページ
     Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
 });
 
 //店舗代表者用
-Route::prefix('managers')->name('managers.')->group(function () {
-    Route::get('create', [ManagerController::class, 'create'])->name('create');
-    Route::post('store', [ManagerController::class, 'store'])->name('store');
-    Route::get('edit/{id}', [ManagerController::class, 'edit'])->name('edit');
-    Route::patch('update/{id}', [ManagerController::class, 'update'])->name('update');
-    Route::get('dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
-    Route::get('index', [ManagerController::class, 'index'])->name('index');
+Route::middleware('can:manager')->prefix('managers')->group(function () {
+    Route::get('create', [ManagerController::class, 'create'])->name('managers.create');
+    Route::post('store', [ManagerController::class, 'store'])->name('managers.store');
+    Route::get('edit/{id}', [ManagerController::class, 'edit'])->name('managers.edit');
+    Route::patch('update/{id}', [ManagerController::class, 'update'])->name('managers.update');
+    Route::get('dashboard', [ManagerController::class, 'dashboard'])->name('managers.dashboard');
+    Route::get('index', [ManagerController::class, 'index'])->name('managers.index');
 });
 
 //管理者用
-Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
-Route::get('/admin/create', [AdminController::class, 'createManager'])->name('admin.create');
-Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
-Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
-Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
+Route::middleware('can:admin')->group(function () {
+    Route::get('/admin/index', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/create', [AdminController::class, 'createManager'])->name('admin.create');
+    Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
+    Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
+    Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
+});
+
 
 require __DIR__.'/auth.php';
