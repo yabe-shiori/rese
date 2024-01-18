@@ -60,11 +60,14 @@ class AdminController extends Controller
         $request->validate([
             'subject' => 'required|string|max:255',
             'content' => 'required|string',
+            'sendTo' => 'required|in:all,managers',
         ]);
+
         $subject = $request->input('subject');
         $content = $request->input('content');
+        $sendTo = $request->input('sendTo');
 
-        $users = User::all();
+        $users = $sendTo === 'all' ? User::all() : User::where('role', 'manager')->get();
 
         foreach ($users as $user)
         {

@@ -8,16 +8,30 @@
 
                 <div class="mb-4">
                     <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">件名:</label>
-                    <input type="text" name="subject" id="subject" class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" value="{{ old('subject', $subject) }}" required>
+                    <input type="text" name="subject" id="subject"
+                        class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                        value="{{ old('subject', $subject) }}" required>
                 </div>
 
                 <div class="mb-4">
                     <label for="content" class="block text-gray-700 text-sm font-bold mb-2">内容:</label>
-                    <textarea name="content" id="content" class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>{{ old('content', $content) }}</textarea>
+                    <textarea name="content" id="content"
+                        class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>{{ old('content', $content) }}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">送信対象:</label>
+                    <div>
+                        <input type="radio" id="allUsers" name="sendTo" value="all" checked>
+                        <label for="allUsers">全ユーザー</label>
+
+                        <input type="radio" id="managersOnly" name="sendTo" value="managers">
+                        <label for="managersOnly">店舗代表者</label>
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue">送信</button>
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue">送信</button>
                 </div>
             </form>
         </div>
