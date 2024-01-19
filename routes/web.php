@@ -8,6 +8,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,9 @@ Route::middleware('can:admin')->group(function () {
     Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
 });
+
+//支払い
+Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
 
 
 require __DIR__.'/auth.php';

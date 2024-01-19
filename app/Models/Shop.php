@@ -44,6 +44,11 @@ class Shop extends Model
         return $this->belongsTo(User::class, 'manager_id');
     }
 
+    public function dishes()
+    {
+        return $this->hasMany(Dish::class);
+    }
+
     //検索ロジック
     public function scopeSearchByArea($query, $areaId)
     {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\Genre;
+use App\Models\Dish;
 
 class ShopController extends Controller
 {
@@ -22,7 +23,7 @@ class ShopController extends Controller
     //詳細表示
     public function detail($shop_id)
     {
-        $shop = Shop::with('area', 'genre')->findOrFail($shop_id);
+        $shop = Shop::with('area', 'genre', 'dishes')->findOrFail($shop_id);
         return view('shops.show', compact('shop'));
     }
 

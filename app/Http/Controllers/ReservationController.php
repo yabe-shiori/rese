@@ -37,7 +37,7 @@ class ReservationController extends Controller
         // if (!auth()->check()) {
         //     return back()->with('error', 'ログインしてください');
         // }
-        
+
         //予約日時の重複チェック
         $existingReservation = Reservation::where([
             'user_id' => auth()->id(),
