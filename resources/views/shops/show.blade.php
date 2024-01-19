@@ -9,7 +9,7 @@
         selectedMenuName: '',
         getSelectedMenuName() {
             this.selectedMenuName = this.selectedMenu ? this.$refs.menuList.options[this.$refs.menuList.selectedIndex].text : '';
-            this.inputChanged = true; // ここでinputChangedをtrueにセット
+            this.inputChanged = true;
         }
     }" x-init="() => {
         $watch('reservationDate', (value) => {
@@ -85,48 +85,6 @@
                         @error('number_of_people')
                             <div class="text-red-800 text-base">{{ $message }}</div>
                         @enderror
-                        <select name="menu_id" class="mb-2 p-2 rounded-md w-full">
-                            <option value="" selected>メニューを選択してください（任意）</option>
-                            @foreach ($shop->dishes as $dish)
-                                <option value="{{ $dish->id }}">{{ $dish->name }} - ¥{{ $dish->price }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <!-- 予約フォームにクレジットカード情報の入力フィールドを追加 -->
-                        <div id="card-element" x-show="selectedMenu !== ''"></div>
-
-<script>
-    const stripe = Stripe('pk_test_51OYLVZCkOf5udESXKFogt6xbIgqkok1YV7TVZ67eVMuv0ZgWdMmZmUCD4KgM0Et7dkJuXXZ4IBKeRbSmu8m9AgiQ00V2LY8yxz'); // YOUR_STRIPE_PUBLIC_KEY には実際のパブリックキーを入力してください
-    const elements = stripe.elements();
-    const cardElement = elements.create('card');
-    cardElement.mount('#card-element');
-
-    const form = document.getElementById('reservation-form');
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        // メニューが選択されているか確認
-        if (selectedMenu !== '') {
-            // クレジットカード情報をトークン化
-            const { token, error } = await stripe.createToken(cardElement);
-
-            if (error) {
-                // エラー処理
-                console.error(error);
-            } else {
-                // トークンをフォームに追加
-                const tokenInput = document.createElement('input');
-                tokenInput.type = 'hidden';
-                tokenInput.name = 'stripe_token';
-                tokenInput.value = token.id;
-                form.appendChild(tokenInput);
-            }
-        }
-
-        // フォームを再送信
-        form.submit();
-    });
-</script>
                 </div>
                 <div class="bg-blue-400 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
                     style="display: none;">

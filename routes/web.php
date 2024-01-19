@@ -83,8 +83,5 @@ Route::middleware('can:admin')->group(function () {
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
 });
 
-//支払い
-Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
-
 
 require __DIR__.'/auth.php';

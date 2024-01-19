@@ -62,7 +62,7 @@ class ReservationController extends Controller
         Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
 
         //予約完了ページへリダイレクト
-        return view('shops.done', ['reservation' => $reservation->id]);
+        return view('shops.done', ['reservation' => $reservation]);
     }
 
     /**
