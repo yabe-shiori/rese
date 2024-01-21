@@ -44,10 +44,23 @@
                     @if ($shop->dishes)
                         <ul class="menu-list">
                             @foreach ($shop->dishes as $dish)
-                                <li x-data="{ hovered: false }" @mouseover="hovered = true" @mouseleave="hovered = false">
-                                    {{ $dish->name }} - ¥{{ $dish->price }}
-                                    <div x-show="hovered" class="tooltip">
-                                        {{ $dish->description }}
+                                <li x-data="{ showModal: false }">
+                                    <div @click="showModal = true">
+                                        {{ $dish->name }} - ¥{{ number_format($dish->price, 0, '.', ',') }}
+                                    </div>
+                                    <div x-show="showModal"
+                                        class="fixed inset-0 bg-black bg-opacity-50 h-full w-full flex justify-center items-start pt-10"
+                                        @click.away="showModal = false">
+                                        <div class="modal bg-white p-4 max-w-sm mx-auto rounded shadow-lg">
+                                            <div class="font-bold text-lg">{{ $dish->name }}</div>
+                                            <p class="text-gray-700 mt-2">{{ $dish->description }}</p>
+                                            <div class="mt-4 flex justify-end">
+                                                <button @click="showModal = false"
+                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                    閉じる
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
                             @endforeach
@@ -59,17 +72,17 @@
             </div>
             <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
                 <div class="reservation-form p-6">
-                    <h3 class="text-white mb-4 text-xl font-bold">予約</h3>
+                    <h3 class="text-white mb-4 py-6 text-xl font-bold">予約</h3>
                     <form id="reservation-form" action="{{ route('reservations.store') }}" method="post">
                         @csrf
                         <input type="hidden" name="shop_id" value="{{ $shop->id }}">
                         <input type="date" x-model="reservationDate" name="reservation_date"
-                            value="{{ date('Y-m-d') }}" required class="mb-2 p-2 rounded-md w-full">
+                            value="{{ date('Y-m-d') }}" required class="mb-3 p-2 rounded-md w-full">
                         @error('reservation_date')
                             <div class="text-red-800 text-base">{{ $message }}</div>
                         @enderror
                         <select name="reservation_time" x-model="reservationTime" required
-                            class="mb-2 p-2 rounded-md w-full">
+                            class="mb-3 p-2 rounded-md w-full">
                             @for ($hour = 11; $hour < 24; $hour++)
                                 @for ($minute = 0; $minute < 60; $minute += 30)
                                     @php
@@ -81,13 +94,12 @@
                             <option value="00:00">00:00</option>
                         </select>
                         <input type="number" x-model="numberOfPeople" name="number_of_people" min="1" required
-                            class="mb-2 p-2 rounded-md w-full">
+                            class="mb-3 p-2 rounded-md w-full">
                         @error('number_of_people')
                             <div class="text-red-800 text-base">{{ $message }}</div>
                         @enderror
                 </div>
-                <div class="bg-blue-400 text-white w-4/5 h-1/4 rounded p-4 ml-6" x-show="inputChanged"
-                    style="display: none;">
+                <div x-show="inputChanged" class="bg-blue-400 bg-opacity-80 text-white w-4/5 h-1/4 rounded p-4 ml-6">
                     <p><span class="mr-8">Shop</span><span x-text="shopName"></span></p>
                     <p><span class="mr-8">Date</span><span x-text="reservationDate"></span></p>
                     <p><span class="mr-8">Time</span><span x-text="reservationTime"></span></p>

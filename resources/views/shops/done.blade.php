@@ -5,7 +5,7 @@
             <h1 class="text-xl mb-6 tracking-widest">ご予約ありがとうございます</h1>
 
             <!-- 事前に決済する場合のフォーム -->
-            <form action="" method="post">
+            <form action="{{ route('payment.index') }}" method="get">
                 @csrf
                 <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
                 <button type="submit" class="text-blue-500 mt-4 inline-block">支払いへ進む</button>

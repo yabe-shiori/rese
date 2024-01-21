@@ -83,5 +83,8 @@ Route::middleware('can:admin')->group(function () {
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
 });
 
-
+//支払い
+Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
+Route::post('/payment/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.create-checkout-session');
 require __DIR__.'/auth.php';

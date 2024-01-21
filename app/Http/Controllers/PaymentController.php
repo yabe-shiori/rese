@@ -2,49 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
-use Stripe\Charge;
+use Stripe\PaymentIntent;
+use App\Models\Dish;
+use App\Models\Order;
+use App\Models\Payment;
+use App\Models\StripeCustomer;
+use App\Models\Reservation;
 
 class PaymentController extends Controller
 {
+
+    //支払いページ表示
+    public function index(Request $request)
+    {
+        $reservationId = $request->input('reservation_id');
+        $reservation = Reservation::find($reservationId);
+
+        $dish = Dish::where('shop_id', $reservation->shop_id)->get();
+
+        return view('payment.index', ['reservation' => $reservation, 'menu' => $dish]);
+    }
+
+    //支払い
     public function store(Request $request)
     {
-        // フォームから送信されたデータを取得
-        $reservationId = $request->input('reservation_id');
-        $userId = $request->input('user_id');
-        $stripeToken = $request->input('stripe_token');
-        $amount = $request->input('amount'); // この部分は必要に応じて調整
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // Stripeのキーを設定
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $orderQuantities = $request->input('quantity');
+        $dishes = Dish::find(array_keys($orderQuantities));
 
-        // Stripeでの支払いを試行
+        $amount = $dishes->sum(function ($dish) use ($orderQuantities) {
+                $quantity = isset($orderQuantities[$dish->id]) && is_numeric($orderQuantities[$dish->id]) ? $orderQuantities[$dish->id] : 0;
+                return $dish->price * $quantity;
+            });
+
+        if ($amount <= 0) {
+            return view('payment.error', ['error' => 'Invalid amount']);
+        }
+
+        $stripeCustomer = StripeCustomer::firstOrCreate(
+            ['user_id' => $request->user()->id],
+            ['stripe_customer_id' => $this->createStripeCustomer($request->user())->id]
+        );
+
         try {
-            $charge = Charge::create([
-                'amount' => $amount,
-                'currency' => 'JPY',
-                'description' => 'Reservation Payment',
-                'source' => $stripeToken,
+            $paymentIntent = $this->createPaymentIntent($amount, $stripeCustomer);
+
+            foreach ($orderQuantities as $dishId => $quantity) {
+                if (!is_numeric($quantity) || $quantity <= 0) {
+                    continue;
+                }
+
+                $reservationId = $request->input('reservation_id');
+
+                Order::create([
+                    'user_id' => $request->user()->id,
+                    'dish_id' => $dishId,
+                    'quantity' => $quantity,
+                    'reservation_id' => $reservationId,
+                ]);
+            }
+
+            $payment = Payment::create([
+                'user_id' => $request->user()->id,
+                'reservation_id' => $request->reservation_id,
+                'stripe_charge_id' => $paymentIntent->id,
+                'status' => 'pending',
+                'amount' => $amount
             ]);
 
-            // データベースに支払い情報を保存
-            $payment = new Payment([
-                'reservation_id' => $reservationId,
-                'user_id' => $userId,
-                'stripe_charge_id' => $charge->id,
-                'status' => 'succeeded',
-                'amount' => $amount / 100, // Stripeの金額は通常セント単位のため、必要に応じて変換
-            ]);
-
-            $payment->save();
-
-            // 成功した場合の処理（例: ユーザーに成功メッセージを表示する、リダイレクトするなど）
-            return redirect()->route('success.page')->with('success', 'Payment successful!');
+            return view('payment.success', ['payment' => $payment]);
         } catch (\Exception $e) {
-            // エラーが発生した場合の処理（例: エラーメッセージを表示する、エラーログを記録するなど）
-            return back()->with('error', $e->getMessage());
+            return view('payment.error', ['error' => $e->getMessage()]);
         }
     }
+
+    private function createStripeCustomer($user)
+    {
+        return \Stripe\Customer::create([
+            'email' => $user->email,
+        ]);
+    }
+
+    private function createPaymentIntent($amount, $stripeCustomer)
+    {
+        return PaymentIntent::create([
+            'amount' => $amount,
+            'currency' => 'jpy',
+            'customer' => $stripeCustomer->stripe_customer_id,
+        ]);
+    }
+
 }
