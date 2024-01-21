@@ -1,37 +1,47 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="container mx-auto p-4 bg-white shadow-md rounded-md">
-            <h1 class="text-3xl font-bold mb-4">お知らせメール作成</h1>
+    <div class="max-w-2xl mx-auto my-8">
+        <div class="bg-white shadow-md rounded-md p-6">
+            <h1 class="text-3xl font-bold mb-4 text-gray-800">Notification Email Creation</h1>
+            @if (session('message'))
+                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+                    {{ session('message') }}
+                </div>
+            @endif
 
             <form action="{{ route('admin.notification.send') }}" method="POST">
                 @csrf
 
                 <div class="mb-4">
-                    <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">件名:</label>
+                    <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
                     <input type="text" name="subject" id="subject"
                         class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
                         value="{{ old('subject', $subject) }}" required>
                 </div>
 
                 <div class="mb-4">
-                    <label for="content" class="block text-gray-700 text-sm font-bold mb-2">内容:</label>
+                    <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
                     <textarea name="content" id="content"
                         class="form-input w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required>{{ old('content', $content) }}</textarea>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">送信対象:</label>
-                    <div>
-                        <input type="radio" id="allUsers" name="sendTo" value="all" checked>
-                        <label for="allUsers">全ユーザー</label>
 
-                        <input type="radio" id="managersOnly" name="sendTo" value="managers">
-                        <label for="managersOnly">店舗代表者</label>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Send To:</label>
+                    <div class="flex items-center space-x-4">
+                        <div>
+                            <input type="radio" id="allUsers" name="sendTo" value="all" checked>
+                            <label for="allUsers">All Users</label>
+                        </div>
+
+                        <div>
+                            <input type="radio" id="managersOnly" name="sendTo" value="managers">
+                            <label for="managersOnly">Managers Only</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end">
                     <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue">送信</button>
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue">Send</button>
                 </div>
             </form>
         </div>
