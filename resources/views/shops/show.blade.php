@@ -45,7 +45,7 @@
                         <ul class="menu-list">
                             @foreach ($shop->dishes as $dish)
                                 <li x-data="{ showModal: false }">
-                                    <div @click="showModal = true">
+                                    <div @click="showModal = true" class="cursor-pointer hover:text-blue-600">
                                         {{ $dish->name }} - ¥{{ number_format($dish->price, 0, '.', ',') }}
                                     </div>
                                     <div x-show="showModal"

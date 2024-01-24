@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="max-w-2xl mx-auto my-8">
-        <div class="bg-white shadow-md rounded-md p-6">
-            <h1 class="text-3xl font-bold mb-4 text-gray-800">Notification Email Creation</h1>
+    <div class="max-w-md mx-auto my-8 px-4">
+        <div class="bg-white shadow-md rounded-md p-4 md:p-6">
+            <h1 class="text-2xl font-bold mb-4 text-gray-800">Notification Email Creation</h1>
             @if (session('message'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
                     {{ session('message') }}
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-center md:justify-end">
                     <button type="submit"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue">Send</button>
                 </div>

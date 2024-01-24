@@ -1,7 +1,8 @@
 <x-app-layout>
-    <div class="max-w-2xl mx-auto mt-8">
-        <div class="bg-white p-8 shadow-md rounded-md">
-            <h2 class="text-3xl font-semibold mb-6 text-blue-500">Edit Shop</h2>
+    <div class="max-w-2xl mx-auto mt-8 p-4">
+        <div class="bg-white p-6 shadow-md rounded-md">
+
+            <h2 class="text-2xl md:text-3xl font-semibold mb-4 text-blue-500">Edit Shop</h2>
 
             @if (session('message'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
@@ -46,9 +47,11 @@
                     </select>
                 </div>
 
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Update Shop
-                </button>
+                <div class="flex justify-end mb-4">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Update Shop
+                    </button>
+                </div>
             </form>
         </div>
     </div>

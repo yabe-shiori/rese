@@ -65,11 +65,13 @@ class PaymentController extends Controller
                 ]);
             }
 
+            $status = $paymentIntent->status === 'succeeded' ? 'succeeded' : 'failed';
+
             $payment = Payment::create([
                 'user_id' => $request->user()->id,
                 'reservation_id' => $request->reservation_id,
                 'stripe_charge_id' => $paymentIntent->id,
-                'status' => 'pending',
+                'status' => $status,
                 'amount' => $amount
             ]);
 
@@ -94,5 +96,4 @@ class PaymentController extends Controller
             'customer' => $stripeCustomer->stripe_customer_id,
         ]);
     }
-
 }

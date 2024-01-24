@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="flex items-center justify-center h-screen">
-        <div
-            class="bg-white p-8 rounded-md shadow-md text-center md:w-4/12 md:w-6/12 w-full flex flex-col items-center justify-center">
+        <div class="bg-white p-8 rounded-md shadow-md text-center md:w-6/12 w-full md:mx-4">
             <h1 class="text-xl mb-6 tracking-widest">ご予約ありがとうございます</h1>
 
             <!-- 事前に決済する場合のフォーム -->

@@ -8,8 +8,8 @@
                 口コミを投稿する
             </a>
         </div>
-        <div class="flex flex-col justify-between sm:flex-row gap-4">
-            <div class="w-full sm:w-2/5 p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+            <div class="w-full">
                 <h3 class="text-xl font-bold mb-4">予約状況</h3>
                 @foreach ($reservations as $index => $reservation)
                     <div class="relative">
@@ -30,7 +30,8 @@
                                 </p>
                                 <p><span class="mr-4">Shop</span> {{ $reservation->shop->name }}</p>
                                 <p><span class="mr-4">Date</span> {{ $reservation->reservation_date }}</p>
-                                <p><span class="mr-4">Time</span>{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}
+                                <p><span
+                                        class="mr-4">Time</span>{{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}
                                 </p>
                                 <p><span class="mr-4">Number</span> {{ $reservation->number_of_people }}人</p>
                             </div>
@@ -39,11 +40,11 @@
                 @endforeach
             </div>
 
-            <div class="w-full sm:w-1/2 p-4">
+            <div class="w-full">
                 <h3 class="text-xl font-bold mb-2">お気に入り店舗</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     @forelse ($favorites as $favorite)
-                        <div class="tile shadow-md rounded-md">
+                        <div class="tile shadow-md rounded-md mb-4">
                             <img src="{{ $favorite->shop->image }}" alt="{{ $favorite->shop->name }}"
                                 class="rounded-t-lg mb-2 w-full h-40 object-cover overflow-hidden">
                             <p class="text-base font-bold mb-1 ml-2">{{ $favorite->shop->name }}</p>
@@ -79,5 +80,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </x-app-layout>
