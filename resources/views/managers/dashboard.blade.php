@@ -1,5 +1,6 @@
 <x-app-layout>
     <div class="max-w-3xl mx-auto mt-8 p-4">
+        <x-message :message="session('message')" />
         <div class="bg-white shadow-md rounded-md p-6">
             @if(count($shops) > 0)
                 @foreach($shops as $shop)

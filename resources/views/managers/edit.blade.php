@@ -17,16 +17,25 @@
                 <div class="mb-4">
                     <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Shop Name</label>
                     <input id="name" type="text" class="form-input w-full" name="name" value="{{ old('name', $shop->name) }}" required autofocus>
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 text-sm font-semibold mb-2">Description</label>
                     <textarea id="description" class="form-textarea w-full h-32" name="description" required>{{ old('description', $shop->description) }}</textarea>
+                    @error('description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="image" class="block text-gray-700 text-sm font-semibold mb-2">Image</label>
                     <input id="image" type="file" class="form-input w-full" name="image">
+                    @error('image')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -36,6 +45,9 @@
                             <option value="{{ $genre->id }}" {{ $shop->genre_id == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
                         @endforeach
                     </select>
+                    @error('genre_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -45,6 +57,9 @@
                             <option value="{{ $area->id }}" {{ $shop->area_id == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
                         @endforeach
                     </select>
+                    @error('area_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex justify-end mb-4">

@@ -2,12 +2,9 @@
     <div class="max-w-md mx-auto my-8 px-4">
         <div class="bg-white shadow-md rounded-md p-4 md:p-6">
             <h1 class="text-2xl font-bold mb-4 text-gray-800">Notification Email Creation</h1>
-            @if (session('message'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
-                    {{ session('message') }}
-                </div>
-            @endif
 
+            <x-message :message="session('message')" />
+            
             <form action="{{ route('admin.notification.send') }}" method="POST">
                 @csrf
 

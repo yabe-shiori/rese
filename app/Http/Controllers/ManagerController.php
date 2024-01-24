@@ -111,7 +111,7 @@ class ManagerController extends Controller
 
         return redirect()->route('managers.dashboard')->with('message', '店舗情報を更新しました');
     }
-    
+
     // 予約一覧画面
     public function index()
     {

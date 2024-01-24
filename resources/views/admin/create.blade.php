@@ -3,25 +3,23 @@
         <div class="bg-white shadow-md rounded-md p-4 md:p-8">
             <h2 class="text-2xl font-semibold mb-4 text-center text-gray-800">Create Manager</h2>
 
-            @if (session('message'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
-                    {{ session('message') }}
-                </div>
-            @endif
+            <x-message :message="session('message')" />
 
             <form method="POST" action="{{ route('admin.store') }}">
                 @csrf
 
                 <div class="mb-4">
                     <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
-                    <input id="name" type="text" class="form-input w-full py-2 px-3 border border-gray-300 rounded"
-                        name="name" value="{{ old('name') }}" required autofocus>
+                    <input id="name" type="text"
+                        class="form-input w-full py-2 px-3 border border-gray-300 rounded" name="name"
+                        value="{{ old('name') }}" required autofocus>
                 </div>
 
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
-                    <input id="email" type="email" class="form-input w-full py-2 px-3 border border-gray-300 rounded"
-                        name="email" value="{{ old('email') }}" required>
+                    <input id="email" type="email"
+                        class="form-input w-full py-2 px-3 border border-gray-300 rounded" name="email"
+                        value="{{ old('email') }}" required>
                 </div>
 
                 <div class="mb-6">

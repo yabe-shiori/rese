@@ -1,11 +1,9 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <x-message :message="session('message')" />
+
         <div class="container mx-auto p-4 bg-gray-800 text-white shadow-md rounded-md">
-            @if (session('message'))
-                <div class="bg-green-500 text-green-100 p-4 mb-4">
-                    {{ session('message') }}
-                </div>
-            @endif
             <h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
             <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                 <a href="{{ route('admin.create') }}"
