@@ -10,30 +10,12 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
 
 //トップページ
@@ -42,19 +24,23 @@ Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 
 //認証済みユーザのみアクセス可能
-Route::middleware(['verified'])->group(function(){
-
-    //thanksページ
-    Route::get('/thanks', function () {
-        return view('thanks');
-    })->name('thanks');
+Route::middleware(['verified'])->group(function () {
 
     //お気に入り
     Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
     Route::delete('/favorite', [FavoriteController::class, 'removeFavorite'])->name('removeFavorite');
 
     //予約
-    Route::resource('reservations', ReservationController::class);
+    Route::resource('reservations', ReservationController::class)->except(['index', 'create', 'show']);
+
+    //thanksページ
+    Route::get('/thanks', function () {
+        return view('thanks');
+    })->name('thanks');
+
+    //決済
+    Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
 
     //レビュー
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
@@ -83,8 +69,6 @@ Route::middleware('can:admin')->group(function () {
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
 });
 
-//支払い
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
-// Route::post('/payment/create-checkout-session', [PaymentController::class, 'createCheckoutSession'])->name('payment.create-checkout-session');
-require __DIR__.'/auth.php';
+
+
+require __DIR__ . '/auth.php';
