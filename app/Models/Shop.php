@@ -38,6 +38,12 @@ class Shop extends Model
         return $this->hasMany(Review::class);
     }
 
+    //レビューの平均点を取得
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
+
     // Shopが所属するManager(User)を取得
     public function manager()
     {

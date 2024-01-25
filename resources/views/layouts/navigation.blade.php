@@ -6,9 +6,12 @@
                 <button @click="open = !open"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <!-- ハンバーガーアイコン -->
-                    <i class="fa-solid fa-bars fa-xl" style="color: #4980df;"></i>
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-square fa-stack-2x" style="color: #4980df;"></i>
+                        <i class="fas fa-bars fa-stack-1x fa-inverse"></i>
+                    </span>
                     <!-- Logo -->
-                    <h1 class="ml-6 text-blue-500 font-semibold text-3xl">Rese</h1>
+                    <h1 class="ml-6 text-blue-500 text-3xl font-black">Rese</h1>
                 </button>
             </div>
 

@@ -7,12 +7,12 @@
             <h1 class="text-2xl font-bold mb-4">Admin Dashboard</h1>
             <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                 <a href="{{ route('admin.create') }}"
-                    class="w-full md:w-auto max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:shadow-outline-blue">
-                    Create Manager
+                    class="w-full md:w-auto max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md flex items-center justify-center focus:outline-none focus:shadow-outline-blue">
+                    <i class="fas fa-user-plus mr-2"></i> Create Manager
                 </a>
                 <a href="{{ route('admin.notification.create') }}"
-                    class="w-full md:w-auto max-w-xs bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-md focus:outline-none focus:shadow-outline-green">
-                    Send Notification Email
+                    class="w-full md:w-auto max-w-xs bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-md flex items-center justify-center focus:outline-none focus:shadow-outline-green">
+                    <i class="fas fa-envelope mr-2"></i> Send Notification Email
                 </a>
             </div>
         </div>
