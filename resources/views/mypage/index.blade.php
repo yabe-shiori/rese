@@ -6,7 +6,7 @@
         <div class="text-center py-4">
             <a href="{{ route('reviews.create') }}"
                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white hover:bg-blue-700 transition-colors duration-300">
-                <i class="fa-solid fa-pen fa-lg mr-2"></i> 口コミを投稿する
+                <i class="fa-solid fa-pen fa-lg mr-2"></i> レビューを投稿する
             </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">

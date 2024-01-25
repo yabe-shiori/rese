@@ -1,5 +1,5 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav x-data="{ open: false }" class="bg-gray-100 w-full pt-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-100">
         <div class="flex justify-between h-16">
             <!-- Hamburger and Logo -->
             <div class="flex-shrink-0 flex items-center">
