@@ -22,8 +22,9 @@
                             <span>#{{ $reservation->shop->genre->name }}</span>
                         </div>
                         <div class="tile-actions flex justify-between items-center">
+                            <div class="flex-grow"></div>
                             <button @click="open = ! open"
-                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">レビューを書く</button>
+                                class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 mr-3">レビューを書く</button>
                         </div>
                     </div>
                     <!-- レビューフォーム -->
