@@ -18,11 +18,11 @@
             <!-- Fullscreen Menu (Show/Hide based on `open` state) -->
             <div x-show="open" x-cloak @click.away="open = false" class="fixed inset-0 z-50 p-5 bg-white"
                 style="display: none;">
-                <div class="flex items-center justify-between h-16">
+                <div class="flex items-center justify-between">
                     <!-- 閉じるボタン -->
                     <button @click="open = false"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                        <i class="fa-solid fa-x fa-2xl" style="color: #4c83e1;"></i>
+                        class="inline-flex items-center justify-center p-2 rounded-md text-white bg-blue-500 w-9 h-9 hover:bg-blue-600 focus:outline-none focus:bg-blue-600 focus:text-white transition duration-150 ease-in-out">
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
 
