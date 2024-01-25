@@ -50,6 +50,15 @@ class ReviewController extends Controller
             return $reservation->isPast();
         });
 
-        return view('reviews.create', compact('pastReservations'));
+        // 既にレビューを書いた店舗を除外
+        $reviewedShopIds = Review::where('user_id', auth()->id())
+            ->pluck('shop_id')
+            ->toArray();
+
+        $filteredPastReservations = $pastReservations->reject(function ($reservation) use ($reviewedShopIds) {
+            return in_array($reservation->shop_id, $reviewedShopIds);
+        });
+
+        return view('reviews.create', compact('filteredPastReservations'));
     }
 }
