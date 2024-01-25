@@ -3,7 +3,7 @@
         <div class="max-w-2xl mx-auto">
             <h2 class="text-3xl font-extrabold mb-8 text-center text-blue-900">予約変更画面</h2>
             <form action="{{ route('reservations.update', $reservation->id) }}" method="post"
-                class="bg-white shadow-md rounded-lg overflow-hidden">
+                class="bg-white shadow-md rounded-lg overflow-hidden sm:w-full md:w-96 mx-auto lg:max-w-2xl xl:max-w-3xl">
                 @csrf
                 @method('patch')
                 <div class="px-6 py-4">
@@ -44,7 +44,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="px-6 py-4 bg-gray-50 text-right">
+                <div class="px-6 py-4 bg-gray-50 text-center sm:text-right">
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                         予約を変更
