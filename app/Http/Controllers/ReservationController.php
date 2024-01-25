@@ -33,11 +33,6 @@ class ReservationController extends Controller
     //予約保存処理
     public function store(ReservationRequest $request)
     {
-        // //ログインチェック
-        // if (!auth()->check()) {
-        //     return back()->with('error', 'ログインしてください');
-        // }
-
         //予約日時の重複チェック
         $existingReservation = Reservation::where([
             'user_id' => auth()->id(),
