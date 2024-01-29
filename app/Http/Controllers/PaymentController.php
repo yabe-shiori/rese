@@ -34,9 +34,9 @@ class PaymentController extends Controller
         $dishes = Dish::find(array_keys($orderQuantities));
 
         $amount = $dishes->sum(function ($dish) use ($orderQuantities) {
-                $quantity = isset($orderQuantities[$dish->id]) && is_numeric($orderQuantities[$dish->id]) ? $orderQuantities[$dish->id] : 0;
-                return $dish->price * $quantity;
-            });
+            $quantity = isset($orderQuantities[$dish->id]) && is_numeric($orderQuantities[$dish->id]) ? $orderQuantities[$dish->id] : 0;
+            return $dish->price * $quantity;
+        });
 
         if ($amount <= 0) {
             return view('payment.error', ['error' => 'Invalid amount']);

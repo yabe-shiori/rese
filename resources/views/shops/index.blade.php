@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         @if (session('error'))
             <div class="border mb-4 px-4 py-3 rounded relative bg-red-100 border-red-400 text-red-700">
                 {{ session('error') }}
@@ -45,12 +45,23 @@
                                 <span class="mr-1">#{{ $shop->area->name }}</span>
                                 <span>#{{ $shop->genre->name }}</span>
                             </div>
-                            <div class="text-sm mb-2 ml-3">
+                            <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                                @php
+                                    $averageRating = $shop->averageRating();
+                                @endphp
+
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $shop->averageRating())
-                                        <i class="fa-solid fa-star text-yellow-500"></i>
+                                    @if ($i <= $averageRating)
+                                        <i class="fas fa-star text-yellow-500"></i>
+                                    @elseif ($i - 0.5 <= $averageRating)
+                                        <div class="relative inline-block">
+                                            <i class="fas fa-star text-gray-300"></i>
+                                            <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
+                                                <i class="fas fa-star text-yellow-500"></i>
+                                            </div>
+                                        </div>
                                     @else
-                                        <i class="fa-solid fa-star text-gray-300"></i>
+                                        <i class="fas fa-star text-gray-300"></i>
                                     @endif
                                 @endfor
                             </div>
@@ -83,12 +94,23 @@
                                     <span class="mr-1">#{{ $shop->area->name }}</span>
                                     <span>#{{ $shop->genre->name }}</span>
                                 </div>
-                                <div class="text-sm mb-2 ml-3">
+                                <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                                    @php
+                                        $averageRating = $shop->averageRating();
+                                    @endphp
+
                                     @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $shop->averageRating())
-                                            <i class="fa-solid fa-star text-yellow-500"></i>
+                                        @if ($i <= $averageRating)
+                                            <i class="fas fa-star text-yellow-500"></i>
+                                        @elseif ($i - 0.5 <= $averageRating)
+                                            <div class="relative inline-block">
+                                                <i class="fas fa-star text-gray-300"></i>
+                                                <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
+                                                    <i class="fas fa-star text-yellow-500"></i>
+                                                </div>
+                                            </div>
                                         @else
-                                            <i class="fa-solid fa-star text-gray-300"></i>
+                                            <i class="fas fa-star text-gray-300"></i>
                                         @endif
                                     @endfor
                                 </div>
