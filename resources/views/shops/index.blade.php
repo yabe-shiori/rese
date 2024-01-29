@@ -8,7 +8,7 @@
         @endif
         <div class="mb-4 sm:w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-auto">
             <form action="{{ route('search') }}" method="GET" class="flex items-center">
-                <!-- Area Select -->
+                <!-- エリア検索 -->
                 <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
                     <option value="" disabled {{ !request('area') ? 'selected' : '' }}>All area</option>
                     @foreach ($areas as $area)
@@ -16,7 +16,7 @@
                             {{ $area->name }}</option>
                     @endforeach
                 </select>
-                <!-- Genre Select -->
+                <!-- ジャンル検索 -->
                 <select name="genre" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
                     <option value="" disabled {{ !request('genre') ? 'selected' : '' }}>All genre</option>
                     @foreach ($genres as $genre)
@@ -24,7 +24,7 @@
                             {{ $genre->name }}</option>
                     @endforeach
                 </select>
-                <!-- Search Input -->
+                <!-- 店名検索 -->
                 <div class="relative flex items-center w-full">
                     <input type="text" name="name" placeholder="Search..."
                         class="p-2 rounded-md pl-8 border-none focus:ring-0 w-full">

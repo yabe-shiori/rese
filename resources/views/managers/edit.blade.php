@@ -16,7 +16,8 @@
 
                 <div class="mb-4">
                     <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Shop Name</label>
-                    <input id="name" type="text" class="form-input w-full" name="name" value="{{ old('name', $shop->name) }}" required autofocus>
+                    <input id="name" type="text" class="form-input w-full" name="name"
+                        value="{{ old('name', $shop->name) }}" required autofocus>
                     @error('name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -42,7 +43,8 @@
                     <label for="genre_id" class="block text-gray-700 text-sm font-semibold mb-2">Genre</label>
                     <select id="genre_id" name="genre_id" class="form-select w-full" required>
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ $shop->genre_id == $genre->id ? 'selected' : '' }}>{{ $genre->name }}</option>
+                            <option value="{{ $genre->id }}" {{ $shop->genre_id == $genre->id ? 'selected' : '' }}>
+                                {{ $genre->name }}</option>
                         @endforeach
                     </select>
                     @error('genre_id')
@@ -54,7 +56,8 @@
                     <label for="area_id" class="block text-gray-700 text-sm font-semibold mb-2">Area</label>
                     <select id="area_id" name="area_id" class="form-select w-full" required>
                         @foreach ($areas as $area)
-                            <option value="{{ $area->id }}" {{ $shop->area_id == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
+                            <option value="{{ $area->id }}" {{ $shop->area_id == $area->id ? 'selected' : '' }}>
+                                {{ $area->name }}</option>
                         @endforeach
                     </select>
                     @error('area_id')

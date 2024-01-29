@@ -44,7 +44,7 @@ class Shop extends Model
         return $this->reviews()->avg('rating');
     }
 
-    // Shopが所属するManager(User)を取得
+    // Shopが所属するManagerを取得
     public function manager()
     {
         return $this->belongsTo(User::class, 'manager_id');
@@ -55,19 +55,21 @@ class Shop extends Model
         return $this->hasMany(Dish::class);
     }
 
-    //検索ロジック
+    //エリア検索
     public function scopeSearchByArea($query, $areaId)
     {
         return $query->where('area_id', $areaId);
     }
+
+    //ジャンル検索
     public function scopeSearchByGenre($query, $genreId)
     {
         return $query->where('genre_id', $genreId);
     }
 
-public function scopeSearchByName($query, $name)
+    //店舗名検索
+    public function scopeSearchByName($query, $name)
     {
         return $query->where('name', 'like', '%' . $name . '%');
     }
-
 }

@@ -11,8 +11,10 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <p class="text-base text-gray-600 font-semibold">予約日: {{ $reservation->reservation_date }}</p>
-                            <p class="text-base font-semibold text-gray-600">予約時間: {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
+                            <p class="text-base text-gray-600 font-semibold">予約日: {{ $reservation->reservation_date }}
+                            </p>
+                            <p class="text-base font-semibold text-gray-600">予約時間:
+                                {{ \Carbon\Carbon::parse($reservation->reservation_time)->format('H:i') }}</p>
                         </div>
                         <div>
                             <p class="text-base font-semibold text-gray-600">ユーザー名: {{ $reservation->user->name }}</p>

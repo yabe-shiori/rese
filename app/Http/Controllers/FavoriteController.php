@@ -15,17 +15,16 @@ class FavoriteController extends Controller
             return back()->with('error', 'ログインしてください');
         }
 
-            $user_id = Auth::user()->id;
-            $shop_id = $request->input('shop_id');
+        $user_id = Auth::user()->id;
+        $shop_id = $request->input('shop_id');
 
-            $exists = Favorite::where('user_id', $user_id)->where('shop_id', $shop_id)->exists();
-            if (!$exists) {
-                Favorite::create([
-                    'user_id' => $user_id,
-                    'shop_id' => $shop_id,
-                ]);
-            }
-
+        $exists = Favorite::where('user_id', $user_id)->where('shop_id', $shop_id)->exists();
+        if (!$exists) {
+            Favorite::create([
+                'user_id' => $user_id,
+                'shop_id' => $shop_id,
+            ]);
+        }
 
         return back();
     }

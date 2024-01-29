@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Reservation;
-use App\Models\User;
 use App\Models\Genre;
 use App\Models\Area;
 use Illuminate\Support\Facades\Storage;
 
 class ManagerController extends Controller
 {
-    // 店舗代表者用ダッシュボード
+    // 店舗代表者用ダッシュボード表示
     public function dashboard()
     {
         $user = auth()->user();
@@ -112,7 +111,7 @@ class ManagerController extends Controller
         return redirect()->route('managers.dashboard')->with('message', '店舗情報を更新しました');
     }
 
-    // 予約一覧画面
+    // 予約一覧画面表示
     public function index()
     {
         $user = auth()->user();

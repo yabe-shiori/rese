@@ -13,7 +13,6 @@ use App\Models\Reservation;
 
 class PaymentController extends Controller
 {
-
     //支払いページ表示
     public function index(Request $request)
     {

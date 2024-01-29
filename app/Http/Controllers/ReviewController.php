@@ -18,12 +18,10 @@ class ReviewController extends Controller
 
         $reservation = Reservation::find($request->reservation_id);
 
-        // 既にレビューが存在するか確認
         $reviewExists = Review::where('user_id', auth()->id())
             ->where('shop_id', $reservation->shop_id)
             ->first();
 
-        // レビューが存在しない場合かつ予約が完了している場合に新しいレビューを作成
         if (!$reviewExists && $reservation->reservation_date < now()) {
             Review::create([
                 'user_id' => auth()->id(),
@@ -50,7 +48,6 @@ class ReviewController extends Controller
             return $reservation->isPast();
         });
 
-        // 既にレビューを書いた店舗を除外
         $reviewedShopIds = Review::where('user_id', auth()->id())
             ->pluck('shop_id')
             ->toArray();

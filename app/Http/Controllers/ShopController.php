@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\Genre;
-use App\Models\Dish;
+
 
 class ShopController extends Controller
 {

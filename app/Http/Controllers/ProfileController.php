@@ -64,14 +64,13 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = Auth()->id();
-        // 現在の日時を取得
         $now = Carbon::now();
 
         $favorites = Favorite::where('user_id', $user_id)->get();
 
         $reservations = Reservation::where('user_id', $user_id)
             ->where(function ($query) use ($now) {
-                // 現在日時より後の予約を取得
+
                 $query->where('reservation_date', '>', $now->toDateString())
                     ->orWhere(function ($query) use ($now) {
                         $query->where('reservation_date', $now->toDateString())

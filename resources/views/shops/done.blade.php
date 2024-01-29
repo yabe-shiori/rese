@@ -9,7 +9,7 @@
                 <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
                 <button type="submit" class="text-blue-500 mt-4 inline-block">支払いへ進む</button>
             </form>
-            <!-- 戻るボタン -->
+
             <a href="{{ route('home') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-4 inline-block">戻る</a>
         </div>
     </div>

@@ -17,7 +17,7 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
-    //管理者が店舗代表者を作成する管理画面
+    //管理者が店舗代表者を作成する画面の表示
     public function createManager()
     {
         return view('admin.create');
@@ -49,8 +49,8 @@ class AdminController extends Controller
     {
         return view('admin.notification', [
 
-                'subject' => '',
-                'content' => '',
+            'subject' => '',
+            'content' => '',
         ]);
     }
 
@@ -69,12 +69,10 @@ class AdminController extends Controller
 
         $users = $sendTo === 'all' ? User::all() : User::where('role', 'manager')->get();
 
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             Mail::to($user->email)->send(new NotificationMail($subject, $content));
         }
 
         return redirect()->route('admin.index')->with('message', 'お知らせメールを送信しました');
     }
-
 }

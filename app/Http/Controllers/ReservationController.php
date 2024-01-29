@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use App\Models\Shop;
@@ -11,25 +10,17 @@ use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     //予約保存処理
     public function store(ReservationRequest $request)
     {
@@ -60,17 +51,11 @@ class ReservationController extends Controller
         return view('shops.done', ['reservation' => $reservation]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -78,9 +63,7 @@ class ReservationController extends Controller
         return view('mypage.edit', compact('reservation'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    //予約更新処理
     public function update(ReservationRequest $request, string $id)
     {
         $reservation = Reservation::findOrFail($id);
@@ -90,7 +73,7 @@ class ReservationController extends Controller
             'user_id' => auth()->id(),
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
-        ])->where('id', '!=', $id) // 現在の予約を除外する
+        ])->where('id', '!=', $id) // 現在の予約を除外
             ->first();
 
         if ($existingReservation) {
@@ -102,16 +85,13 @@ class ReservationController extends Controller
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
         ]);
-        //予約確認メール送信
+
         Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
 
-        //マイページへリダイレクト
         return redirect()->route('profile.index')->with('message', '予約を変更しました');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    //予約削除処理
     public function destroy(string $id)
     {
         $reservation = Reservation::findOrFail($id);

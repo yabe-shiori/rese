@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>Reservation Reminder</title>
 </head>
+
 <body>
-      <h1>本日のご来店についてのご案内</h1>
+    <h1>本日のご来店についてのご案内</h1>
     <p>こんにちは、{{ $reservation->user->name }} さん。</p>
     <p>{{ $reservation->shop->name }} へのご予約をいただき、誠にありがとうございます。本日はご来店予定日ですので、予約の詳細をお知らせいたします。</p>
     <ul>
@@ -16,4 +18,5 @@
     <p>何か質問や変更があれば、お気軽にご連絡ください。{{ $reservation->shop->name }}のスタッフ一同、心よりお待ちしております。</p>
     <p>素敵な時間をお過ごしください！</p>
 </body>
+
 </html>
