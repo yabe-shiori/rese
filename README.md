@@ -28,6 +28,8 @@ Laravel Sailを骨格に、Laravel Breezeで洗練された認証プロセスを
 - 管理者機能: 管理者専用のダッシュボードで、店舗代表者の作成やお知らせメールの送信。
 - 店舗代表者機能: 店舗情報の作成と更新。予約状況の確認。
 
+<br />
+
 ## インストール
 
 1.プロジェクトのクローン  
@@ -70,7 +72,10 @@ laravelSailを使用してDocker環境をセットアップします。
 9.アプリケーションの実行  
 ・Webブラウザで[http://localhost](http://localhost)にアクセスして、アプリケーションが正しく動作していることを確認します。  
 
-  
+<br />  
+
+## 注意事項: 
+
 **利用者について**  
   
 初期データとして利用者を一人登録しています。  
@@ -101,14 +106,9 @@ laravelSailを使用してDocker環境をセットアップします。
 パスワード-> password    
 
 のように、店舗id順に設定してあります。
-店舗代表者画面では、ログインしている店舗代表者の店舗情報が表示されます。
-
+店舗代表者画面では、ログインしている店舗代表者の店舗情報が表示されます。  
 
   
-
-
-注意事項:  
-
 **メール通知について**  
 MailPitを利用しています。  
 [http://localhost:8025](http://localhost:8025)にアクセスして通知メールを確認してください。  
@@ -121,6 +121,7 @@ MailPitを利用しています。
 | Category          | Technology Stack                                     |
 | ----------------- | --------------------------------------------------   |
 | Frontend          | npm, Tailwind CSS                                    |
+| Infrastructure    | Amazon Web Services                                  |
 | Backend           | Laravel, PHP                                         |
 | Infrastructure    | Amazon Web Services                                  |
 | Database          | MySQL                                                |
