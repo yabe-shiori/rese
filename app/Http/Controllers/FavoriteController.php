@@ -14,7 +14,7 @@ class FavoriteController extends Controller
         if (!auth()->check()) {
             return back()->with('error', 'ログインしてください');
         }
-        
+
             $user_id = Auth::user()->id;
             $shop_id = $request->input('shop_id');
 
