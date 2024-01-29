@@ -129,6 +129,12 @@ MailPitを利用しています。
 
 <br />
 
+## AWS構成図
+
+![AWS構成図](https://github.com/yabe-shiori/rese/assets/142664073/1efc7daf-af55-4b83-9cbf-f1aad0721284)
+
+<br />
+
 ## ER図
 
 ![ER図](https://github.com/yabe-shiori/rese/assets/142664073/b89d6849-2787-4a15-bab0-1a8e7065fa15)
