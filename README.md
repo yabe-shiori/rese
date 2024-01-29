@@ -11,8 +11,7 @@ Laravel Sailを骨格に、Laravel Breezeで洗練された認証プロセスを
 
 このプロジェクトは、ただ予約を受け付けるだけではなく、食を通じて人々の生活に意味と喜びをもたらすことを使命としています。私の願いは、Reseが食文化の新たな潮流を生み出し、一人ひとりの食卓がもっと輝く未来を創造することです。
 
-![rese-top](https://github.com/yabe-shiori/rese/assets/142664073/afa3d6e6-0883-4050-b7a0-c663e1febd99)
-
+![トップ画像](https://github.com/yabe-shiori/rese/assets/142664073/317577fe-3f3a-471f-b654-ca38bc0a50af)
 
 ## 主な機能　　
 - 会員登録・ログイン: Laravel Breezeによる安全かつ迅速な認証システム。
