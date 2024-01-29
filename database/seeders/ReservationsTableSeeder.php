@@ -63,6 +63,26 @@ class ReservationsTableSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        DB::table('reservations')->insert([
+            'user_id' => 21,
+            'shop_id' => 6,
+            'reservation_date' => now()->subDays(3)->toDateString(),
+            'reservation_time' => '14:00:00',
+            'number_of_people' => 4,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('reservations')->insert([
+            'user_id' => 21,
+            'shop_id' => 7,
+            'reservation_date' => now()->subDays(7)->toDateString(),
+            'reservation_time' => '20:00:00',
+            'number_of_people' => 4,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
 
     }
 }
