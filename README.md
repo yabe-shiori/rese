@@ -32,7 +32,8 @@ Laravel Sailを骨格に、Laravel Breezeで洗練された認証プロセスを
 ## インストール
 
 1.プロジェクトのクローン  
-`git clone https://github.com/yabe-shiori/`  
+`git clone https://github.com/yabe-shiori/rese.git` 
+
   
 プロジェクトディレクトリに移動します。    
 `cd rese`  
@@ -71,7 +72,13 @@ laravelSailを使用してDocker環境をセットアップします。
 ・Webブラウザで[http://localhost](http://localhost)にアクセスして、アプリケーションが正しく動作していることを確認します。  
 
   
+**利用者について**  
   
+初期データとして利用者を一人登録しています。  
+- メールアドレス-> user@example.com
+- パスワード-> password  
+マイページで予約の変更や削除が行えます。
+ 
 **管理者について** 
 
  ログイン画面にて、
@@ -86,13 +93,13 @@ laravelSailを使用してDocker環境をセットアップします。
 - メールアドレス-> manager(店舗id)@example.com  
 - パスワード-> "password"(全店舗代表者で共通)  
   
-店舗id1(仙人)、
+店舗id1(仙人)  
 メールアドレス-> manager1@example.com  
 パスワード-> password  
 
-店舗id2(牛助)
-メールアドレス-> manager2@example.com  
-パスワード-> password  
+店舗id2(牛助)  
+メールアドレス-> manager2@example.com   
+パスワード-> password    
 
 のように、店舗id順に設定してあります。
 店舗代表者画面では、ログインしている店舗代表者の店舗情報が表示されます。
@@ -101,15 +108,11 @@ laravelSailを使用してDocker環境をセットアップします。
   
 
 
-注意事項:
-
+注意事項:  
 
 **メール通知について**  
 MailPitを利用しています。  
 [http://localhost:8025](http://localhost:8025)にアクセスして通知メールを確認してください。  
-
-## 機能一覧
-
 
 
 <br />
