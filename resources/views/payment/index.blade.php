@@ -53,35 +53,33 @@
     <script>
         var stripe = Stripe(
             'pk_test_51OYLVZCkOf5udESXKFogt6xbIgqkok1YV7TVZ67eVMuv0ZgWdMmZmUCD4KgM0Et7dkJuXXZ4IBKeRbSmu8m9AgiQ00V2LY8yxz'
-            );
+        );
 
         var elements = stripe.elements();
+        var cardElement = elements.create('card');
 
-        var card = elements.create('card');
-        card.mount('#card-element');
+        cardElement.mount('#card-element');
 
         var form = document.getElementById('paymentForm');
         form.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            stripe.createToken(card).then(function(result) {
+            stripe.createToken(cardElement).then(function(result) {
                 if (result.error) {
-                    console.log(result.error.message);
+
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
                 } else {
-                    stripeTokenHandler(result.token);
+
+                    var tokenInput = document.createElement('input');
+                    tokenInput.setAttribute('type', 'hidden');
+                    tokenInput.setAttribute('name', 'stripeToken');
+                    tokenInput.setAttribute('value', result.token.id);
+                    form.appendChild(tokenInput);
+
+                    form.submit();
                 }
             });
         });
-
-        function stripeTokenHandler(token) {
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            // 元のフォームデータと一緒に送信
-            form.submit();
-        }
     </script>
 </x-app-layout>

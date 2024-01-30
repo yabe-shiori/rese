@@ -41,6 +41,9 @@ Route::middleware(['verified'])->group(function () {
     //決済
     Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
     Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
+    Route::post('/stripe-webhook', [PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+
 
     //レビュー
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
