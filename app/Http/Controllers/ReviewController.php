@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Reservation;
+use App\Models\Shop;
 
 class ReviewController extends Controller
 {
@@ -36,6 +37,7 @@ class ReviewController extends Controller
         return redirect()->back()->with('error', '既にレビューを投稿しています');
     }
 
+
     // レビュー投稿画面表示
     public function create()
     {
@@ -57,5 +59,16 @@ class ReviewController extends Controller
         });
 
         return view('reviews.create', compact('filteredPastReservations'));
+    }
+
+
+    // レビュー詳細画面表示
+    public function show(Shop $shop)
+    {
+        $reviews = Review::where('shop_id', $shop->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('reviews.show', compact('shop', 'reviews'));
     }
 }

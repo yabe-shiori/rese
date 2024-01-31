@@ -52,19 +52,26 @@
 
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= $averageRating)
-                                        <i class="fas fa-star text-yellow-500"></i>
+                                        <a href="{{ route('reviews.show', $shop) }}">
+                                            <i class="fas fa-star text-yellow-500"></i>
+                                        </a>
                                     @elseif ($i - 0.5 <= $averageRating)
                                         <div class="relative inline-block">
                                             <i class="fas fa-star text-gray-300"></i>
                                             <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
-                                                <i class="fas fa-star text-yellow-500"></i>
+                                                <a href="{{ route('reviews.show', $shop) }}">
+                                                    <i class="fas fa-star text-yellow-500"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     @else
-                                        <i class="fas fa-star text-gray-300"></i>
+                                        <a href="{{ route('reviews.show', $shop) }}">
+                                            <i class="fas fa-star text-gray-300"></i>
+                                        </a>
                                     @endif
                                 @endfor
                             </div>
+
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
@@ -106,19 +113,26 @@
 
                                     @for ($i = 1; $i <= 5; $i++)
                                         @if ($i <= $averageRating)
-                                            <i class="fas fa-star text-yellow-500"></i>
+                                            <a href="{{ route('reviews.show', $shop) }}">
+                                                <i class="fas fa-star text-yellow-500"></i>
+                                            </a>
                                         @elseif ($i - 0.5 <= $averageRating)
                                             <div class="relative inline-block">
                                                 <i class="fas fa-star text-gray-300"></i>
                                                 <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
-                                                    <i class="fas fa-star text-yellow-500"></i>
+                                                    <a href="{{ route('reviews.show', $shop) }}">
+                                                        <i class="fas fa-star text-yellow-500"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         @else
-                                            <i class="fas fa-star text-gray-300"></i>
+                                            <a href="{{ route('reviews.show', $shop) }}">
+                                                <i class="fas fa-star text-gray-300"></i>
+                                            </a>
                                         @endif
                                     @endfor
                                 </div>
+
                                 <div class="tile-actions flex justify-between items-center">
                                     <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
                                         class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
