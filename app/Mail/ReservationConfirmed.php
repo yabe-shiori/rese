@@ -26,7 +26,7 @@ class ReservationConfirmed extends Mailable
     //QRコードをメールに添付する
     public function build()
     {
-        $this->reservation->load('user', 'shop'); // 予約情報に紐づくユーザーと店舗をロードする
+        $this->reservation->load('user', 'shop');
 
         $qrCode = QrCode::size(300)->generate(json_encode([
             'reservation_id' => $this->reservation->id,
