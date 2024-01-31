@@ -39,7 +39,11 @@ Laravel Sailを骨格に、Laravel Breezeで洗練された認証プロセスを
 プロジェクトディレクトリに移動します。    
 `cd rese`  
 
-2.環境変数の設定
+2.Composerパッケージのインストール  
+`composer install`  
+
+
+3.環境変数の設定
 .env.exampleファイルをコピーして.envファイルを作成し、必要な環境変数を設定します。  
 `cp .env.example .env`  
 
@@ -50,24 +54,32 @@ DB_DATABASE=rese
 DB_USERNAME=sail  
 DB_PASSWORD=password  
 
-3.Composerパッケージのインストール  
-`composer install`
 
 4.Docker環境のセットアップ  
 laravelSailを使用してDocker環境をセットアップします。  
-`./vendor/bin/sail up -d`    
+`./vendor/bin/sail up -d`  
+
+  
 
 5.アプリケーションキーの生成  
-`./vendor/bin/sail artisan key:generate`    
+`./vendor/bin/sail artisan key:generate`  
+
+  
   
 6.NPMパッケージのインストール  
-`./vendor/bin/sail npm install`    
+`./vendor/bin/sail npm install`  
+
+  
 
 7.データベースのセットアップと初期データの投入  
 `./vendor/bin/sail artisan migrate:refresh --seed `  
 
+  
+
 8.アセットのコンパイル  
-`./vendor/bin/sail npm run dev`        
+`./vendor/bin/sail npm run dev`  
+
+  
 
 9.アプリケーションの実行  
 ・Webブラウザで[http://localhost](http://localhost)にアクセスして、アプリケーションが正しく動作していることを確認します。  
