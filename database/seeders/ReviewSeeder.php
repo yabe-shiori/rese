@@ -15,7 +15,7 @@ class ReviewSeeder extends Seeder
     {
         DB::table('reviews')->insert([
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 1,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -23,7 +23,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 2,
                 'rating' => 5,
                 'comment' => '美味しかったです！',
@@ -31,7 +31,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 3,
                 'rating' => 3,
                 'comment' => '普通でした',
@@ -39,7 +39,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 4,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -47,7 +47,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 5,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -55,7 +55,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 6,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -63,7 +63,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 7,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -71,7 +71,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 8,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -79,7 +79,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 9,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -87,7 +87,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 10,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -95,7 +95,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 11,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -103,7 +103,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 12,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -111,7 +111,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 13,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -119,7 +119,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 14,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -127,7 +127,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 15,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -135,7 +135,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 16,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -143,7 +143,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 17,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -151,7 +151,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 18,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -159,7 +159,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 19,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -167,7 +167,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 1,
+                'user_id' => 21,
                 'shop_id' => 20,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -175,7 +175,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 1,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -183,7 +183,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 2,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -191,7 +191,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 3,
                 'rating' => 4,
                 'comment' => 'おいしかったです！',
@@ -199,7 +199,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 4,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -207,7 +207,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 5,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -215,7 +215,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 6,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -223,7 +223,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 7,
                 'rating' => 3,
                 'comment' => '普通でした！',
@@ -231,7 +231,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 8,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -239,7 +239,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 9,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -247,7 +247,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 10,
                 'rating' => 1,
                 'comment' => '微妙でした',
@@ -255,7 +255,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 11,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -263,7 +263,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 12,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -271,7 +271,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 13,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -279,7 +279,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 14,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -287,7 +287,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 15,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -295,7 +295,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 16,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -303,7 +303,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 17,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -311,7 +311,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 18,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -319,7 +319,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 19,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした！',
@@ -327,7 +327,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 2,
+                'user_id' => 22,
                 'shop_id' => 20,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -335,7 +335,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 1,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -343,7 +343,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 2,
                 'rating' => 3,
                 'comment' => '普通でした',
@@ -351,7 +351,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 3,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -359,7 +359,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 4,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -367,7 +367,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 5,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -375,7 +375,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 6,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -383,7 +383,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 7,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -391,7 +391,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 8,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -399,7 +399,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 9,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -407,7 +407,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 10,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -415,7 +415,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 11,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -423,7 +423,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 12,
                 'rating' => 3,
                 'comment' => '普通でした',
@@ -431,7 +431,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 13,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -439,7 +439,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 14,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -447,7 +447,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 15,
                 'rating' => 4,
                 'comment' => '美味しかったです！',
@@ -455,7 +455,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 16,
                 'rating' => 2,
                 'comment' => '私の口には合いませんでした',
@@ -463,7 +463,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 17,
                 'rating' => 1,
                 'comment' => '私の口には合いませんでした',
@@ -471,7 +471,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 18,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -479,7 +479,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 19,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
@@ -487,7 +487,7 @@ class ReviewSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 3,
+                'user_id' => 23,
                 'shop_id' => 20,
                 'rating' => 5,
                 'comment' => 'とても美味しかったです！',
