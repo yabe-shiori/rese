@@ -48,7 +48,6 @@ Route::middleware(['verified'])->group(function () {
     //レビュー
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
-    //追加
     Route::get('/reviews/{shop}', [ReviewController::class, 'show'])->name('reviews.show');
 
     //マイページ
