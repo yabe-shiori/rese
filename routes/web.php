@@ -23,6 +23,9 @@ Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 
+//レビュー詳細画面
+Route::get('/reviews/{shop}', [ReviewController::class, 'show'])->name('reviews.show');
+
 //認証済みユーザのみアクセス可能
 Route::middleware(['verified'])->group(function () {
 
@@ -44,11 +47,9 @@ Route::middleware(['verified'])->group(function () {
     Route::post('/stripe-webhook', [PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 
-
     //レビュー
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
-    Route::get('/reviews/{shop}', [ReviewController::class, 'show'])->name('reviews.show');
 
     //マイページ
     Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');
