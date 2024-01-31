@@ -46,30 +46,27 @@
                                 <span>#{{ $shop->genre->name }}</span>
                             </div>
                             <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
-                                @php
-                                    $averageRating = $shop->averageRating();
-                                @endphp
+                                <a href="{{ route('reviews.show', $shop) }}"
+                                    class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                                    @php
+                                        $averageRating = $shop->averageRating();
+                                    @endphp
 
-                                @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= $averageRating)
-                                        <a href="{{ route('reviews.show', $shop) }}">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $averageRating)
                                             <i class="fas fa-star text-yellow-500"></i>
-                                        </a>
-                                    @elseif ($i - 0.5 <= $averageRating)
-                                        <div class="relative inline-block">
-                                            <i class="fas fa-star text-gray-300"></i>
-                                            <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
-                                                <a href="{{ route('reviews.show', $shop) }}">
+                                        @elseif ($i - 0.5 <= $averageRating)
+                                            <div class="relative inline-block">
+                                                <i class="fas fa-star text-gray-300"></i>
+                                                <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
                                                     <i class="fas fa-star text-yellow-500"></i>
-                                                </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @else
-                                        <a href="{{ route('reviews.show', $shop) }}">
+                                        @else
                                             <i class="fas fa-star text-gray-300"></i>
-                                        </a>
-                                    @endif
-                                @endfor
+                                        @endif
+                                    @endfor
+                                </a>
                             </div>
 
                             <div class="tile-actions flex justify-between items-center">
@@ -107,30 +104,27 @@
                                     <span>#{{ $shop->genre->name }}</span>
                                 </div>
                                 <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
-                                    @php
-                                        $averageRating = $shop->averageRating();
-                                    @endphp
+                                    <a href="{{ route('reviews.show', $shop) }}"
+                                        class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                                        @php
+                                            $averageRating = $shop->averageRating();
+                                        @endphp
 
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $averageRating)
-                                            <a href="{{ route('reviews.show', $shop) }}">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $averageRating)
                                                 <i class="fas fa-star text-yellow-500"></i>
-                                            </a>
-                                        @elseif ($i - 0.5 <= $averageRating)
-                                            <div class="relative inline-block">
-                                                <i class="fas fa-star text-gray-300"></i>
-                                                <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
-                                                    <a href="{{ route('reviews.show', $shop) }}">
+                                            @elseif ($i - 0.5 <= $averageRating)
+                                                <div class="relative inline-block">
+                                                    <i class="fas fa-star text-gray-300"></i>
+                                                    <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
                                                         <i class="fas fa-star text-yellow-500"></i>
-                                                    </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @else
-                                            <a href="{{ route('reviews.show', $shop) }}">
+                                            @else
                                                 <i class="fas fa-star text-gray-300"></i>
-                                            </a>
-                                        @endif
-                                    @endfor
+                                            @endif
+                                        @endfor
+                                    </a>
                                 </div>
 
                                 <div class="tile-actions flex justify-between items-center">
