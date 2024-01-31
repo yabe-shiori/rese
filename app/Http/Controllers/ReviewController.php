@@ -66,8 +66,8 @@ class ReviewController extends Controller
     public function show(Shop $shop)
     {
         $reviews = Review::where('shop_id', $shop->id)
-            ->orderByDesc('created_at')
-            ->get();
+        ->orderByDesc('created_at')
+        ->paginate(5);
 
         return view('reviews.show', compact('shop', 'reviews'));
     }
