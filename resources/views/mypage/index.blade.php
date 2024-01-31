@@ -2,6 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-2xl font-bold mb-6 text-center">{{ auth()->user()->name }}さん</h2>
         <x-message :message="session('message')" />
+        <x-error :message="session('error')" />
 
         <div class="text-center py-4">
             <a href="{{ route('reviews.create') }}"

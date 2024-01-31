@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationRequest;
 use App\Models\Reservation;
 use App\Models\Shop;
+use App\Models\Order;
 use App\Mail\ReservationConfirmed;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,7 +25,7 @@ class ReservationController extends Controller
     //予約保存処理
     public function store(ReservationRequest $request)
     {
-        //予約日時の重複チェック
+
         $existingReservation = Reservation::where([
             'user_id' => auth()->id(),
             'reservation_date' => $request->input('reservation_date'),
@@ -44,10 +45,9 @@ class ReservationController extends Controller
             'reservation_time' => $request->input('reservation_time'),
             'number_of_people' => $request->input('number_of_people'),
         ]);
-        //予約確認メール送信
+
         Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
 
-        //予約完了ページへリダイレクト
         return view('shops.done', ['reservation' => $reservation]);
     }
 
@@ -68,12 +68,11 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
-        // 予約日時の重複チェック
         $existingReservation = Reservation::where([
             'user_id' => auth()->id(),
             'reservation_date' => $request->input('reservation_date'),
             'reservation_time' => $request->input('reservation_time'),
-        ])->where('id', '!=', $id) // 現在の予約を除外
+        ])->where('id', '!=', $id)
             ->first();
 
         if ($existingReservation) {
@@ -96,8 +95,14 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
+        $isPaidReservation = Order::where('reservation_id', $reservation->id)->exists();
+
+        if ($isPaidReservation) {
+            return back()->with('error', '支払い済みの予約は削除できません。');
+        }
+
         $reservation->delete();
 
-        return back()->with('message', '予約を削除しました');
+        return back()->with('message', '予約が正常に削除されました');
     }
 }
