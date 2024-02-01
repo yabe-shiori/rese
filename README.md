@@ -32,19 +32,19 @@ Laravel Sailを骨格に、Laravel Breezeで洗練された認証プロセスを
 
 ## インストール
 
-1.プロジェクトのクローン  
-`git clone https://github.com/yabe-shiori/rese.git` 
+### 1.プロジェクトのクローン  
+git clone https://github.com/yabe-shiori/rese.git
 
   
-プロジェクトディレクトリに移動します。    
+### 2. プロジェクトディレクトリに移動    
 `cd rese`  
 
-2.Composerパッケージのインストール  
+### 3. Composerパッケージのインストール
 `composer install`  
 
 
-3.環境変数の設定
-.env.exampleファイルをコピーして.envファイルを作成し、必要な環境変数を設定します。  
+### 4. 環境変数の設定
+`.env.example`ファイルをコピーして`.env`ファイルを作成し、必要な環境変数を設定します。  
 `cp .env.example .env`  
 
 DB_CONNECTION=mysql  
@@ -55,34 +55,63 @@ DB_USERNAME=sail
 DB_PASSWORD=password  
 
 
-4.Docker環境のセットアップ  
+### 5. Docker環境のセットアップ
 laravelSailを使用してDocker環境をセットアップします。  
 `./vendor/bin/sail up -d`  
 
   
 
-5.アプリケーションキーの生成  
+### 6. アプリケーションキーの生成
 `./vendor/bin/sail artisan key:generate`  
 
   
   
-6.NPMパッケージのインストール  
+### 7. NPMパッケージのインストール
 `./vendor/bin/sail npm install`  
 
   
 
-7.データベースのセットアップと初期データの投入  
+### 8. データベースのセットアップと初期データの投入 
 `./vendor/bin/sail artisan migrate:refresh --seed `  
 
   
-
-8.アセットのコンパイル  
+### 9. アセットのコンパイル  
 `./vendor/bin/sail npm run dev`  
 
   
 
-9.アプリケーションの実行  
+### 10. アプリケーションの実行
 ・Webブラウザで[http://localhost](http://localhost)にアクセスして、アプリケーションが正しく動作していることを確認します。  
+
+### 11. タスクスケジューラーの設定  
+
+タスクの自動実行を設定するために、以下の手順に従ってCronを設定してください。  
+
+1. Laravel Sailのコンテナにrootユーザーとして入ります。
+
+`./vendor/bin/sail root-shell`    
+
+2. コンテナ内でcronをインストールします。    
+`apt-get update && apt-get install -y cron`    
+
+4. nanoエディタをインストールします。    
+`apt-get install nano -y`    
+
+もしくは、vimエディタをインストールしたい場合は：    
+`apt-get install vim -y`      
+
+4. エディタのインストール後、Cronの設定を行います。    
+`crontab -e`    
+
+5. エディタが開いたら、以下の行を追加します。    
+`* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1`    
+
+変更を保存し、エディタを閉じます。      
+
+7. Cronサービスを起動します。    
+`service cron start`    
+
+これで、Laravelのスケジュールされたタスクが処理されるようになります。    
 
 <br />  
 
