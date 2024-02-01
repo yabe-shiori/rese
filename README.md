@@ -44,7 +44,7 @@ git clone https://github.com/yabe-shiori/rese.git
 
 
 ### 4. 環境変数の設定
-`.env.example`ファイルをコピーして`.env`ファイルを作成し、必要な環境変数を設定します。  
+.env.exampleファイルをコピーして.envファイルを作成し、必要な環境変数を設定します。  
 `cp .env.example .env`  
 
 DB_CONNECTION=mysql  
