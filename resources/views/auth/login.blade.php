@@ -8,7 +8,7 @@
 
         <!-- Email Address -->
         <div class="relative flex items-center mb-4 w-full px-4">
-            <img src="{{ url('storage/icons/mail.png') }}" alt="Mail Icon" class="w-5 h-5 mr-2">
+            <i class="fa-solid fa-envelope fa-lg mr-2"></i>
             <x-text-input id="email" class="block w-full border-none focus:outline-none" type="email"
                 name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -16,7 +16,7 @@
 
         <!-- Password -->
         <div class="relative flex items-center mb-4 w-full px-4">
-            <img src="{{ url('storage/icons/lock.png') }}" alt="Lock Icon" class="w-5 h-5 mr-2">
+            <i class="fa-solid fa-lock fa-lg mr-2"></i>
             <x-text-input id="password" class="block w-full border-none focus:outline-none" type="password"
                 name="password" required autocomplete="current-password" placeholder="Password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

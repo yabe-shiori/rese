@@ -4,7 +4,7 @@
         @csrf
         <!-- Name -->
         <div class="relative flex items-center mb-4 w-full px-4">
-            <img src="{{ asset('storage/icons/person.png') }}" alt="Person Icon" class="w-5 h-5 mr-2">
+            <i class="fa-solid fa-user fa-lg mr-2"></i>
             <div class="relative w-full">
                 <x-text-input id="name" class="block mt-1 w-full border-none focus:outline-none" type="text"
                     name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Username" />
@@ -14,7 +14,7 @@
 
         <!-- Email Address -->
         <div class="relative flex items-center mb-4 w-full px-4">
-            <img src="{{ asset('storage/icons/mail.png') }}" alt="Mail Icon" class="w-5 h-5 mr-2">
+            <i class="fa-solid fa-envelope fa-lg mr-2"></i>
             <div class="relative w-full">
                 <x-text-input id="email" class="block mt-1 w-full border-none focus:outline-none" type="email"
                     name="email" :value="old('email')" required autocomplete="username" placeholder="Email" />
@@ -24,7 +24,7 @@
 
         <!-- Password -->
         <div class="relative flex items-center mb-4 w-full px-4">
-            <img src="{{ asset('storage/icons/lock.png') }}" alt="Lock Icon" class="w-5 h-5 mr-2">
+            <i class="fa-solid fa-lock fa-lg mr-2"></i>
             <div class="relative w-full">
                 <x-text-input id="password" class="block mt-1 w-full border-none focus:outline-none" type="password"
                     name="password" required autocomplete="new-password" placeholder="Password" />
