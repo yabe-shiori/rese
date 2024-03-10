@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-12">
         <form action="{{ route('review.store', ['shop' => $shop->id]) }}" method="POST" class="mb-6"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data" id="reviewForm">
             @csrf
             <div class="relative flex justify-center">
                 <div class="grid grid-cols-2 gap-8 w-full lg:w-w-4/5">
@@ -43,13 +43,12 @@
                                         class="text-3xl text-gray-500 cursor-pointer mr-1 hover:text-blue-500"
                                         onclick="highlightStars({{ $i }})">&#9733;</label>
                                 @endfor
-                                <x-validation-errors field="rating" />
                             </div>
+                            <div id="ratingError" class="text-red-500"></div>
                         </div>
                         <div class="my-8">
                             <label for="comment" class="block text-xl font-medium text-gray-700">口コミを投稿</label>
-                            <textarea id="comment" name="comment" rows="3" maxlength="400" required
-                                class="mt-1 p-2 w-full border-gray-300 rounded-md">{{ old('comment') }}</textarea>
+                            <textarea id="comment" name="comment" rows="3" required class="mt-1 p-2 w-full border-gray-300 rounded-md">{{ old('comment') }}</textarea>
                             <div id="characterCount" class="text-xs text-gray-500 text-right">0/400 (最高文字数)</div>
                             <x-validation-errors field="comment" />
                         </div>
@@ -69,7 +68,7 @@
                 <div class="absolute inset-y-0 left-1/2 bg-gray-300 w-px transform -translate-x-1/2"></div>
             </div>
             <div class="text-center mt-10">
-                <button type="submit"
+                <button type="button" onclick="submitForm()"
                     class="bg-white font-bold py-2 text-base  px-4 rounded w-1/2 rounded-full">口コミを投稿</button>
             </div>
         </form>
@@ -86,8 +85,17 @@
                     star.classList.add('text-gray-500');
                 }
             });
-            const ratingInput = document.querySelector('input[name="rating"]');
-            ratingInput.value = selectedIndex;
+        }
+
+        function submitForm() {
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+            if (!ratingInput) {
+                const ratingError = document.getElementById('ratingError');
+                ratingError.textContent = '評価を選択してください。';
+            } else {
+                const reviewForm = document.getElementById('reviewForm');
+                reviewForm.submit();
+            }
         }
 
         const inputElement = document.getElementById("images");
