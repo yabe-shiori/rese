@@ -11,16 +11,37 @@ use App\Models\Review;
 
 class ShopController extends Controller
 {
-    //一覧表示
-    public function index()
+    public function index(Request $request)
     {
-        $shops = Shop::all();
+        $sortBy = $request->input('sort_by', 'random');
+
+        $query = Shop::query();
+
+        switch ($sortBy) {
+            case 'high_rating':
+                $query->orderByRaw('IFNULL(AVG(reviews.rating), 0) DESC');
+                break;
+            case 'low_rating':
+                $query->orderByRaw('IFNULL(AVG(reviews.rating), 5) ASC');
+                break;
+            case 'random':
+            default:
+                $query->orderByRandom();
+                break;
+        }
+
+        $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
+        ->select('shops.*')
+        ->groupBy('shops.id')
+        ->orderByRaw('ISNULL(AVG(reviews.rating))');
+
+        $shops = $query->get();
         $areas = Area::all();
         $genres = Genre::all();
 
         return view('shops.index', compact('shops', 'areas', 'genres'));
     }
-
+    
     //詳細表示
     public function detail($shop_id)
     {
@@ -28,7 +49,7 @@ class ShopController extends Controller
         $reviews = Review::where('shop_id', $shop_id)->get();
         return view('shops.show', compact('shop', 'reviews'));
     }
-    
+
     //検索
     public function search(Request $request)
     {

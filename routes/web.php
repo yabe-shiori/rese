@@ -9,7 +9,11 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CsvImportController;
 
+
+//csvインポート
+Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 
 //レビュー投稿画面
 Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');

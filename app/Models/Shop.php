@@ -38,12 +38,6 @@ class Shop extends Model
         return $this->hasMany(Review::class);
     }
 
-    //レビューの平均点を取得
-    public function averageRating()
-    {
-        return $this->reviews()->avg('rating');
-    }
-
     // Shopが所属するManagerを取得
     public function manager()
     {
@@ -71,5 +65,34 @@ class Shop extends Model
     public function scopeSearchByName($query, $name)
     {
         return $query->where('name', 'like', '%' . $name . '%');
+    }
+
+    //評価の平均値を取得
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
+
+    //評価が高い順に並び替える
+    public function scopeOrderByHighRating($query)
+    {
+        return $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
+            ->select('shops.*')
+            ->groupBy('shops.id')
+            ->orderByDesc($this->averageRating());
+    }
+
+    //評価が低い順に並び替える
+    public function scopeOrderByLowRating($query)
+    {
+        return $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
+            ->select('shops.*')
+            ->groupBy('shops.id')
+            ->orderBy($this->averageRating());
+    }
+    //ランダムに並び替える
+    public function scopeOrderByRandom($query)
+    {
+        return $query->inRandomOrder();
     }
 }
