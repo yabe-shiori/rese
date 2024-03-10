@@ -8,7 +8,7 @@
 
              <div class="mb-8">
     <h3 class="text-lg font-semibold mb-2">Add Shops via CSV</h3>
-    @if ($errors = session('errors'))
+    {{-- @if ($errors = session('errors'))
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors as $error)
@@ -16,7 +16,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+@endif --}}
     <form method="POST" action="{{ route('csv.import') }}" enctype="multipart/form-data">
         @csrf
 
