@@ -28,7 +28,6 @@
                                         </span>
                                     @endif
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -74,29 +73,46 @@
         </form>
     </div>
     <script>
-        function highlightStars(selectedIndex) {
+        document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.text-gray-500.cursor-pointer');
+            let ratingValue = 0;
+            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+
             stars.forEach((star, index) => {
-                if (index < selectedIndex) {
+                if (index < ratingValue) {
                     star.classList.add('text-blue-500');
                     star.classList.remove('text-gray-500');
-                } else {
-                    star.classList.remove('text-blue-500');
-                    star.classList.add('text-gray-500');
                 }
-            });
-        }
 
-        function submitForm() {
-            const ratingInput = document.querySelector('input[name="rating"]:checked');
-            if (!ratingInput) {
-                const ratingError = document.getElementById('ratingError');
-                ratingError.textContent = '評価を選択してください。';
-            } else {
-                const reviewForm = document.getElementById('reviewForm');
-                reviewForm.submit();
-            }
-        }
+                star.addEventListener('click', function() {
+                    ratingValue = index + 1;
+
+                    stars.forEach((s, i) => {
+                        if (i < ratingValue) {
+                            s.classList.add('text-blue-500');
+                            s.classList.remove('text-gray-500');
+                        } else {
+                            s.classList.remove('text-blue-500');
+                            s.classList.add('text-gray-500');
+                        }
+                    });
+
+                    ratingInputs.forEach(input => {
+                        if (input.value == ratingValue) {
+                            input.checked = true;
+                        } else {
+                            input.checked = false;
+                        }
+                    });
+                });
+            });
+
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function() {
+                const ratingInput = document.querySelector('input[name="rating"]');
+                ratingInput.value = ratingValue;
+            });
+        });
 
         const inputElement = document.getElementById("images");
         const imageCount = document.getElementById("imageCount");
@@ -127,6 +143,18 @@
         function updateCharacterCount() {
             const currentLength = commentInput.value.length;
             characterCount.textContent = `${currentLength}/400`;
+        }
+
+        function submitForm() {
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+            const ratingError = document.getElementById('ratingError');
+            if (!ratingInput) {
+                ratingError.textContent = '評価を選択してください。';
+            } else {
+                ratingError.textContent = '';
+                const reviewForm = document.getElementById('reviewForm');
+                reviewForm.submit();
+            }
         }
     </script>
 </x-app-layout>

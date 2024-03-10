@@ -1,10 +1,13 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="py-12">
-            <div class="grid grid-cols-2 gap-8">
-                <div class="col-span-1">
-                    <div class="overflow-hidden shadow-xl sm:rounded-lg p-6">
-                        <h1 class="text-3xl font-semibold text-gray-900">今回のご利用はいかがでしたか？</h1>
+    <div class="py-12">
+        <form action="{{ route('review.update', ['review' => $review->id]) }}" method="POST" class="mb-6"
+            enctype="multipart/form-data" id="reviewForm">
+            @method('PATCH')
+            @csrf
+            <div class="relative flex justify-center">
+                <div class="grid grid-cols-2 gap-8 w-full lg:w-w-4/5">
+                    <div class="col-span-1 mx-auto w-1/2">
+                        <h2 class="text-3xl font-semibold text-gray-900 my-10">今回のご利用はいかがでしたか？</h2>
                         <div class="tile shadow-md rounded-md">
                             <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
                             <p class="text-xl font-bold mb-1 ml-3">{{ $shop->name }}</p>
@@ -15,99 +18,86 @@
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
-                                <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
-                                    @csrf
+                                <div class="tile-actions flex justify-between items-center">
                                     @if (auth()->check() && auth()->user()->hasFavorited($shop))
-                                        <!-- お気に入り削除 -->
-                                        @method('delete')
-                                        <button type="submit" class="heart mr-4">
+                                        <span class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #f1041b;"></i>
-                                        </button>
+                                        </span>
                                     @else
-                                        <!-- お気に入り登録 -->
-                                        <button type="submit" class="heart mr-4">
+                                        <span class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #d3d5d9;"></i>
-                                        </button>
+                                        </span>
                                     @endif
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-span-1">
-                    <div class="overflow-hidden shadow-xl sm:rounded-lg p-6 flex flex-col justify-between h-full">
-                        <div>
-                            <form action="{{ route('review.update', ['review' => $review->id]) }}" method="POST"
-                                class="mb-6" enctype="multipart/form-data">
-                                @method('PATCH')
-                                @csrf
-                                <div class="mb-4">
-                                    <div class="mb-4">
-                                        <label for="rating"
-                                            class="block text-lg font-medium text-gray-700">体験を評価してください</label>
-                                        <div class="flex items-center">
-                                            <input type="radio" id="star5" name="rating" value="5"
-                                                class="hidden" required />
-                                            <label for="star5"
-                                                class="text-3xl text-gray-500 cursor-pointer hover:text-blue-500">&#9733;</label>
-                                            <input type="radio" id="star4" name="rating" value="4"
-                                                class="hidden" />
-                                            <label for="star4"
-                                                class="text-3xl text-gray-500 cursor-pointer hover:text-blue-500">&#9733;</label>
-                                            <input type="radio" id="star3" name="rating" value="3"
-                                                class="hidden" />
-                                            <label for="star3"
-                                                class="text-3xl text-gray-500 cursor-pointer hover:text-blue-500">&#9733;</label>
-                                            <input type="radio" id="star2" name="rating" value="2"
-                                                class="hidden" />
-                                            <label for="star2"
-                                                class="text-3xl text-gray-500 cursor-pointer hover:text-blue-500">&#9733;</label>
-                                            <input type="radio" id="star1" name="rating" value="1"
-                                                class="hidden" />
-                                            <label for="star1"
-                                                class="text-3xl text-gray-500 cursor-pointer hover:text-blue-500">&#9733;</label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="comment"
-                                            class="block text-lg font-medium text-gray-700">口コミを投稿</label>
-                                        <textarea id="comment" name="comment" rows="3" required class="mt-1 p-2 w-full border-gray-300 rounded-md">{{ $review->comment }}</textarea>
-                                        @error('comment')
-                                            <p class="text-red-500 mt-1">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="images"
-                                            class="block text-lg font-medium text-gray-700">画像をアップロード</label>
-                                        <input type="file" id="images" name="images[]" accept="image/*" multiple
-                                            class="mt-1 p-2 w-full border-gray-300 rounded-md">
-                                        @error('images.*')
-                                            <p class="text-red-500 mt-1">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit"
-                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">口コミを編集する</button>
-                                    </div>
-                                </div>
-                            </form>
+                    <div class="col-span-1 mx-auto w-4/5">
+                        <div class="mb-4">
+                            <label for="rating" class="block text-lg font-medium text-gray-700">体験を評価してください</label>
+                            <div class="flex items-center">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <input type="radio" id="star{{ $i }}" name="rating"
+                                        value="{{ $i }}" class="hidden" required />
+                                    <label for="star{{ $i }}"
+                                        class="text-3xl text-gray-500 cursor-pointer mr-1 hover:text-blue-500"
+                                        onclick="highlightStars({{ $i }})"
+                                        @if ($i == $review->rating) checked @endif>&#9733;</label>
+                                @endfor
+                            </div>
+
+                            <div id="ratingError" class="text-red-500"></div>
+                        </div>
+                        <div class="my-8">
+                            <label for="comment" class="block text-xl font-medium text-gray-700">口コミを投稿</label>
+                            <textarea id="comment" name="comment" rows="3" required class="mt-1 p-2 w-full border-gray-300 rounded-md">{{ $review->comment }}</textarea>
+                            <div id="characterCount" class="text-xs text-gray-500 text-right">0/400 (最高文字数)</div>
+                            <x-validation-errors field="comment" />
+                        </div>
+                        <div class="mb-8 text-center">
+                            <label for="images" class="block text-xl font-medium text-gray-700">画像の追加</label>
+                            <div class="mt-2 p-6 w-full bg-white rounded-md border-dashed cursor-pointer relative">
+                                <span class="block font-bold mb-2">クリックして画像を追加</span>
+                                <span class="block text-sm mb-2">またはドラッグアンドドロップ</span>
+                                <span id="imageCount" class="text-xs text-gray-500"></span>
+                                <input type="file" id="images" name="images[]" accept="image/*" multiple
+                                    class="opacity-0 absolute inset-0">
+                            </div>
+                            <x-validation-errors field="images.*" />
                         </div>
                     </div>
                 </div>
+                <div class="absolute inset-y-0 left-1/2 bg-gray-300 w-px transform -translate-x-1/2"></div>
             </div>
-        </div>
+            <div class="text-center mt-10">
+                <button type="submit" onclick="submitForm()"
+                    class="bg-white font-bold py-2 text-base  px-4 rounded w-1/2 rounded-full">口コミを編集</button>
+            </div>
+        </form>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.text-gray-500.cursor-pointer');
+            let ratingValue = {{ $review->rating ?? 0 }};
+            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+
+            ratingInputs.forEach(input => {
+                if (input.value == ratingValue) {
+                    input.checked = true;
+                }
+            });
 
             stars.forEach((star, index) => {
-                star.addEventListener('click', function() {
+                if (index < ratingValue) {
+                    star.classList.add('text-blue-500');
+                    star.classList.remove('text-gray-500');
+                }
 
-                    const selectedIndex = Array.from(stars).indexOf(star);
+                star.addEventListener('click', function() {
+                    ratingValue = index + 1;
 
                     stars.forEach((s, i) => {
-                        if (i <= selectedIndex) {
+                        if (i < ratingValue) {
                             s.classList.add('text-blue-500');
                             s.classList.remove('text-gray-500');
                         } else {
@@ -115,8 +105,61 @@
                             s.classList.add('text-gray-500');
                         }
                     });
+
+                    ratingInputs.forEach(input => {
+                        if (input.value == ratingValue) {
+                            input.checked = true;
+                        } else {
+                            input.checked = false;
+                        }
+                    });
                 });
             });
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                const ratingInput = document.querySelector('input[name="rating"]:checked');
+                if (!ratingInput) {
+                    const defaultRatingInput = document.querySelector(
+                        'input[name="rating"][value="{{ $review->rating }}"]');
+                    defaultRatingInput.checked = true;
+                }
+            });
+
+            const inputElement = document.getElementById("images");
+            const imageCount = document.getElementById("imageCount");
+
+            inputElement.addEventListener("change", handleFileSelect);
+
+            function handleFileSelect(event) {
+                const fileList = event.target.files;
+                if (fileList.length > 0) {
+                    let fileNames = "";
+                    for (let i = 0; i < fileList.length; i++) {
+                        fileNames += `${fileList[i].name}`;
+                        if (i < fileList.length - 1) {
+                            fileNames += ", ";
+                        }
+                    }
+                    imageCount.textContent = `選択された画像: ${fileNames}`;
+                } else {
+                    imageCount.textContent = "";
+                }
+            }
+
+            const commentInput = document.getElementById("comment");
+            const characterCount = document.getElementById("characterCount");
+
+            commentInput.addEventListener("input", updateCharacterCount);
+
+            function updateCharacterCount() {
+                const currentLength = commentInput.value.length;
+                characterCount.textContent = `${currentLength}/400`;
+            }
         });
+
+        function submitForm() {
+            const reviewForm = document.getElementById('reviewForm');
+            reviewForm.submit();
+        }
     </script>
 </x-app-layout>
