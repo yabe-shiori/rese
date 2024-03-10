@@ -59,7 +59,14 @@
                             <div class="mt-2 p-6 w-full bg-white rounded-md border-dashed cursor-pointer relative">
                                 <span class="block font-bold mb-2">クリックして画像を追加</span>
                                 <span class="block text-sm mb-2">またはドラッグアンドドロップ</span>
-                                <span id="imageCount" class="text-xs text-gray-500"></span>
+                                <span id="imageCount" class="text-xs text-gray-500">
+                                    @if ($review->reviewImages->isNotEmpty())
+                                        選択された画像:
+                                        @foreach ($review->reviewImages as $image)
+                                            {{ basename($image->image) }},
+                                        @endforeach
+                                    @endif
+                                </span>
                                 <input type="file" id="images" name="images[]" accept="image/*" multiple
                                     class="opacity-0 absolute inset-0">
                             </div>

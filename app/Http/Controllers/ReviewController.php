@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +13,22 @@ class ReviewController extends Controller
     //口コミ投稿画面
     public function create(Shop $shop)
     {
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'ログインしてください。');
+        }
+
+        $user = Auth::user();
+
         return view('reviews.create', compact('shop'));
     }
 
     //口コミ投稿処理
     public function store(StoreReviewRequest $request, Shop $shop)
     {
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'ログインしてください。');
+        }
+
         $user = Auth::user();
 
         $existingReview = $user->reviews()->where('shop_id', $shop->id)->exists();
@@ -29,10 +38,10 @@ class ReviewController extends Controller
         }
 
         $review = $user->reviews()->create([
-            'shop_id' => $shop->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-        ]);
+                'shop_id' => $shop->id,
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
