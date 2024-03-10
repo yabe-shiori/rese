@@ -1,5 +1,7 @@
 <x-app-layout>
     <div class="py-12">
+        <x-error :message="session('error')" />
+    
         <form action="{{ route('review.store', ['shop' => $shop->id]) }}" method="POST" class="mb-6"
             enctype="multipart/form-data" id="reviewForm">
             @csrf
