@@ -11,6 +11,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 
 
+//レビュー投稿画面
+Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
+//レビュー投稿処理
+Route::post('/shops/{shop}/review', [ReviewController::class, 'store'])->name('review.store');
+//レビュー編集画面
+Route::get('/review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+//レビュー編集処理
+Route::patch('/review/{review}', [ReviewController::class, 'update'])->name('review.update');
+//レビュー削除処理
+Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -23,8 +33,6 @@ Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 
-//レビュー詳細画面
-Route::get('/reviews/{shop}', [ReviewController::class, 'show'])->name('reviews.show');
 
 //認証済みユーザのみアクセス可能
 Route::middleware(['verified'])->group(function () {
@@ -46,10 +54,6 @@ Route::middleware(['verified'])->group(function () {
     Route::post('/payment/store', [PaymentController::class, 'store'])->name('payment.store');
     Route::post('/stripe-webhook', [PaymentController::class, 'handleWebhook'])->name('stripe.webhook');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
-
-    //レビュー
-    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
-    Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
     //マイページ
     Route::get('/mypage', [ProfileController::class, 'index'])->name('profile.index');

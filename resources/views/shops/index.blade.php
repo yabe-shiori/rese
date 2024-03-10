@@ -45,7 +45,7 @@
                                 <span class="mr-1">#{{ $shop->area->name }}</span>
                                 <span>#{{ $shop->genre->name }}</span>
                             </div>
-                            <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                            {{-- <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
                                 <a href="{{ route('reviews.show', $shop) }}"
                                     class="text-sm mb-2 ml-3 flex items-center space-x-1">
                                     @php
@@ -67,7 +67,7 @@
                                         @endif
                                     @endfor
                                 </a>
-                            </div>
+                            </div> --}}
 
                             <div class="tile-actions flex justify-between items-center">
                                 <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"
@@ -103,7 +103,7 @@
                                     <span class="mr-1">#{{ $shop->area->name }}</span>
                                     <span>#{{ $shop->genre->name }}</span>
                                 </div>
-                                <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
+                                {{-- <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
                                     <a href="{{ route('reviews.show', $shop) }}"
                                         class="text-sm mb-2 ml-3 flex items-center space-x-1">
                                         @php
@@ -125,7 +125,7 @@
                                             @endif
                                         @endfor
                                     </a>
-                                </div>
+                                </div> --}}
 
                                 <div class="tile-actions flex justify-between items-center">
                                     <a href="{{ route('detail', ['shop_id' => $shop->id]) }}"

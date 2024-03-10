@@ -7,6 +7,7 @@
         inputChanged: false,
         selectedMenu: '',
         selectedMenuName: '',
+        showReviews: false, // showReviewsを初期化
         getSelectedMenuName() {
             this.selectedMenuName = this.selectedMenu ? this.$refs.menuList.options[this.$refs.menuList.selectedIndex].text : '';
             this.inputChanged = true;
@@ -27,6 +28,7 @@
                 {{ session('error') }}
             </div>
         @endif
+        <x-message :message="session('message')" />
         <div class="container flex flex-col sm:flex-row justify-between mt-10">
             <div class="w-full sm:w-1/2 pr-8 mb-6 sm:mb-0">
                 <div class="flex mb-4">
@@ -68,8 +70,69 @@
                     @else
                         <p>メニューはまだ登録されていません。</p>
                     @endif
+                    <!-- 口コミ投稿リンク -->
+                    <div class="mt-6">
+                        <a href="{{ route('review.create', ['shop' => $shop]) }}"
+                            class="text-base text-black hover:text-blue-600 flex items-center">
+                            <span>口コミを投稿する</span>
+                            <i class="fas fa-pen ml-1 transition duration-300"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button @click="showReviews = true"
+                        class="text-base text-white bg-blue-500 hover:bg-blue-600 flex items-center justify-center w-full py-2 px-4 rounded">
+                        <span class="text-center">全ての口コミ情報</span>
+                        <i class="fas fa-comments ml-1 transition duration-300"></i>
+                    </button>
+                </div>
+
+                <div x-show="showReviews" class="mt-6 max-w-full">
+                    @if ($reviews->isEmpty())
+                        <p>口コミはまだありません。</p>
+                    @else
+                        @foreach ($reviews as $review)
+                            <div class="max-w-full mb-4">
+                                <div class="mb-2 flex justify-between items-center">
+                                    <div class="star-rating text-yellow-400">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $review->rating)
+                                                <span class="text-blue-400">&#9733;</span>
+                                            @else
+                                                <span class="text-gray-400">&#9733;</span>
+                                            @endif
+                                        @endfor
+                                    </div>
+
+                                    @if (Auth::check() && (Auth::user()->id === $review->user_id || Auth::user()->role === 'admin'))
+                                        <div class="flex">
+                                            @if (Auth::user()->id === $review->user_id)
+                                                <a href="{{ route('review.edit', $review) }}"
+                                                    class="text-gray-800 underline mr-4 hovet:text-blue-600">口コミを編集</a>
+                                            @endif
+                                            <form id="delete-form-{{ $review->id }}"
+                                                action="{{ route('review.destroy', $review) }}" method="post"
+                                                onsubmit="return confirm('本当に削除しますか？');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-gray-800 underline hover:text-blue-600">口コミを削除</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="mb-2 w-full">
+                                    <p class="text-2xl">{{ $review->comment }}</p>
+                                </div>
+                            </div>
+                            <!-- 水平線 -->
+                            <hr class="border-gray-300 my-4">
+                        @endforeach
+                    @endif
                 </div>
             </div>
+
             <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
                 <div class="reservation-form p-6">
                     <h3 class="text-white mb-4 py-6 text-xl font-bold">予約</h3>

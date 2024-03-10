@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\Genre;
+use App\Models\Review;
 
 
 class ShopController extends Controller
@@ -24,9 +25,10 @@ class ShopController extends Controller
     public function detail($shop_id)
     {
         $shop = Shop::with('area', 'genre', 'dishes')->findOrFail($shop_id);
-        return view('shops.show', compact('shop'));
+        $reviews = Review::where('shop_id', $shop_id)->get();
+        return view('shops.show', compact('shop', 'reviews'));
     }
-
+    
     //検索
     public function search(Request $request)
     {

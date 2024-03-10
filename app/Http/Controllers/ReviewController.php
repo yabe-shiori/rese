@@ -4,71 +4,102 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Review;
-use App\Models\Reservation;
 use App\Models\Shop;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreReviewRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
-    // レビュー投稿処理
-    public function store(Request $request)
+    //口コミ投稿画面
+    public function create(Shop $shop)
     {
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000',
-        ]);
+        return view('reviews.create', compact('shop'));
+    }
 
-        $reservation = Reservation::find($request->reservation_id);
+    //口コミ投稿処理
+    public function store(StoreReviewRequest $request, Shop $shop)
+    {
+        $user = Auth::user();
 
-        $reviewExists = Review::where('user_id', auth()->id())
-            ->where('shop_id', $reservation->shop_id)
-            ->first();
+        $existingReview = $user->reviews()->where('shop_id', $shop->id)->exists();
 
-        if (!$reviewExists && $reservation->reservation_date < now()) {
-            Review::create([
-                'user_id' => auth()->id(),
-                'shop_id' => $reservation->shop_id,
-                'rating' => $request->rating,
-                'comment' => $request->comment,
-            ]);
-
-            return redirect()->back()->with('message', 'レビューを投稿しました');
+        if ($existingReview) {
+            return redirect()->route('detail', $shop->id)->with('error', 'すでに口コミを投稿しています。');
         }
 
-        return redirect()->back()->with('error', '既にレビューを投稿しています');
+        $review = $user->reviews()->create([
+            'shop_id' => $shop->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = $image->store('review_images');
+                $review->reviewImages()->create(['image' => $filename]);
+            }
+        }
+
+        return redirect()->route('detail', $shop->id)->with('message', '口コミが投稿されました。');
     }
 
-
-    // レビュー投稿画面表示
-    public function create()
+    //口コミ編集画面
+    public function edit(Review $review)
     {
-        $userReservations = Reservation::where('user_id', auth()->id())
-            ->with('shop')
-            ->orderBy('reservation_date', 'desc')
-            ->get();
+        $user = Auth::user();
 
-        $pastReservations = $userReservations->filter(function ($reservation) {
-            return $reservation->isPast();
-        });
+        if ($user->id !== $review->user_id) {
+            return redirect()->back()->with('error', '編集できません。');
+        }
 
-        $reviewedShopIds = Review::where('user_id', auth()->id())
-            ->pluck('shop_id')
-            ->toArray();
+        $shop = $review->shop;
 
-        $filteredPastReservations = $pastReservations->reject(function ($reservation) use ($reviewedShopIds) {
-            return in_array($reservation->shop_id, $reviewedShopIds);
-        });
-
-        return view('reviews.create', compact('filteredPastReservations'));
+        return view('reviews.edit', compact('review', 'shop'));
     }
 
-
-    // レビュー詳細画面表示
-    public function show(Shop $shop)
+    //口コミ更新処理
+    public function update(StoreReviewRequest $request, Review $review)
     {
-        $reviews = Review::where('shop_id', $shop->id)
-        ->orderByDesc('created_at')
-        ->paginate(5);
+        $user = Auth::user();
 
-        return view('reviews.show', compact('shop', 'reviews'));
+        if ($user->id !== $review->user_id) {
+            return redirect()->back()->with('error', '口コミの所有者でないため、更新できません。');
+        }
+
+        $review->update([
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        if ($request->hasFile('images')) {
+
+            foreach ($review->reviewImages as $image) {
+                Storage::delete($image->image);
+                $image->delete();
+            }
+
+            foreach ($request->file('images') as $image) {
+                $filename = $image->store('review_images');
+                $review->reviewImages()->create(['image' => $filename]);
+            }
+        }
+
+        return redirect()->route('detail', $review->shop_id)->with('message', '口コミが更新されました。');
+    }
+
+    //口コミ削除処理
+    public function destroy(Review $review)
+    {
+        $user = Auth::user();
+
+        if ($user->id === $review->user_id || $user->role === 'admin') {
+            $shopId = $review->shop_id;
+            $review->delete();
+
+            return redirect()->route('detail', $shopId)->with('message', '口コミが削除されました。');
+        }
+
+        return redirect()->back()->with('error', '口コミを削除できません。');
     }
 }
