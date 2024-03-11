@@ -6,21 +6,21 @@
                 {{ session('error') }}
             </div>
         @endif
-       <div class="flex mb-4">
-            <!-- 並び替え -->
-            <div class="mr-4">
+        <div class="flex flex-wrap mb-4">
+            <div class="mb-4 w-full md:w-1/3 lg:w-1/3 bg-white rounded shadow-md p-2 ml-auto">
                 <label for="sort_by" class="text-gray-700">並び替え：</label>
-                <select name="sort_by" id="sort_by" class="p-2 rounded-md border-none focus:ring-0">
+                <select name="sort_by" id="sort_by" class="p-2 rounded-md border-none focus:ring-0 w-1/2">
+                    <option value="" disabled selected hidden>評価高/低</option>
                     <option value="random" {{ request('sort_by') == 'random' ? 'selected' : '' }}>ランダム</option>
-                    <option value="high_rating" {{ request('sort_by') == 'high_rating' ? 'selected' : '' }}>評価が高い順</option>
-                    <option value="low_rating" {{ request('sort_by') == 'low_rating' ? 'selected' : '' }}>評価が低い順</option>
+                    <option value="high_rating" {{ request('sort_by') == 'high_rating' ? 'selected' : '' }}>評価が高い順
+                    </option>
+                    <option value="low_rating" {{ request('sort_by') == 'low_rating' ? 'selected' : '' }}>評価が低い順
+                    </option>
                 </select>
             </div>
 
-            <!-- 検索欄 -->
-            <div class="mb-4 sm:w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-auto">
+            <div class="mb-4 sm:w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-4 md:flex md:flex-col">
                 <form action="{{ route('search') }}" method="GET" class="flex items-center">
-                    <!-- エリア検索 -->
                     <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
                         <option value="" disabled {{ !request('area') ? 'selected' : '' }}>All area</option>
                         @foreach ($areas as $area)
@@ -28,15 +28,14 @@
                                 {{ $area->name }}</option>
                         @endforeach
                     </select>
-                    <!-- ジャンル検索 -->
                     <select name="genre" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
                         <option value="" disabled {{ !request('genre') ? 'selected' : '' }}>All genre</option>
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}" {{ request('genre') == $genre->id ? 'selected' : '' }}>
+                            <option value="{{ $genre->id }}"
+                                {{ request('genre') == $genre->id ? 'selected' : '' }}>
                                 {{ $genre->name }}</option>
                         @endforeach
                     </select>
-                    <!-- 店名検索 -->
                     <div class="relative flex items-center w-full">
                         <input type="text" name="name" placeholder="Search..."
                             class="p-2 rounded-md pl-8 border-none focus:ring-0 w-full">
@@ -59,24 +58,24 @@
                                 <span>#{{ $shop->genre->name }}</span>
                             </div>
                             <div class="text-sm mb-2 ml-3 flex items-center space-x-1">
-                                    @php
-                                        $averageRating = $shop->averageRating();
-                                    @endphp
+                                @php
+                                    $averageRating = $shop->averageRating();
+                                @endphp
 
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $averageRating)
-                                            <i class="fas fa-star text-yellow-500"></i>
-                                        @elseif ($i - 0.5 <= $averageRating)
-                                            <div class="relative inline-block">
-                                                <i class="fas fa-star text-gray-300"></i>
-                                                <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
-                                                    <i class="fas fa-star text-yellow-500"></i>
-                                                </div>
-                                            </div>
-                                        @else
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $averageRating)
+                                        <i class="fas fa-star text-yellow-500"></i>
+                                    @elseif ($i - 0.5 <= $averageRating)
+                                        <div class="relative inline-block">
                                             <i class="fas fa-star text-gray-300"></i>
-                                        @endif
-                                    @endfor
+                                            <div class="absolute top-0 left-0 overflow-hidden" style="width: 50%;">
+                                                <i class="fas fa-star text-yellow-500"></i>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <i class="fas fa-star text-gray-300"></i>
+                                    @endif
+                                @endfor
                             </div>
 
                             <div class="tile-actions flex justify-between items-center">
@@ -84,15 +83,12 @@
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
                                 <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
                                     @csrf
-                                    @if (auth()->check() &&
-                                            auth()->user()->hasFavorited($shop))
-                                        <!-- お気に入り削除 -->
+                                    @if (auth()->check() && auth()->user()->hasFavorited($shop))
                                         @method('delete')
                                         <button type="submit" class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #f1041b;"></i>
                                         </button>
                                     @else
-                                        <!-- お気に入り登録 -->
                                         <button type="submit" class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #d3d5d9;"></i>
                                         </button>
@@ -137,15 +133,12 @@
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white mb-2 ml-3">詳しくみる</a>
                                 <form action="{{ route('favorite', ['shop_id' => $shop->id]) }}" method="post">
                                     @csrf
-                                    @if (auth()->check() &&
-                                            auth()->user()->hasFavorited($shop))
-                                        <!-- お気に入り削除 -->
+                                    @if (auth()->check() && auth()->user()->hasFavorited($shop))
                                         @method('delete')
                                         <button type="submit" class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #f1041b;"></i>
                                         </button>
                                     @else
-                                        <!-- お気に入り登録 -->
                                         <button type="submit" class="heart mr-4">
                                             <i class="fa-solid fa-heart fa-xl" style="color: #d3d5d9;"></i>
                                         </button>
@@ -159,21 +152,15 @@
         </div>
     </div>
     <script>
-        // 並び替え用のセレクトボックスを取得
         const sortSelect = document.getElementById('sort_by');
 
-        // セレクトボックスの値が変更されたときに実行される関数
         sortSelect.addEventListener('change', function() {
-            // 選択された並び替えの値を取得
             const selectedSort = sortSelect.value;
 
-            // 現在のURLを取得
             const currentUrl = new URL(window.location.href);
 
-            // 並び替えのクエリパラメータを設定
             currentUrl.searchParams.set('sort_by', selectedSort);
 
-            // ページをリロード
             window.location.href = currentUrl.toString();
         });
     </script>
