@@ -5,7 +5,7 @@
             @method('PATCH')
             @csrf
             <div class="relative flex justify-center">
-                <div class="grid grid-cols-2 gap-8 w-full lg:w-w-4/5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full lg:w-w-4/5">
                     <div class="col-span-1 mx-auto w-1/2">
                         <h2 class="text-3xl font-semibold text-gray-900 my-10">今回のご利用はいかがでしたか？</h2>
                         <div class="tile shadow-md rounded-md">
@@ -32,10 +32,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-span-1 mx-auto w-4/5">
+                    <div class="col-span-1 mx-auto w-4/5 text-center md:text-left">
                         <div class="mb-4">
-                            <label for="rating" class="block text-lg font-medium text-gray-700">体験を評価してください</label>
-                            <div class="flex items-center">
+                            <label for="rating"
+                                class="block text-xl font-medium text-gray-700 mb-2">体験を評価してください</label>
+                            <div class="flex items-center justify-center md:justify-start">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <input type="radio" id="star{{ $i }}" name="rating"
                                         value="{{ $i }}" class="hidden" required />
@@ -55,15 +56,17 @@
                             <x-validation-errors field="comment" />
                         </div>
                         <div class="mb-8 text-center">
-                            <label for="images" class="block text-xl font-medium text-gray-700">画像の追加</label>
+                            <label for="images"
+                                class="block text-xl font-medium text-gray-700 text-center md:text-left">画像の追加</label>
                             <div class="mt-2 p-6 w-full bg-white rounded-md border-dashed cursor-pointer relative">
                                 <span class="block font-bold mb-2">クリックして画像を追加</span>
                                 <span class="block text-sm mb-2">またはドラッグアンドドロップ</span>
-                                <span id="imageCount" class="text-xs text-gray-500">
+                                <span id="imageCount"
+                                    class="text-xs text-gray-500 overflow-hidden whitespace-nowrap max-w-full inline-block">
                                     @if ($review->reviewImages->isNotEmpty())
                                         選択された画像:
                                         @foreach ($review->reviewImages as $image)
-                                            {{ basename($image->image) }},
+                                            <span class="file-name">{{ basename($image->image) }}</span>,
                                         @endforeach
                                     @endif
                                 </span>
@@ -74,11 +77,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="absolute inset-y-0 left-1/2 bg-gray-300 w-px transform -translate-x-1/2"></div>
+                <div class="absolute inset-y-0 left-1/2 bg-gray-300 w-px transform -translate-x-1/2 hidden md:block">
+                </div>
             </div>
             <div class="text-center mt-10">
-                <button type="submit" onclick="submitForm()"
-                    class="bg-white font-bold py-2 text-base  px-4 rounded w-1/2 rounded-full">口コミを編集</button>
+                <button type="button" onclick="submitForm()"
+                    class="bg-white font-bold py-2 text-base  px-4 rounded w-full rounded-full md:w-1/2">口コミを編集する</button>
             </div>
         </form>
     </div>
@@ -168,5 +172,14 @@
             const reviewForm = document.getElementById('reviewForm');
             reviewForm.submit();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileNames = document.querySelectorAll('.file-name');
+            fileNames.forEach(fileName => {
+                fileName.style.overflow = 'hidden';
+                fileName.style.textOverflow = 'ellipsis';
+                fileName.style.maxWidth = '80%';
+            });
+        });
     </script>
 </x-app-layout>
