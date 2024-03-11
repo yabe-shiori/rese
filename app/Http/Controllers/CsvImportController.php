@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Shop;
+use App\Models\User;
 
 
 class CsvImportController extends Controller
 {
+    //csvファイルをアップロードして店舗情報をインポートする
     public function upload(Request $request)
     {
         if ($request->hasFile('csv_file')) {
@@ -28,6 +30,7 @@ class CsvImportController extends Controller
         }
     }
 
+    //csvファイルから店舗情報をインポートする
     private function import($file)
     {
         $areaMapping = [
@@ -39,8 +42,8 @@ class CsvImportController extends Controller
         $genreMapping = [
             '寿司' => 1,
             '焼肉' => 2,
-            'イタリアン' => 3,
-            '居酒屋' => 4,
+            '居酒屋' => 3,
+            'イタリアン' => 4,
             'ラーメン' => 5,
         ];
 
@@ -52,18 +55,27 @@ class CsvImportController extends Controller
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
         foreach (array_slice($sheetData, 1) as $rowIndex => $row) {
+
             $error = $this->validateRow($row, $rowIndex, $areaMapping, $genreMapping);
             if (!empty($error)) {
                 $errors[] = $error;
                 continue;
             }
 
-            $this->saveShop($row, $areaMapping, $genreMapping);
+            $saved = $this->saveShop($row, $areaMapping, $genreMapping);
+            if ($saved === true) {
+                session()->flash('message', '店舗情報が登録されました。');
+            } elseif ($saved === 'exists') {
+                $errors[] = "同じマネージャーIDの店舗が既に存在するため、登録されませんでした。";
+            } else {
+                $errors[] = "存在しないmanager_idが指定されたため、登録できませんでした。";
+            }
         }
 
         return $errors;
     }
 
+    //店舗情報のバリデーション
     private function validateRow($row, $rowIndex, $areaMapping, $genreMapping)
     {
 
@@ -94,6 +106,7 @@ class CsvImportController extends Controller
         return null;
     }
 
+    //店舗情報を保存する
     private function saveShop($row, $areaMapping, $genreMapping)
     {
         $areaName = $row['E'];
@@ -104,15 +117,26 @@ class CsvImportController extends Controller
 
         $managerId = $row['F'];
 
+        $userExists = User::where('id', $managerId)->exists();
+        if (!$userExists) {
+            return 'not_exists';
+        }
+
+        $existingShop = Shop::where('manager_id', $managerId)->exists();
+        if ($existingShop) {
+            return 'exists';
+        }
+
         $shop = new Shop();
         $shop->name = $row['A'];
         $shop->description = $row['B'];
         $shop->image = $row['C'];
         $shop->genre_id = $genreId;
         $shop->area_id = $areaId;
-
         $shop->manager_id = $managerId;
 
         $shop->save();
+
+        return true;
     }
 }
