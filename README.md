@@ -187,21 +187,22 @@ CSVファイルの最初の行には、各列の内容を示すヘッダーを�
   
 
 データ行  
-
 ヘッダーの次の行から、実際の店舗情報が記述されます。各列はカンマで区切られ、対応する店舗情報が入力されます。以下は、1つの店舗情報の例です。  
 
 
 `name,description,image,genre_id,area_id,manager_id`    
-`すし天国,新鮮なネタが自慢の寿司店です。,https://coachtech-matter.s3-ap-northeast-1.amazonaws.com/image/sushi.jpg,寿司,大阪府,26`
+`すし天国,新鮮なネタが自慢の寿司店です。,https://placehold.jp/6da2f8/ffffff/1024x682.jpg,寿司,大阪府,25`
 
 この例では、店舗名が「すし天国」で、説明は「新鮮なネタが自慢の寿司店です。」です。画像URL、ジャンル、エリア、マネージャーIDもそれぞれの情報に対応しています。
 
 このように、CSVファイルを作成する際には、ヘッダー行とそれに続くデータ行を適切に記述する必要があります。
 
 <br />
+  
 **サンプルCSVファイルのダウンロード**  
 
-[サンプルファイルのダウンロード](https://github.com/yabe-shiori/rese/files/14554703/example-shop.csv)  
+[サンプルファイルのダウンロード](https://github.com/yabe-shiori/rese/files/14555342/example-shop.csv)  
+  
   店舗情報追加のためのサンプルcsvファイルです。必要に応じて書き換えてご使用ください。そのままでも登録できます。
 
 <br />
