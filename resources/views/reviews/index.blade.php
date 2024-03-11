@@ -5,12 +5,29 @@
                 <p>口コミはまだありません。</p>
             @else
                 @foreach ($reviews as $review)
-                    <div class="max-w-full mb-4">
-                        <p class="text-sm text-gray-500">{{ $review->created_at->format('Y/m/d H:i') }}</p>
+                    <div class="max-w-full mb-4 border rounded-md p-4 relative">
+                        <div class="flex justify-between items-start">
+                            <p class="text-sm text-gray-500">{{ $review->created_at->format('Y/m/d H:i') }}</p>
+                            @if (Auth::check() && (Auth::user()->id === $review->user_id || Auth::user()->role === 'admin'))
+                                <div class="flex ml-auto text-sm">
+                                    @if (Auth::user()->id === $review->user_id)
+                                        <a href="{{ route('review.edit', $review) }}"
+                                            class="text-gray-500 underline mr-4 hover:text-blue-600">口コミを編集</a>
+                                    @endif
+                                    <form id="delete-form-{{ $review->id }}"
+                                        action="{{ route('review.destroy', $review) }}" method="post"
+                                        onsubmit="return confirm('本当に削除しますか？');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="text-sm text-gray-500 underline hover:text-blue-600">口コミを削除</button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
                         @if (isset($satisfactions[$review->id]) && $satisfactions[$review->id] !== '')
                             <p class="font-bold"> {{ $satisfactions[$review->id] }}</p>
                         @endif
-
                         <div class="mb-2 flex justify-between items-center">
                             <div class="star-rating text-yellow-400">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -21,25 +38,8 @@
                                     @endif
                                 @endfor
                             </div>
-
-                            @if (Auth::check() && (Auth::user()->id === $review->user_id || Auth::user()->role === 'admin'))
-                                <div class="flex">
-                                    @if (Auth::user()->id === $review->user_id)
-                                        <a href="{{ route('review.edit', $review) }}"
-                                            class="text-gray-800 underline mr-4 hover:text-blue-600">口コミを編集</a>
-                                    @endif
-                                    <form id="delete-form-{{ $review->id }}"
-                                        action="{{ route('review.destroy', $review) }}" method="post"
-                                        onsubmit="return confirm('本当に削除しますか？');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="text-gray-800 underline hover:text-blue-600">口コミを削除</button>
-                                    </form>
-                                </div>
-                            @endif
                         </div>
-                        <div class="mb-2 w-full">
+                        <div class="mb-2">
                             <p class="text-base">{{ $review->comment }}</p>
                         </div>
                         <div class="overflow-x-auto">
@@ -52,9 +52,10 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="border-gray-300 my-4">
                 @endforeach
-                {{ $reviews->links() }}
+                <div class="mt-4">
+                    {{ $reviews->links() }}
+                </div>
             @endif
         </div>
     </div>
