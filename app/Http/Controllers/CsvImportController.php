@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\Shop;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 
 class CsvImportController extends Controller
@@ -49,27 +50,37 @@ class CsvImportController extends Controller
 
         $errors = [];
 
-        $reader = IOFactory::createReader('Csv');
-        $reader->setDelimiter(',');
-        $spreadsheet = $reader->load($file->getPathname());
-        $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+        DB::beginTransaction();
 
-        foreach (array_slice($sheetData, 1) as $rowIndex => $row) {
+        try {
+            $reader = IOFactory::createReader('Csv');
+            $reader->setDelimiter(',');
+            $spreadsheet = $reader->load($file->getPathname());
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-            $error = $this->validateRow($row, $rowIndex, $areaMapping, $genreMapping);
-            if (!empty($error)) {
-                $errors[] = $error;
-                continue;
+            foreach (array_slice($sheetData, 1) as $rowIndex => $row) {
+
+                $error = $this->validateRow($row, $rowIndex, $areaMapping, $genreMapping);
+                if (!empty($error)) {
+                    $errors[] = $error;
+                    continue;
+                }
+
+                $saved = $this->saveShop($row, $areaMapping, $genreMapping);
+                if ($saved === true) {
+                    session()->flash('message', '店舗情報が登録されました。');
+                } elseif ($saved === 'exists') {
+                    $errors[] = "同じマネージャーIDの店舗が既に存在するため、登録されませんでした。";
+                } else {
+                    $errors[] = "存在しないmanager_idが指定されたため、登録できませんでした。";
+                }
             }
 
-            $saved = $this->saveShop($row, $areaMapping, $genreMapping);
-            if ($saved === true) {
-                session()->flash('message', '店舗情報が登録されました。');
-            } elseif ($saved === 'exists') {
-                $errors[] = "同じマネージャーIDの店舗が既に存在するため、登録されませんでした。";
-            } else {
-                $errors[] = "存在しないmanager_idが指定されたため、登録できませんでした。";
-            }
+            DB::commit();
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            $errors[] = $e->getMessage();
         }
 
         return $errors;
@@ -87,15 +98,15 @@ class CsvImportController extends Controller
         $genreName = $row['D'];
 
         if (!isset($areaMapping[$areaName]) || !isset($genreMapping[$genreName])) {
-            return "エリア名またはジャンル名が無効です。";
+            return "地域名またはジャンル名が無効です。";
         }
 
         if (mb_strlen($row['A']) > 50) {
-            return "nameは50文字以内で入力してください。";
+            return "店舗名は50文字以内で入力してください。";
         }
 
         if (mb_strlen($row['B']) > 400) {
-            return "descriptionは400文字以内で入力してください。";
+            return "店舗概要は400文字以内で入力してください。";
         }
 
         $imageExtension = pathinfo($row['C'], PATHINFO_EXTENSION);
@@ -109,34 +120,44 @@ class CsvImportController extends Controller
     //店舗情報を保存する
     private function saveShop($row, $areaMapping, $genreMapping)
     {
-        $areaName = $row['E'];
-        $genreName = $row['D'];
+        DB::beginTransaction();
 
-        $areaId = $areaMapping[$areaName];
-        $genreId = $genreMapping[$genreName];
+        try {
+            $areaName = $row['E'];
+            $genreName = $row['D'];
 
-        $managerId = $row['F'];
+            $areaId = $areaMapping[$areaName];
+            $genreId = $genreMapping[$genreName];
 
-        $userExists = User::where('id', $managerId)->exists();
-        if (!$userExists) {
-            return 'not_exists';
+            $managerId = $row['F'];
+
+            $managerUser = User::where('id', $managerId)->where('role', 'manager')->first();
+            if (!$managerUser) {
+                DB::rollBack();
+                return 'not_manager';
+            }
+
+            $existingShop = Shop::where('manager_id', $managerId)->exists();
+            if ($existingShop) {
+                DB::rollBack();
+                return 'exists';
+            }
+
+            $shop = new Shop();
+            $shop->name = $row['A'];
+            $shop->description = $row['B'];
+            $shop->image = $row['C'];
+            $shop->genre_id = $genreId;
+            $shop->area_id = $areaId;
+            $shop->manager_id = $managerId;
+
+            $shop->save();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
-
-        $existingShop = Shop::where('manager_id', $managerId)->exists();
-        if ($existingShop) {
-            return 'exists';
-        }
-
-        $shop = new Shop();
-        $shop->name = $row['A'];
-        $shop->description = $row['B'];
-        $shop->image = $row['C'];
-        $shop->genre_id = $genreId;
-        $shop->area_id = $areaId;
-        $shop->manager_id = $managerId;
-
-        $shop->save();
-
-        return true;
     }
 }
