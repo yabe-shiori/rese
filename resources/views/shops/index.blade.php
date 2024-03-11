@@ -9,7 +9,7 @@
         <div class="flex flex-wrap mb-4">
             <div class="mb-4 w-full md:w-1/3 lg:w-1/3 bg-white rounded shadow-md p-2 ml-auto">
                 <label for="sort_by" class="text-gray-700">並び替え：</label>
-                <select name="sort_by" id="sort_by" class="p-2 rounded-md border-none focus:ring-0 w-1/2">
+                <select name="sort_by" id="sort_by" class="p-2 rounded-md border-none focus:ring-0 w-1/2 w-2/3">
                     <option value="" disabled selected hidden>評価高/低</option>
                     <option value="random" {{ request('sort_by') == 'random' ? 'selected' : '' }}>ランダム</option>
                     <option value="high_rating" {{ request('sort_by') == 'high_rating' ? 'selected' : '' }}>評価が高い順
@@ -19,8 +19,8 @@
                 </select>
             </div>
 
-            <div class="mb-4 sm:w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-4 md:flex md:flex-col">
-                <form action="{{ route('search') }}" method="GET" class="flex items-center">
+           <div class="mb-4 w-full md:w-1/2 lg:w-1/2 bg-white rounded shadow-md p-2 ml-4 md:flex md:flex-col">
+                <form id="searchForm" action="{{ route('search') }}" method="GET" class="flex items-center">
                     <select name="area" class="mr-4 p-2 pr-8 rounded-md border-none focus:ring-0">
                         <option value="" disabled {{ !request('area') ? 'selected' : '' }}>All area</option>
                         @foreach ($areas as $area)

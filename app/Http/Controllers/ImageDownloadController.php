@@ -18,4 +18,3 @@ class ImageDownloadController extends Controller
         Storage::put("public/images/{$fileName}", $image);
     }
 }
-

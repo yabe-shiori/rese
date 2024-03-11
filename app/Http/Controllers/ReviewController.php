@@ -7,6 +7,8 @@ use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 
 class ReviewController extends Controller
 {
@@ -66,20 +68,29 @@ class ReviewController extends Controller
             return redirect()->route('detail', $shop->id)->with('error', 'すでに口コミを投稿しています。');
         }
 
-        $review = $user->reviews()->create([
-            'shop_id' => $shop->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = $image->store('review_images', 'public');
-                $review->reviewImages()->create(['image' => $filename]);
+            $review = $user->reviews()->create([
+                    'shop_id' => $shop->id,
+                    'rating' => $request->rating,
+                    'comment' => $request->comment,
+                ]);
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $filename = $image->store('review_images', 'public');
+                    $review->reviewImages()->create(['image' => $filename]);
+                }
             }
-        }
 
-        return redirect()->route('detail', $shop->id)->with('message', '口コミが投稿されました。');
+            DB::commit();
+
+            return redirect()->route('detail', $shop->id)->with('message', '口コミが投稿されました。');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('detail', $shop->id)->with('error', '口コミの投稿中にエラーが発生しました。');
+        }
     }
 
     // 口コミ編集画面
@@ -105,26 +116,35 @@ class ReviewController extends Controller
             return redirect()->back()->with('error', '口コミの所有者でないため、更新できません。');
         }
 
-        $review->update([
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $satisfaction = $this->getSatisfaction($review->rating);
+            $review->update([
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
 
-        if ($request->hasFile('images')) {
-            foreach ($review->reviewImages as $image) {
-                Storage::delete($image->image);
-                $image->delete();
+            $satisfaction = $this->getSatisfaction($review->rating);
+
+            if ($request->hasFile('images')) {
+                foreach ($review->reviewImages as $image) {
+                    Storage::delete($image->image);
+                    $image->delete();
+                }
+
+                foreach ($request->file('images') as $image) {
+                    $filename = $image->store('review_images', 'public');
+                    $review->reviewImages()->create(['image' => $filename]);
+                }
             }
 
-            foreach ($request->file('images') as $image) {
-                $filename = $image->store('review_images', 'public');
-                $review->reviewImages()->create(['image' => $filename]);
-            }
+            DB::commit();
+
+            return redirect()->route('detail', $review->shop_id)->with('message', '口コミが更新されました。')->with(compact('satisfaction'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('detail', $review->shop_id)->with('error', '口コミの更新中にエラーが発生しました。');
         }
-
-        return redirect()->route('detail', $review->shop_id)->with('message', '口コミが更新されました。')->with(compact('satisfaction'));
     }
 
     // 口コミ削除処理
@@ -134,6 +154,13 @@ class ReviewController extends Controller
 
         if ($user->id === $review->user_id || $user->role === 'admin') {
             $shopId = $review->shop_id;
+
+            // 画像の削除
+            foreach ($review->reviewImages as $image) {
+                Storage::delete($image->image);
+                $image->delete();
+            }
+
             $review->delete();
 
             return redirect()->route('detail', $shopId)->with('message', '口コミが削除されました。');
