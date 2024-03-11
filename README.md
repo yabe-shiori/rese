@@ -181,8 +181,10 @@ CSVファイルの最初の行には、各列の内容を示すヘッダーを�
 
 このように、CSVファイルを作成する際には、ヘッダー行とそれに続くデータ行を適切に記述する必要があります。  
 
-**サンプルCSVファイルのダウンロード**
-[サンプルファイル](https://github.com/yabe-shiori/rese/files/14554703/example-shop.csv)
+**サンプルCSVファイルのダウンロード**  
+
+[サンプルファイル](https://github.com/yabe-shiori/rese/files/14554703/example-shop.csv)  
+  店舗情報追加のためのサンプルcsvファイルです。必要に応じて書き換えてご使用ください。そのままでも登録できます。
 
 <br />
 
