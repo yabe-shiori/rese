@@ -13,25 +13,45 @@ class ReviewController extends Controller
     // 口コミ一覧表示
     public function index(Shop $shop)
     {
-        // 特定の店舗に関連付けられた口コミを取得
         $reviews = $shop->reviews()->with('reviewImages')->latest()->get();
+        $satisfactions = [];
 
-        return view('reviews.index', compact('shop', 'reviews'));
+        foreach ($reviews as $review) {
+            $satisfactions[$review->id] = $this->getSatisfaction($review->rating);
+        }
+
+        return view('reviews.index', compact('shop', 'reviews', 'satisfactions'));
     }
 
-    //口コミ投稿画面
+    // 評価に対する満足度を返す
+    private function getSatisfaction($rating)
+    {
+        switch ($rating) {
+            case 5:
+                return '大変満足';
+            case 4:
+            case 3:
+                return '満足';
+            case 2:
+                return 'やや不満';
+            case 1:
+                return '不満';
+            default:
+                return '';
+        }
+    }
+
+    // 口コミ投稿画面
     public function create(Shop $shop)
     {
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'ログインしてください。');
         }
 
-        $user = Auth::user();
-
         return view('reviews.create', compact('shop'));
     }
 
-    //口コミ投稿処理
+    // 口コミ投稿処理
     public function store(StoreReviewRequest $request, Shop $shop)
     {
         if (!Auth::check()) {
@@ -39,7 +59,6 @@ class ReviewController extends Controller
         }
 
         $user = Auth::user();
-
         $existingReview = $user->reviews()->where('shop_id', $shop->id)->exists();
 
         if ($existingReview) {
@@ -62,7 +81,7 @@ class ReviewController extends Controller
         return redirect()->route('detail', $shop->id)->with('message', '口コミが投稿されました。');
     }
 
-    //口コミ編集画面
+    // 口コミ編集画面
     public function edit(Review $review)
     {
         $user = Auth::user();
@@ -76,7 +95,7 @@ class ReviewController extends Controller
         return view('reviews.edit', compact('review', 'shop'));
     }
 
-    //口コミ更新処理
+    // 口コミ更新処理
     public function update(StoreReviewRequest $request, Review $review)
     {
         $user = Auth::user();
@@ -90,25 +109,24 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ]);
 
-        if ($request->hasFile('images')) {
+        $satisfaction = $this->getSatisfaction($review->rating);
 
-            // 既存の画像を削除
+        if ($request->hasFile('images')) {
             foreach ($review->reviewImages as $image) {
                 Storage::delete($image->image);
                 $image->delete();
             }
 
-            // 新しい画像を保存
             foreach ($request->file('images') as $image) {
                 $filename = $image->store('review_images', 'public');
                 $review->reviewImages()->create(['image' => $filename]);
             }
         }
 
-        return redirect()->route('detail', $review->shop_id)->with('message', '口コミが更新されました。');
+        return redirect()->route('detail', $review->shop_id)->with('message', '口コミが更新されました。')->with(compact('satisfaction'));
     }
 
-    //口コミ削除処理
+    // 口コミ削除処理
     public function destroy(Review $review)
     {
         $user = Auth::user();
