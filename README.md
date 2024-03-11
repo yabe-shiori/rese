@@ -113,7 +113,12 @@ laravelSailを使用してDocker環境をセットアップします。
 7. Cronサービスを起動します。    
 `service cron start`    
 
-これで、Laravelのスケジュールされたタスクが処理されるようになります。    
+これで、Laravelのスケジュールされたタスクが処理されるようになります。  
+
+### 12. シンボリックリンクの作成   
+storageフォルダに保存した画像をpublicフォルダを通じてアクセスするために、publicフォルダにstorageフォルダのショートカットを作ります。  
+`./vendor/bin/sail artisan storage:link`
+
 
 <br />  
 
@@ -203,7 +208,7 @@ CSVファイルの最初の行には、各列の内容を示すヘッダーを�
 
 [サンプルファイルのダウンロード](https://github.com/yabe-shiori/rese/files/14555342/example-shop.csv)  
   
-  店舗情報追加のためのサンプルcsvファイルです。必要に応じて書き換えてご使用ください。そのままでも登録できます。
+  店舗情報追加のためのサンプルcsvファイルです。必要に応じて書き換えてご使用ください。
 
 <br />
 
