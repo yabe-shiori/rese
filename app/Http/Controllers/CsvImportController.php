@@ -52,58 +52,67 @@ class CsvImportController extends Controller
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
         foreach (array_slice($sheetData, 1) as $rowIndex => $row) {
-            $areaName = $row['E'] ?? null;
-            $genreName = $row['D'] ?? null;
-
-            if (empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E'])) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のすべての項目が入力されていません。";
+            $error = $this->validateRow($row, $rowIndex, $areaMapping, $genreMapping);
+            if (!empty($error)) {
+                $errors[] = $error;
                 continue;
             }
 
-            if (!isset($areaMapping[$areaName]) || !isset($genreMapping[$genreName])) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のエリア名またはジャンル名が無効です。";
-                continue;
-            }
-
-            if (mb_strlen($row['A']) > 50) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のnameは50文字以内で入力してください。";
-                continue;
-            }
-
-            if (mb_strlen($row['B']) > 400) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のdescriptionは400文字以内で入力してください。";
-                continue;
-            }
-
-            $imageExtension = pathinfo($row['C'], PATHINFO_EXTENSION);
-            if (!in_array($imageExtension, ['jpeg', 'jpg', 'png'], true)) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目の画像URLはjpegまたはpng形式で入力してください。";
-                continue;
-            }
-
-            if (!in_array($areaName, array_keys($areaMapping))) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のエリア名が無効です。";
-                continue;
-            }
-
-            if (!in_array($genreName, array_keys($genreMapping))) {
-                $errors[] = "CSVファイルの {$rowIndex} 行目のジャンル名が無効です。";
-                continue;
-            }
-
-            $areaId = $areaMapping[$areaName];
-            $genreId = $genreMapping[$genreName];
-
-            $shop = new Shop();
-            $shop->name = $row['A'];
-            $shop->description = $row['B'];
-            $shop->image = $row['C'];
-            $shop->genre_id = $genreId;
-            $shop->area_id = $areaId;
-
-            $shop->save();
+            $this->saveShop($row, $areaMapping, $genreMapping);
         }
 
         return $errors;
+    }
+
+    private function validateRow($row, $rowIndex, $areaMapping, $genreMapping)
+    {
+
+        if (empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E']) || empty($row['F'])) {
+            return "入力されていない項目があります。";
+        }
+
+        $areaName = $row['E'];
+        $genreName = $row['D'];
+
+        if (!isset($areaMapping[$areaName]) || !isset($genreMapping[$genreName])) {
+            return "エリア名またはジャンル名が無効です。";
+        }
+
+        if (mb_strlen($row['A']) > 50) {
+            return "nameは50文字以内で入力してください。";
+        }
+
+        if (mb_strlen($row['B']) > 400) {
+            return "descriptionは400文字以内で入力してください。";
+        }
+
+        $imageExtension = pathinfo($row['C'], PATHINFO_EXTENSION);
+        if (!in_array($imageExtension, ['jpeg', 'jpg', 'png'], true)) {
+            return "画像URLはjpegまたはpng形式で入力してください。";
+        }
+
+        return null;
+    }
+
+    private function saveShop($row, $areaMapping, $genreMapping)
+    {
+        $areaName = $row['E'];
+        $genreName = $row['D'];
+
+        $areaId = $areaMapping[$areaName];
+        $genreId = $genreMapping[$genreName];
+
+        $managerId = $row['F'];
+
+        $shop = new Shop();
+        $shop->name = $row['A'];
+        $shop->description = $row['B'];
+        $shop->image = $row['C'];
+        $shop->genre_id = $genreId;
+        $shop->area_id = $areaId;
+
+        $shop->manager_id = $managerId;
+
+        $shop->save();
     }
 }
