@@ -15,15 +15,12 @@ use App\Http\Controllers\CsvImportController;
 //csvインポート
 Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 
-//レビュー投稿画面
-Route::get('/shops/{shop}/review', [ReviewController::class, 'create'])->name('review.create');
-//レビュー投稿処理
+//口コミ
+Route::get('/shops/{shop}/reviews', [ReviewController::class, 'index'])->name('review.index');
+Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
 Route::post('/shops/{shop}/review', [ReviewController::class, 'store'])->name('review.store');
-//レビュー編集画面
 Route::get('/review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
-//レビュー編集処理
 Route::patch('/review/{review}', [ReviewController::class, 'update'])->name('review.update');
-//レビュー削除処理
 Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
 Route::middleware('auth')->group(function () {

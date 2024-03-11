@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Shop;
 use App\Models\Area;
 use App\Models\Genre;
-use App\Models\Review;
 
 
 class ShopController extends Controller
@@ -31,9 +30,9 @@ class ShopController extends Controller
         }
 
         $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
-        ->select('shops.*')
-        ->groupBy('shops.id')
-        ->orderByRaw('ISNULL(AVG(reviews.rating))');
+            ->select('shops.*')
+            ->groupBy('shops.id')
+            ->orderByRaw('ISNULL(AVG(reviews.rating))');
 
         $shops = $query->get();
         $areas = Area::all();
@@ -41,13 +40,12 @@ class ShopController extends Controller
 
         return view('shops.index', compact('shops', 'areas', 'genres'));
     }
-    
+
     //詳細表示
     public function detail($shop_id)
     {
         $shop = Shop::with('area', 'genre', 'dishes')->findOrFail($shop_id);
-        $reviews = Review::where('shop_id', $shop_id)->get();
-        return view('shops.show', compact('shop', 'reviews'));
+        return view('shops.show', compact('shop'));
     }
 
     //検索

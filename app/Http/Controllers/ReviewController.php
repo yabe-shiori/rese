@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ReviewController extends Controller
 {
+    // 口コミ一覧表示
+    public function index(Shop $shop)
+    {
+        // 特定の店舗に関連付けられた口コミを取得
+        $reviews = $shop->reviews()->with('reviewImages')->latest()->get();
+
+        return view('reviews.index', compact('shop', 'reviews'));
+    }
+
     //口コミ投稿画面
     public function create(Shop $shop)
     {
@@ -38,14 +47,14 @@ class ReviewController extends Controller
         }
 
         $review = $user->reviews()->create([
-                'shop_id' => $shop->id,
-                'rating' => $request->rating,
-                'comment' => $request->comment,
-            ]);
+            'shop_id' => $shop->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $filename = $image->store('review_images');
+                $filename = $image->store('review_images', 'public');
                 $review->reviewImages()->create(['image' => $filename]);
             }
         }
@@ -83,13 +92,15 @@ class ReviewController extends Controller
 
         if ($request->hasFile('images')) {
 
+            // 既存の画像を削除
             foreach ($review->reviewImages as $image) {
                 Storage::delete($image->image);
                 $image->delete();
             }
 
+            // 新しい画像を保存
             foreach ($request->file('images') as $image) {
-                $filename = $image->store('review_images');
+                $filename = $image->store('review_images', 'public');
                 $review->reviewImages()->create(['image' => $filename]);
             }
         }
