@@ -15,7 +15,12 @@ class CsvImportController extends Controller
             $file = $request->file('csv_file');
 
             if ($file->getClientOriginalExtension() === 'csv') {
-                $this->import($file);
+                $errors = $this->import($file);
+
+                if (!empty($errors)) {
+                    return redirect()->back()->with('errors', $errors);
+                }
+
                 return redirect()->back()->with('message', '店舗情報が登録されました。');
             } else {
                 return redirect()->back()->with('error', 'ファイル形式が異なります。');
@@ -39,17 +44,50 @@ class CsvImportController extends Controller
             'ラーメン' => 5,
         ];
 
+        $errors = [];
+
         $reader = IOFactory::createReader('Csv');
         $reader->setDelimiter(',');
         $spreadsheet = $reader->load($file->getPathname());
         $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
 
-        foreach (array_slice($sheetData, 1) as $row) {
-
+        foreach (array_slice($sheetData, 1) as $rowIndex => $row) {
             $areaName = $row['E'] ?? null;
             $genreName = $row['D'] ?? null;
 
-            if (empty($areaName) || empty($genreName) || !isset($areaMapping[$areaName]) || !isset($genreMapping[$genreName])) {
+            if (empty($row['A']) || empty($row['B']) || empty($row['C']) || empty($row['D']) || empty($row['E'])) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のすべての項目が入力されていません。";
+                continue;
+            }
+
+            if (!isset($areaMapping[$areaName]) || !isset($genreMapping[$genreName])) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のエリア名またはジャンル名が無効です。";
+                continue;
+            }
+
+            if (mb_strlen($row['A']) > 50) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のnameは50文字以内で入力してください。";
+                continue;
+            }
+
+            if (mb_strlen($row['B']) > 400) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のdescriptionは400文字以内で入力してください。";
+                continue;
+            }
+
+            $imageExtension = pathinfo($row['C'], PATHINFO_EXTENSION);
+            if (!in_array($imageExtension, ['jpeg', 'jpg', 'png'], true)) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目の画像URLはjpegまたはpng形式で入力してください。";
+                continue;
+            }
+
+            if (!in_array($areaName, array_keys($areaMapping))) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のエリア名が無効です。";
+                continue;
+            }
+
+            if (!in_array($genreName, array_keys($genreMapping))) {
+                $errors[] = "CSVファイルの {$rowIndex} 行目のジャンル名が無効です。";
                 continue;
             }
 
@@ -65,5 +103,7 @@ class CsvImportController extends Controller
 
             $shop->save();
         }
+
+        return $errors;
     }
 }
