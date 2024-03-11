@@ -24,7 +24,7 @@ class StoreReviewRequest extends FormRequest
         return [
             'rating' => ['required', 'integer', 'between:1,5'],
             'comment' => ['nullable', 'string', 'max:400'],
-            'images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+            'images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:4096'],
         ];
     }
 
@@ -38,7 +38,7 @@ class StoreReviewRequest extends FormRequest
             'comment.max' => 'コメントは400文字以内で入力してください',
             'images.*.image' => '画像ファイルを選択してください',
             'images.*.mimes' => '画像ファイルはjpegまたはpng形式で選択してください',
-            'images.*.max' => '画像ファイルは2MB以内で選択してください',
+            'images.*.max' => '画像ファイルは4MB以内で選択してください',
         ];
     }
 }

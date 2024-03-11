@@ -72,14 +72,16 @@ class ReviewController extends Controller
             DB::beginTransaction();
 
             $review = $user->reviews()->create([
-                    'shop_id' => $shop->id,
-                    'rating' => $request->rating,
-                    'comment' => $request->comment,
-                ]);
+                'shop_id' => $shop->id,
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $filename = $image->store('review_images', 'public');
+                    $original = $image->getClientOriginalName();
+                    $name = date('Ymd_His') . '_' . $original;
+                    $filename = $image->storeAs('review_images', $name, 'public');
                     $review->reviewImages()->create(['image' => $filename]);
                 }
             }
@@ -133,7 +135,9 @@ class ReviewController extends Controller
                 }
 
                 foreach ($request->file('images') as $image) {
-                    $filename = $image->store('review_images', 'public');
+                    $original = $image->getClientOriginalName();
+                    $name = date('Ymd_His') . '_' . $original;
+                    $filename = $image->storeAs('review_images', $name, 'public');
                     $review->reviewImages()->create(['image' => $filename]);
                 }
             }
