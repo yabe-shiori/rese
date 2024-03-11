@@ -6,9 +6,11 @@
             @else
                 @foreach ($reviews as $review)
                     <div class="max-w-full mb-4">
+                        <p class="text-sm text-gray-500">{{ $review->created_at->format('Y/m/d H:i') }}</p>
                         @if (isset($satisfactions[$review->id]) && $satisfactions[$review->id] !== '')
                             <p class="font-bold"> {{ $satisfactions[$review->id] }}</p>
                         @endif
+
                         <div class="mb-2 flex justify-between items-center">
                             <div class="star-rating text-yellow-400">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -24,7 +26,7 @@
                                 <div class="flex">
                                     @if (Auth::user()->id === $review->user_id)
                                         <a href="{{ route('review.edit', $review) }}"
-                                            class="text-gray-800 underline mr-4 hovet:text-blue-600">口コミを編集</a>
+                                            class="text-gray-800 underline mr-4 hover:text-blue-600">口コミを編集</a>
                                     @endif
                                     <form id="delete-form-{{ $review->id }}"
                                         action="{{ route('review.destroy', $review) }}" method="post"
@@ -50,9 +52,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 水平線 -->
                     <hr class="border-gray-300 my-4">
                 @endforeach
+                {{ $reviews->links() }}
             @endif
         </div>
     </div>

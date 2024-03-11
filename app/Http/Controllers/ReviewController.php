@@ -13,7 +13,7 @@ class ReviewController extends Controller
     // 口コミ一覧表示
     public function index(Shop $shop)
     {
-        $reviews = $shop->reviews()->with('reviewImages')->latest()->get();
+        $reviews = $shop->reviews()->with('reviewImages')->latest()->paginate(5);
         $satisfactions = [];
 
         foreach ($reviews as $review) {
