@@ -28,8 +28,9 @@ class ReviewController extends Controller
     {
         switch ($rating) {
             case 5:
-                return '大変満足';
+                return '非常に満足';
             case 4:
+                return '大変満足';
             case 3:
                 return '満足';
             case 2:
