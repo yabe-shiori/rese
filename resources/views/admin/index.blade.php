@@ -14,7 +14,7 @@
                     class="w-full md:w-auto max-w-xs bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-md flex items-center justify-center focus:outline-none focus:shadow-outline-green">
                     <i class="fas fa-envelope mr-2"></i> Send Notification Email
                 </a>
-                <a href="{{ route('admin.create-shop') }}"
+                <a href="{{ route('admin.createShop') }}"
                     class="w-full md:w-auto max-w-xs bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-3 px-6 rounded-md flex items-center justify-center focus:outline-none focus:shadow-outline-yellow">
                     <i class="fas fa-file-csv mr-2"></i> Import Shops from CSV
                 </a>

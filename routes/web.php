@@ -74,7 +74,7 @@ Route::middleware('can:admin')->group(function () {
     Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
     Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
-    Route::get('/admin/create-shop', [AdminController::class, 'createShop'])->name('admin.create-shop');
+    Route::get('/admin/create-shop', [AdminController::class, 'createShop'])->name('admin.createShop');
     Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 });
 
