@@ -36,7 +36,6 @@ class CsvImportController extends Controller
         return redirect()->back()->with('message', '店舗情報が登録されました。');
     }
 
-
     //csvファイルから店舗情報をインポートする
     private function import($file)
     {

@@ -51,7 +51,7 @@
                         </div>
                         <div class="my-8">
                             <label for="comment" class="block text-xl font-medium text-gray-700">口コミを投稿</label>
-                            <textarea id="comment" name="comment" rows="3" required class="mt-1 p-2 w-full border-gray-300 rounded-md">{{ $review->comment }}</textarea>
+                            <textarea id="comment" name="comment" rows="4" required class="mt-2 p-2 w-full border-gray-300 rounded-md">{{ $review->comment }}</textarea>
                             <div id="characterCount" class="text-xs text-gray-500 text-right">0/400 (最高文字数)</div>
                             <x-validation-errors field="comment" />
                         </div>
@@ -83,7 +83,7 @@
             </div>
             <div class="text-center mt-10">
                 <button type="button" onclick="submitForm()"
-                    class="bg-white font-bold py-2 text-base  px-4 rounded w-full rounded-full md:w-1/2">口コミを編集する</button>
+                    class="bg-white font-bold py-2 text-base  px-4 rounded w-4/5 rounded-full md:w-1/2">口コミを編集する</button>
             </div>
         </form>
     </div>

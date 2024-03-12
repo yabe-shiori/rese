@@ -13,20 +13,16 @@ use App\Http\Controllers\CsvImportController;
 
 
 
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/detail/{shop_id}', [ShopController::class, 'detail'])->name('detail');
 Route::get('/search', [ShopController::class, 'search'])->name('search');
 Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
-
 
 //認証済みユーザのみアクセス可能
 Route::middleware(['verified'])->group(function () {

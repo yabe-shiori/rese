@@ -1,10 +1,13 @@
 <x-app-layout>
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+
         <x-message :message="session('message')" />
         <x-error :message="session('error')" />
+
         <div class="bg-white rounded-md p-6">
             <h2 class="text-2xl font-semibold mb-6 text-center">Create Shop</h2>
             <div class="mb-8">
+
                 @if (count($errors) > 0)
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                         <ul class="list-none list-inside">
@@ -14,9 +17,9 @@
                         </ul>
                     </div>
                 @endif
+
                 <form method="POST" action="{{ route('csv.import') }}" enctype="multipart/form-data">
                     @csrf
-
                     <div class="mb-4 relative">
                         <label for="csv_file" class="block text-gray-700 text-sm font-bold mb-2">Choose CSV File</label>
                         <div
@@ -40,6 +43,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function updateFileName() {
             var input = document.getElementById('file-upload');
