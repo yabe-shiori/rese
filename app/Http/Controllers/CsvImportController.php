@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class CsvImportController extends Controller
 {
-    //csvファイルをアップロードして店舗情報をインポートする
     public function upload(Request $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->back()->with('error', '管理者権限が必要です。');
+        }
+
         if ($request->hasFile('csv_file')) {
             $file = $request->file('csv_file');
 
@@ -30,7 +33,7 @@ class CsvImportController extends Controller
             }
         }
     }
-
+    
     //csvファイルから店舗情報をインポートする
     private function import($file)
     {

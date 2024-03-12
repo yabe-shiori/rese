@@ -76,7 +76,7 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('message', 'お知らせメールを送信しました');
     }
 
-    //店舗作成画面の表示
+    //店舗情報作成画面の表示
     public function createShop()
     {
         return view('admin.create-shop');
