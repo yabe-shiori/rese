@@ -43,11 +43,40 @@ class ShopController extends Controller
 
     //詳細表示
     public function detail($shop_id)
+
     {
-        $shop = Shop::with('area', 'genre', 'dishes')->findOrFail($shop_id);
-        return view('shops.show', compact('shop'));
+        $shop = Shop::with('area', 'genre', 'dishes', 'reviews.reviewImages')->findOrFail($shop_id);
+
+        $reviews = $shop->reviews()->with('reviewImages')->latest()->paginate(5);
+
+        $satisfactions = [];
+
+        foreach ($reviews as $review) {
+
+            $satisfactions[$review->id] = $this->getSatisfaction($review->rating);
+        }
+
+        return view('shops.show', compact('shop', 'reviews', 'satisfactions'));
     }
 
+    // 評価に対する満足度を返す
+    public function getSatisfaction($rating)
+    {
+        switch ($rating) {
+            case 5:
+                return '非常に満足';
+            case 4:
+                return '大変満足';
+            case 3:
+                return '満足';
+            case 2:
+                return 'やや不満';
+            case 1:
+                return '不満';
+            default:
+                return '';
+        }
+    }
     //検索
     public function search(Request $request)
     {
