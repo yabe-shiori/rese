@@ -70,7 +70,7 @@
                     @else
                         <p>メニューはまだ登録されていません。</p>
                     @endif
-                    <!-- 口コミ投稿リンク -->
+
                     <div class="mt-6">
                         <a href="{{ route('review.create', ['shop' => $shop]) }}"
                             class="text-base text-black hover:text-blue-600 flex items-center">
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between">
-                <div class="reservation-form p-6">
+                <div class="reservation-form p-6 h-full">
                     <h3 class="text-white mb-4 py-6 text-xl font-bold">予約</h3>
                     <form id="reservation-form" action="{{ route('reservations.store') }}" method="post">
                         @csrf
@@ -116,16 +116,16 @@
                         @error('number_of_people')
                             <div class="text-red-800 text-base">{{ $message }}</div>
                         @enderror
+                        <div x-show="inputChanged" class="bg-blue-400 bg-opacity-80 text-white w-full p-4 rounded mt-4">
+                            <p><span class="mr-8">Shop</span><span x-text="shopName"></span></p>
+                            <p><span class="mr-8">Date</span><span x-text="reservationDate"></span></p>
+                            <p><span class="mr-8">Time</span><span x-text="reservationTime"></span></p>
+                            <p><span class="mr-8">Number</span><span x-text="numberOfPeople"></span>人</p>
+                            <p x-show="selectedMenuName"><span class="mr-8">Menu</span><span
+                                    x-text="selectedMenuName"></span></p>
+                        </div>
                 </div>
-                <div x-show="inputChanged" class="bg-blue-400 bg-opacity-80 text-white w-4/5 h-1/4 rounded p-4 ml-6">
-                    <p><span class="mr-8">Shop</span><span x-text="shopName"></span></p>
-                    <p><span class="mr-8">Date</span><span x-text="reservationDate"></span></p>
-                    <p><span class="mr-8">Time</span><span x-text="reservationTime"></span></p>
-                    <p><span class="mr-8">Number</span><span x-text="numberOfPeople"></span>人</p>
-                    <p x-show="selectedMenuName"><span class="mr-8">Menu</span><span x-text="selectedMenuName"></span>
-                    </p>
-                </div>
-                <button type="submit" class="bg-blue-700 text-white w-full px-4 py-3 rounded-md">予約する</button>
+                <button type="submit" class="bg-blue-700 text-white w-full px-4 py-3 rounded-md mt-4">予約する</button>
                 </form>
             </div>
         </div>
