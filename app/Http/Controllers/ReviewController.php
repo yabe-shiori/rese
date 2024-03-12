@@ -40,6 +40,10 @@ class ReviewController extends Controller
             return redirect()->back()->with('error', 'ログインしてください。');
         }
 
+        if (Auth::user()->role !== 'user') {
+            return redirect()->back()->with('error', '口コミを投稿できるのはユーザーのみです。');
+        }
+
         return view('reviews.create', compact('shop'));
     }
 

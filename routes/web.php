@@ -13,12 +13,7 @@ use App\Http\Controllers\CsvImportController;
 
 
 
-//口コミ
 Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
-Route::post('/shops/{shop}/review', [ReviewController::class, 'store'])->name('review.store');
-Route::get('/review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
-Route::patch('/review/{review}', [ReviewController::class, 'update'])->name('review.update');
-Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,6 +29,13 @@ Route::get('/search', [ShopController::class, 'search'])->name('search');
 
 //認証済みユーザのみアクセス可能
 Route::middleware(['verified'])->group(function () {
+
+    //口コミ
+
+    Route::post('/shops/{shop}/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::patch('/review/{review}', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
     //お気に入り
     Route::post('/favorite', [FavoriteController::class, 'favorite'])->name('favorite');
