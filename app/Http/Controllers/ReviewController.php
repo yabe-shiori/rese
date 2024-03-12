@@ -105,6 +105,10 @@ class ReviewController extends Controller
     {
         $user = Auth::user();
 
+        if ($user->role !== 'user') {
+            return redirect()->route('detail', $review->shop_id)->with('error', 'ユーザーのみ口コミの更新が可能です。');
+        }
+
         if ($user->id !== $review->user_id) {
             return redirect()->back()->with('error', '口コミの所有者でないため、更新できません。');
         }
@@ -147,7 +151,7 @@ class ReviewController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->id === $review->user_id || $user->role === 'admin') {
+        if (($user->role === 'admin') || ($user->role === 'user' && $user->id === $review->user_id)) {
             $shopId = $review->shop_id;
 
             foreach ($review->reviewImages as $image) {
