@@ -4,10 +4,10 @@
         <x-error :message="session('error')" />
 
         <div class="bg-white rounded-md p-6">
-            <h2 class="text-2xl font-semibold mb-6">Create Shop</h2>
+            <h2 class="text-2xl font-semibold mb-6 text-center">Create Shop</h2>
 
             <div class="mb-8">
-                <h3 class="text-lg font-semibold mb-2">Add Shops via CSV</h3>
+                <h3 class="text-lg mb-2">Add Shops via CSV</h3>
                 @if (!empty($errors))
                     <div class="alert alert-danger">
                         <ul style="list-style-type: none; padding-left: 0;">
@@ -25,9 +25,9 @@
                         <input id="csv_file" type="file" class="form-input w-full" name="csv_file">
                     </div>
 
-                    <div class="flex justify-end">
+                    <div class="mt-12">
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            class="w-full bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
                             Import CSV
                         </button>
                     </div>

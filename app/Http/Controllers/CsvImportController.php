@@ -33,7 +33,7 @@ class CsvImportController extends Controller
             }
         }
     }
-    
+
     //csvファイルから店舗情報をインポートする
     private function import($file)
     {
