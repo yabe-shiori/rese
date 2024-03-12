@@ -36,7 +36,7 @@
                     <h2 class="text-2xl font-bold ml-2 w-full sm:w-1/2">{{ $shop->name }}</h2>
                 </div>
                 <div class="shop-details">
-                    <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="rounded-t-lg mb-2">
+                    <img src="{{ asset($shop->image) }}" alt="{{ $shop->name }}" class="mb-2">
                     <div class="shop-tag mb-4 font-medium">
                         <span class="mr-1 text-sm">#{{ $shop->area->name }}</span>
                         <span class="text-sm">#{{ $shop->genre->name }}</span>
@@ -79,7 +79,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="mt-6">
                     <a href="#" @click="showReviews = !showReviews"
                         class="text-base text-white bg-blue-500 hover:bg-blue-600 flex items-center justify-center w-full py-2 px-4 rounded">
@@ -87,8 +86,7 @@
                         <i class="fas fa-comments ml-1 transition duration-300"></i>
                     </a>
                 </div>
-                <div x-show="showReviews" class="mt-8">
-
+               <div x-show="showReviews" class="mt-8" style="max-height: 400px; overflow-y: auto;">
                     @if ($reviews->isEmpty())
                         <p>口コミはまだありません。</p>
                     @else
@@ -141,20 +139,16 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div class="mt-4">
-                            {{ $reviews->links() }}
-                        </div>
                     @endif
                 </div>
-
-                <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden"
-        onclick="closeImage()">
-        <div class="max-w-full" onclick="event.stopPropagation()">
-            <img id="modalImage" src="" alt="Modal Image" class="max-w-full max-h-full cursor-pointer"
-                onclick="event.stopPropagation()">
-        </div>
-    </div>
-
+                <div id="imageModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden"
+                    onclick="closeImage()">
+                    <div class="max-w-full" onclick="event.stopPropagation()">
+                        <img id="modalImage" src="" alt="Modal Image"
+                            class="max-w-full max-h-full cursor-pointer" onclick="event.stopPropagation()">
+                    </div>
+                </div>
             </div>
             <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between h-full">
                 <div class="reservation-form p-6 h-full">
@@ -179,12 +173,13 @@
                             @endfor
                             <option value="00:00">00:00</option>
                         </select>
-                        <input type="number" x-model="numberOfPeople" name="number_of_people" min="1" required
-                            class="mb-3 p-2 rounded-md w-full">
+                        <input type="number" x-model="numberOfPeople" name="number_of_people" min="1"
+                            required class="mb-3 p-2 rounded-md w-full">
                         @error('number_of_people')
                             <div class="text-red-800 text-base">{{ $message }}</div>
                         @enderror
-                        <div x-show="inputChanged" class="bg-blue-400 bg-opacity-80 text-white w-full p-4 rounded mt-4">
+                        <div x-show="inputChanged"
+                            class="bg-blue-400 bg-opacity-80 text-white w-full p-4 rounded mt-4">
                             <p><span class="mr-8">Shop</span><span x-text="shopName"></span></p>
                             <p><span class="mr-8">Date</span><span x-text="reservationDate"></span></p>
                             <p><span class="mr-8">Time</span><span x-text="reservationTime"></span></p>
@@ -198,7 +193,7 @@
             </div>
         </div>
     </div>
-     <script>
+    <script>
         function openImage(src) {
             document.getElementById('modalImage').src = src;
             document.getElementById('imageModal').classList.remove('hidden');

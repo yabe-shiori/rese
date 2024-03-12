@@ -8,26 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UpdateReviewRequest;
 
 
 class ReviewController extends Controller
 {
-    // // 口コミ一覧表示
-    // public function index(Shop $shop)
-    // {
-    //     $reviews = $shop->reviews()->with('reviewImages')->latest()->paginate(5);
-    //     $satisfactions = [];
 
-    //     foreach ($reviews as $review) {
-    //         $satisfactions[$review->id] = $this->getSatisfaction($review->rating);
-    //     }
-
-    //     return view('reviews.index', compact('shop', 'reviews', 'satisfactions'));
-    // }
-
-    // // 評価に対する満足度を返す
+    // 評価に対する満足度を返す
     private function getSatisfaction($rating)
     {
         switch ($rating) {
@@ -161,7 +148,6 @@ class ReviewController extends Controller
         if ($user->id === $review->user_id || $user->role === 'admin') {
             $shopId = $review->shop_id;
 
-            // 画像の削除
             foreach ($review->reviewImages as $image) {
                 Storage::delete($image->image);
                 $image->delete();

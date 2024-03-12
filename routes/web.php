@@ -16,7 +16,6 @@ use App\Http\Controllers\CsvImportController;
 Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 
 //口コミ
-Route::get('/shops/{shop}/reviews', [ReviewController::class, 'index'])->name('review.index');
 Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
 Route::post('/shops/{shop}/review', [ReviewController::class, 'store'])->name('review.store');
 Route::get('/review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');

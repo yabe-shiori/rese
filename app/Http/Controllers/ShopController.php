@@ -43,16 +43,14 @@ class ShopController extends Controller
 
     //詳細表示
     public function detail($shop_id)
-
     {
         $shop = Shop::with('area', 'genre', 'dishes', 'reviews.reviewImages')->findOrFail($shop_id);
 
-        $reviews = $shop->reviews()->with('reviewImages')->latest()->paginate(5);
+        $reviews = $shop->reviews()->with('reviewImages')->latest()->get();
 
         $satisfactions = [];
 
         foreach ($reviews as $review) {
-
             $satisfactions[$review->id] = $this->getSatisfaction($review->rating);
         }
 
@@ -77,6 +75,7 @@ class ShopController extends Controller
                 return '';
         }
     }
+
     //検索
     public function search(Request $request)
     {
