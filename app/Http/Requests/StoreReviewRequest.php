@@ -24,7 +24,8 @@ class StoreReviewRequest extends FormRequest
         return [
             'rating' => ['required', 'integer', 'between:1,5'],
             'comment' => ['nullable', 'string', 'max:400'],
-            'images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+            'images' => ['required'],
+            'images.*' => [ 'image', 'mimes:jpeg,png', 'max:2048'],
         ];
     }
 
@@ -36,6 +37,7 @@ class StoreReviewRequest extends FormRequest
             'rating.between' => '評価は1~5の間で入力してください',
             'comment.string' => 'コメントは文字列で入力してください',
             'comment.max' => 'コメントは400文字以内で入力してください',
+            'images.required' => '画像ファイルを選択してください',
             'images.*.image' => '画像ファイルを選択してください',
             'images.*.mimes' => '画像ファイルはjpegまたはpng形式で選択してください',
             'images.*.max' => '画像ファイルは2MB以内で選択してください',

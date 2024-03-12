@@ -74,6 +74,7 @@
                                     class="opacity-0 absolute inset-0">
                             </div>
                             <x-validation-errors field="images.*" />
+                             <x-validation-errors field="images" />
                         </div>
                     </div>
                 </div>
