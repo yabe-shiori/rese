@@ -46,8 +46,10 @@ class ReviewController extends Controller
     // 口コミ投稿処理
     public function store(StoreReviewRequest $request, Shop $shop)
     {
-        if (!Auth::check()) {
-            return redirect()->back()->with('error', 'ログインしてください。');
+        $user = Auth::user();
+
+        if ($user->role !== 'user') {
+            return redirect()->route('detail', $shop->id)->with('error', 'ユーザーのみ口コミを投稿できます。');
         }
 
         $user = Auth::user();
