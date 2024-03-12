@@ -11,10 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CsvImportController;
 
-//店舗作成画面表示
-Route::get('/admin/create-shop', [AdminController::class, 'createShop'])->name('admin.create-shop');
-//csvインポート
-Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
+
 
 //口コミ
 Route::get('/shops/{shop}/review/create', [ReviewController::class, 'create'])->name('review.create');
@@ -77,6 +74,8 @@ Route::middleware('can:admin')->group(function () {
     Route::post('/admin/store', [AdminController::class, 'storeManager'])->name('admin.store');
     Route::get('/admin/notification/create', [AdminController::class, 'createNotification'])->name('admin.notification.create');
     Route::post('/admin/notification/send', [AdminController::class, 'sendNotification'])->name('admin.notification.send');
+    Route::get('/admin/create-shop', [AdminController::class, 'createShop'])->name('admin.create-shop');
+    Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 });
 
 
