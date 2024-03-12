@@ -17,22 +17,25 @@ class CsvImportController extends Controller
             return redirect()->back()->with('error', '管理者権限が必要です。');
         }
 
-        if ($request->hasFile('csv_file')) {
-            $file = $request->file('csv_file');
-
-            if ($file->getClientOriginalExtension() === 'csv') {
-                $errors = $this->import($file);
-
-                if (!empty($errors)) {
-                    return redirect()->back()->with('errors', $errors);
-                }
-
-                return redirect()->back()->with('message', '店舗情報が登録されました。');
-            } else {
-                return redirect()->back()->with('error', 'ファイル形式が異なります。');
-            }
+        if (!$request->hasFile('csv_file')) {
+            return redirect()->back()->with('error', 'CSVファイルを選択してください。');
         }
+
+        $file = $request->file('csv_file');
+
+        if ($file->getClientOriginalExtension() !== 'csv') {
+            return redirect()->back()->with('error', '選択されたファイルはCSV形式ではありません。');
+        }
+
+        $errors = $this->import($file);
+
+        if (!empty($errors)) {
+            return redirect()->back()->with('errors', $errors);
+        }
+
+        return redirect()->back()->with('message', '店舗情報が登録されました。');
     }
+
 
     //csvファイルから店舗情報をインポートする
     private function import($file)
@@ -73,7 +76,7 @@ class CsvImportController extends Controller
                 if ($saved === true) {
                     session()->flash('message', '店舗情報が登録されました。');
                 } elseif ($saved === 'exists') {
-                    $errors[] = "同じマネージャーIDの店舗が既に存在するため、登録されませんでした。";
+                    $errors[] = "同じmanager_idの店舗が既に存在しているため、登録できませんでした。";
                 } else {
                     $errors[] = "存在しないmanager_idが指定されたため、登録できませんでした。";
                 }
