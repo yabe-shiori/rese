@@ -7,7 +7,7 @@
         inputChanged: false,
         selectedMenu: '',
         selectedMenuName: '',
-        showReviews: false, // showReviewsを初期化
+        showReviews: false,
         getSelectedMenuName() {
             this.selectedMenuName = this.selectedMenu ? this.$refs.menuList.options[this.$refs.menuList.selectedIndex].text : '';
             this.inputChanged = true;
@@ -86,7 +86,7 @@
                         <i class="fas fa-comments ml-1 transition duration-300"></i>
                     </a>
                 </div>
-               <div x-show="showReviews" class="mt-8" style="max-height: 400px; overflow-y: auto;">
+                <div x-show="showReviews" class="mt-8" style="max-height: 400px; overflow-y: auto;">
                     @if ($reviews->isEmpty())
                         <p>口コミはまだありません。</p>
                     @else
@@ -151,7 +151,7 @@
                 </div>
             </div>
             <div class="w-full sm:w-5/12 bg-blue-500 rounded-lg flex flex-col justify-between h-full">
-                <div class="reservation-form p-6 h-full">
+                <div class="reservation-form p-6 h-full pb-36">
                     <h3 class="text-white mb-4 py-6 text-xl font-bold">予約</h3>
                     <form id="reservation-form" action="{{ route('reservations.store') }}" method="post">
                         @csrf
