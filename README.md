@@ -171,7 +171,7 @@ MailPitを利用しています。
   
 1. 管理者としてログインし、管理画面で新たに店舗代表者を作成する。  
 2. 管理画面から　Import Shops from CSV　を選択する。
-4. 店舗情報作成画面にて、 csvをインポートして店舗情報を作成する。
+4. 店舗情報作成画面にて、 csvをインポートして店舗情報を作成する。  
 ※ 1で作成した店舗代表者のuser_idをmanger_idとしてcsvファイルに記述してください。
 
 <br />
@@ -232,7 +232,8 @@ CSVファイルの最初の行には、各列の内容を示すヘッダーを�
 
 ## ER図
 
-![ER図](https://github.com/yabe-shiori/rese/assets/142664073/b89d6849-2787-4a15-bab0-1a8e7065fa15)
+<img width="759" alt="rese-er" src="https://github.com/yabe-shiori/rese/assets/142664073/18044f6d-79f1-4905-b44f-d8662b3d4d88">
+
 
 <br />
 
