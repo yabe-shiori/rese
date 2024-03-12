@@ -11,7 +11,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CsvImportController;
 
-
+//店舗作成画面表示
+Route::get('/admin/create-shop', [AdminController::class, 'createShop'])->name('admin.create-shop');
 //csvインポート
 Route::post('/csv/import', [CsvImportController::class, 'upload'])->name('csv.import');
 
