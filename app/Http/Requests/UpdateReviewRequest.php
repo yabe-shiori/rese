@@ -44,10 +44,8 @@ class UpdateReviewRequest extends FormRequest
             'comment.max' => 'コメントは400文字以内で入力してください',
             'images.required' => '画像ファイルを選択してください',
             'images.*.image' => '画像ファイルを選択してください',
-            'images.*.mimes' => '画像ファイルはjpegまたはpng形式で選択してください',
+            'images.*.mimes' => '画像ファイルはjpegまたはpng形式のみアップロード可能です',
             'images.*.max' => '画像ファイルは2MB以内で選択してください',
         ];
     }
-    }
-
-
+}
