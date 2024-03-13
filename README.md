@@ -211,7 +211,8 @@ CSVファイルの最初の行には、各列の内容を示すヘッダーを�
   
 **サンプルCSVファイルのダウンロード**  
 
-[サンプルファイルのダウンロード](https://github.com/yabe-shiori/rese/files/14555342/example-shop.csv)  
+[example-shop.csv](https://github.com/yabe-shiori/rese/files/14581306/example-shop.csv)
+
   
   店舗情報追加のためのサンプルcsvファイルです。必要に応じて書き換えてご使用ください。
 
