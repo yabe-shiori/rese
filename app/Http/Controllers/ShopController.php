@@ -12,36 +12,10 @@ class ShopController extends Controller
 {
     public function index(Request $request)
     {
-        $sortBy = $request->input('sort_by', 'random');
-
-        $query = Shop::query();
-
-        switch ($sortBy) {
-            case 'high_rating':
-                $query->orderByRaw('IFNULL(AVG(reviews.rating), 0) DESC');
-                break;
-            case 'low_rating':
-                $query->orderByRaw('IFNULL(AVG(reviews.rating), 5) ASC');
-                break;
-            case 'random':
-            default:
-                $query->orderByRandom();
-                break;
-        }
-
-        $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
-            ->select('shops.*')
-            ->groupBy('shops.id')
-            ->orderByRaw('ISNULL(AVG(reviews.rating))');
-
-        $shops = $query->get();
-        $areas = Area::all();
-        $genres = Genre::all();
-
-        return view('shops.index', compact('shops', 'areas', 'genres'));
+        return $this->search($request);
     }
 
-    //詳細表示
+    // 詳細表示
     public function detail($shop_id)
     {
         $shop = Shop::with('area', 'genre', 'dishes', 'reviews.reviewImages')->findOrFail($shop_id);
@@ -76,22 +50,55 @@ class ShopController extends Controller
         }
     }
 
-    //検索
+    // 検索
     public function search(Request $request)
     {
+        $sortBy = $request->input('sort_by', 'random');
         $area = $request->input('area');
         $genre = $request->input('genre');
         $name = $request->input('name');
 
-        $results = Shop::query()
-            ->when($area, fn ($query, $area) => $query->searchByArea($area))
-            ->when($genre, fn ($query, $genre) => $query->searchByGenre($genre))
-            ->when($name, fn ($query, $name) => $query->searchByName($name))
-            ->get();
+        $query = Shop::query();
 
+        switch ($sortBy) {
+            case 'high_rating':
+                $query->orderByRaw('IFNULL(AVG(reviews.rating), 0) DESC');
+                break;
+            case 'low_rating':
+                $query->orderByRaw('IFNULL(AVG(reviews.rating), 5) ASC');
+                break;
+            case 'random':
+            default:
+                $query->inRandomOrder();
+                break;
+        }
+
+        $query = $this->applyFilters($query, $area, $genre, $name);
+
+        $results = $query->get();
         $areas = Area::all();
         $genres = Genre::all();
 
         return view('shops.index', compact('results', 'areas', 'genres'));
+    }
+
+    private function applyFilters($query, $area, $genre, $name)
+    {
+        if ($area) {
+            $query->where('area_id', $area);
+        }
+
+        if ($genre) {
+            $query->where('genre_id', $genre);
+        }
+
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+
+        return $query->leftJoin('reviews', 'shops.id', '=', 'reviews.shop_id')
+            ->select('shops.*')
+            ->groupBy('shops.id')
+            ->orderByRaw('ISNULL(AVG(reviews.rating))');
     }
 }
